@@ -1,0 +1,1603 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#C8102E">
+  <meta name="description" content="Repositorio Audio: objeciones, quejas técnicas y speech para el equipo de audiología.">
+  <title>Repositorio Audio</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23C8102E'/%3E%3Cpath d='M18 36v-4a14 14 0 0 1 28 0v4' fill='none' stroke='white' stroke-width='5' stroke-linecap='round'/%3E%3Crect x='14' y='34' width='9' height='14' rx='3' fill='white'/%3E%3Crect x='41' y='34' width='9' height='14' rx='3' fill='white'/%3E%3C/svg%3E">
+    <style>
+:root{
+  --red:#C8102E; --red-dark:#8E0C22; --red-soft:#FDECEE;
+  --ink:#1F2328; --muted:#5C6370; --line:#E7E8EB; --bg:#F6F6F7; --card:#FFFFFF;
+  --gold:#B37E00; --gold-soft:#FFF4D6;
+  --radius:14px; --shadow:0 1px 2px rgba(16,24,40,.06),0 4px 14px rgba(16,24,40,.06);
+  --c:#C8102E; --t:#FDECEE;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-size:14.5px;line-height:1.5}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Barra superior */
+.topbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:16px;
+  padding:10px clamp(14px,3vw,32px);background:var(--red);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:17px;white-space:nowrap}
+.brand-mark{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.16);font-size:19px}
+.crumbs{display:flex;align-items:center;gap:6px;font-size:14px;opacity:.95;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.crumbs a{text-decoration:none;opacity:.85}.crumbs a:hover{opacity:1;text-decoration:underline}
+.crumbs .sep{opacity:.6}
+
+main{max-width:1240px;margin:0 auto;padding:clamp(16px,3vw,32px) clamp(14px,3vw,32px) 40px;outline:none}
+.foot{text-align:center;color:var(--muted);font-size:12px;padding:0 0 28px}
+
+/* Portada */
+.hero{text-align:center;margin:4px 0 20px}
+.hero h1{margin:0 0 4px;font-size:clamp(20px,2.4vw,26px)}
+.hero p{margin:0;color:var(--muted)}
+.home-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media (max-width:960px){.home-grid{grid-template-columns:1fr}}
+.home-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;
+  border-top:5px solid var(--c);transition:transform .15s ease,box-shadow .15s ease}
+.home-card:hover{transform:translateY(-2px);box-shadow:0 2px 4px rgba(16,24,40,.08),0 10px 24px rgba(16,24,40,.10)}
+.home-head{display:flex;gap:12px;align-items:center;padding:16px 18px 12px;text-decoration:none;background:var(--t)}
+.home-icon{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:var(--c);color:#fff;font-size:27px}
+.home-head h2{margin:0;font-size:18px;color:var(--c)}
+.home-head p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.home-list{list-style:none;margin:0;padding:6px 0;flex:1}
+.home-list a{display:flex;align-items:center;gap:10px;padding:8px 18px;text-decoration:none;font-weight:600;font-size:14.5px}
+.home-list a:hover{background:#FAFAFB}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.home-list .chev{margin-left:auto;color:var(--muted)}
+.home-cta{display:block;margin:4px 18px 18px;padding:11px;border-radius:10px;text-align:center;background:var(--c);color:#fff;font-weight:700;text-decoration:none}
+.home-cta:hover{filter:brightness(1.07)}
+
+/* Cabecera de libro */
+.book-head{background:var(--c);color:#fff;border-radius:var(--radius);padding:14px 18px;display:flex;gap:14px;align-items:center;box-shadow:var(--shadow)}
+.book-head .ic{font-size:26px}
+.book-head h1{margin:0;font-size:clamp(17px,2vw,21px);line-height:1.25}
+.book-head p{margin:2px 0 0;opacity:.92;font-size:13px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;padding:12px 0 2px}
+.tab{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:6px;padding:7px 12px;border-radius:8px;
+  background:var(--tc);color:#fff;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;
+  opacity:.72;transition:opacity .15s ease}
+.tab:hover{opacity:.95}
+.tab[aria-current="page"]{opacity:1;outline:2px solid var(--tc);outline-offset:2px;font-weight:700}
+.remember{margin:10px 0 0;background:#fff;border:1.5px solid var(--c);border-radius:12px;padding:9px 14px;
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13px;color:var(--c);font-weight:600}
+.remember b{letter-spacing:.06em;font-size:12px;background:var(--c);color:#fff;padding:3px 8px;border-radius:6px}
+.remember .step{display:flex;align-items:center;gap:6px}
+.remember .arrow{opacity:.5}
+.argue{margin:12px 0 0;font-size:13.5px;color:var(--muted)}
+.argue strong{color:var(--c)}
+
+/* Buscador */
+.search{position:relative;margin-top:10px}
+.search input{width:100%;padding:11px 40px 11px 44px;font-size:16px;border-radius:12px;border:1.5px solid var(--line);background:#fff;outline:none;
+  box-shadow:var(--shadow)}
+.search input:focus{border-color:var(--c);box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 15%,transparent)}
+.search .sic{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:19px;color:var(--muted)}
+.search .clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--muted);font-size:20px;display:none}
+.search.has .clear{display:block}
+.hint{font-size:12.5px;color:var(--muted);margin:6px 4px 0}
+.results{margin:10px 0 0}
+.results h3{font-size:14px;margin:0 0 10px;color:var(--ink)}
+.results .none{background:#fff;border-radius:12px;padding:14px 16px;color:var(--muted);border:1px dashed var(--line)}
+
+/* Listado */
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 0 8px}
+.section-title h2{margin:0;font-size:15px}
+.toggle{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.toggle input{accent-color:var(--gold);width:16px;height:16px}
+.list{display:grid;gap:10px}
+.list.obj{grid-template-columns:repeat(auto-fill,minmax(min(100%,520px),1fr));align-items:stretch}
+
+.item{background:#fff;border-radius:12px;box-shadow:var(--shadow);border-left:5px solid var(--ic,var(--c));overflow:hidden}
+.item-top{display:flex;align-items:flex-start;gap:10px;padding:12px 14px 0}
+.badge{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--ic,var(--c));padding:1px 8px;border-radius:999px;margin-bottom:4px}
+.say{margin:0;font-size:15px;font-weight:700;line-height:1.35;color:var(--ic,var(--c))}
+.say::before{content:"«"}.say::after{content:"»"}
+.star{margin-left:auto;flex:none;border:1px solid var(--line);background:#fff;border-radius:8px;padding:4px 9px;font-size:12px;color:var(--muted);
+  display:flex;align-items:center;gap:6px}
+.star svg{font-size:14px}
+.star.on{background:var(--gold-soft);border-color:#F1D27A;color:var(--gold)}
+.star.on svg{fill:currentColor}
+.item-body{padding:4px 14px 12px}
+.lbl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;margin:6px 0 2px}
+.answer{margin:0;font-size:14px}
+.todo{margin:8px 0 0;background:#F7F7F8;border-radius:8px;padding:7px 11px;font-size:13px}
+.todo strong{color:var(--ink)}
+.fans{margin-top:8px;font-size:12px;color:var(--gold)}
+
+/* Quejas */
+.q .q-head{padding:10px 14px;background:var(--ic);color:#fff;font-weight:700;font-size:15px;letter-spacing:.01em}
+.q .q-dice{padding:8px 14px;background:var(--it);color:var(--ic);font-weight:600;font-style:italic;font-size:14px}
+.q .q-preg{padding:6px 14px 2px}
+.q .q-preg ul{margin:4px 0 0;padding-left:18px}
+.q .q-preg li{margin:2px 0}
+.causes{width:100%;border-collapse:collapse;font-size:13.8px}
+.causes th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ic);background:var(--it);padding:8px 12px}
+.causes td{padding:7px 12px;border-top:1px solid var(--line);vertical-align:top}
+.causes td.sol{font-weight:600}
+.causes td.rie{color:#8A5300;font-style:italic}
+.q-wrap{padding:4px 2px 8px}
+@media (max-width:720px){
+  .causes thead{display:none}
+  .causes tr{display:block;border-top:1px solid var(--line);padding:8px 12px}
+  .causes td{display:block;border:0;padding:2px 0}
+  .causes td::before{content:attr(data-l);display:block;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700}
+}
+.legend{font-size:12px;color:var(--muted);margin:8px 2px 0}
+
+/* Guía y Habla */
+.panel{background:#fff;border-radius:12px;box-shadow:var(--shadow);padding:16px 18px;margin-bottom:12px}
+.panel h2{margin:0 0 8px;font-size:15.5px}
+.panel ul{margin:0;padding-left:18px}
+.panel li{margin:3px 0}
+.empty{background:#fff;border-radius:12px;border:1.5px dashed var(--line);padding:22px;text-align:center;color:var(--muted)}
+
+mark{background:#FFF1A8;color:inherit;border-radius:3px;padding:0 1px}
+@media (max-width:600px){
+  .crumbs{display:none}
+  html,body{font-size:14.5px}
+  .item-top{flex-wrap:nowrap}
+  .star .st-txt{display:none}
+  .star{padding:5px 7px}
+  .remember .arrow{display:none}
+  .tab{padding:7px 10px;font-size:12.5px}
+  .remember{flex-direction:column;align-items:flex-start}
+}
+
+/* Términos técnicos con explicación */
+abbr.term{text-decoration:none;border-bottom:1.5px dotted currentColor;cursor:help;outline:none}
+abbr.term:focus-visible{background:#FFF1A8;border-radius:3px}
+.tip{position:fixed;z-index:50;max-width:280px;background:#1F2328;color:#fff;border-radius:10px;padding:9px 12px;
+  font-size:12.5px;line-height:1.4;box-shadow:0 6px 20px rgba(0,0,0,.22);pointer-events:none}
+.tip b{display:block;font-size:12.5px;margin-bottom:2px;color:#FFD5DB}
+.tip span{display:block;color:#E9EAEC;font-weight:400;font-style:normal}
+
+/* Habla de Audio */
+.place{margin:16px 0 8px;font-size:14px;color:var(--c);display:flex;align-items:center;gap:6px}
+.item.speech .item-body{padding-top:12px}
+.item.speech .line{margin:6px 0 0;font-size:15px;font-weight:600;line-height:1.45;color:var(--ink)}
+
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#/" aria-label="Ir al inicio">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4.5" height="7" rx="1.5"/><rect x="16.5" y="14" width="4.5" height="7" rx="1.5"/></svg>
+      </span>
+      <span>Repositorio Audio</span>
+    </a>
+    <nav class="crumbs" id="crumbs" aria-label="Ruta"></nav>
+  </header>
+  <main id="app" tabindex="-1"></main>
+  <footer class="foot">Repositorio Audio · uso interno del equipo</footer>
+  <script>
+/* Contenidos de Repositorio Audio. Edita aquí para añadir o cambiar objeciones y quejas. */
+window.OBJECIONES = [
+ {
+  "id": "economicas",
+  "nombre": "Económicas",
+  "icono": "💶",
+  "color": "#C8102E",
+  "tint": "#FDECEE",
+  "argumenta": "necesidad-consecuencias + propuesta",
+  "items": [
+   {
+    "id": "economicas-1",
+    "dice": "Son muy caros",
+    "responde": "Le entiendo, es una inversión importante. Pero piense que una pérdida auditiva sin tratar empeora con el tiempo, y con ella su calidad de vida y su actividad cerebral. Vamos a estudiar juntos las opciones y las facilidades de pago para que no tenga que posponer su tratamiento: estamos a tiempo.",
+    "haz": "Enseñar gamas y facilidades de pago",
+    "claves": "caro caros cara precio dinero cuesta carisimo vale pasta"
+   },
+   {
+    "id": "economicas-2",
+    "dice": "Ahora no puedo",
+    "responde": "Lo entiendo perfectamente. Los beneficios de oír bien no deberían posponerse: una pérdida auditiva sin tratar deteriora la actividad cognitiva y la seguridad, favorece las caídas, afecta a las relaciones sociales e incluso a la autoestima, y no se detiene, va a más. Si le parece, vemos en detalle las facilidades de pago y las opciones de gamas y prestaciones.",
+    "haz": "Detallar facilidades de pago y gamas",
+    "claves": "no puedo ahora momento dinero permitir ahorrar llego"
+   },
+   {
+    "id": "economicas-3",
+    "dice": "Estoy mirando precios",
+    "responde": "Me parece muy bien, es una inversión significativa y es importante conocer bien las opciones y todo lo que incluye a corto y largo plazo. Con nosotros cuenta con Audio Tchin Tchin (le detallo todo en el presupuesto), además de facilidades de pago, gafa regalo o Club Carrefour.",
+    "haz": "Poner TODAS las ventajas sobre la mesa",
+    "claves": "mirando precios comparar otros sitios presupuesto ofertas"
+   },
+   {
+    "id": "economicas-4",
+    "dice": "Se lo diré a mis hijos",
+    "responde": "¡Estupendo! Recuperar la audición le acercará a su familia y amigos, y se sentirá más seguro. Seguro que les encantará saber que hay posibilidades con grandes facilidades y beneficios. Si fuera necesario, sus hijos podrían financiarlo sin intereses en cómodos plazos. Si le parece, le doy los detalles por escrito y agendamos una cita con ellos.",
+    "haz": "Entregar pack Audio Tchin Tchin + facilidades por escrito y cita con los hijos",
+    "claves": "hijos hija hijo familia consultar decir comentar contar"
+   },
+   {
+    "id": "economicas-5",
+    "dice": "Un oído está mejor, con uno me apaño",
+    "responde": "Le entiendo. Pero lo que ocurre es que un oído va asumiendo el trabajo de los dos: eso acelera la pérdida y puede empeorar rápidamente si no se pone solución. Por eso es importante tratar ambos oídos con lo que cada uno necesita y estabilizar su audición. Vemos juntos gamas y facilidades para que no tenga que renunciar al tratamiento de los dos.",
+    "haz": "Comparar prueba con 1 y con 2 audífonos",
+    "claves": "un oido uno solo apaño dos ambos"
+   },
+   {
+    "id": "economicas-6",
+    "dice": "¿Para qué quiero 4?",
+    "responde": "Por supuesto, usted no compra 4: este precio es por la pareja de audífonos. Lo que hacemos es apostar por la multiposesión, por su seguridad: así nos aseguramos de que nunca se quede sin audífonos si tuviera algún percance.",
+    "haz": "Explicar la 2ª pareja como seguridad",
+    "claves": "cuatro 4 segunda pareja dos pares para que"
+   },
+   {
+    "id": "economicas-7",
+    "dice": "Oigo igual, no hay diferencia, no compensa",
+    "responde": "Entiendo lo que me dice. Teniendo en cuenta su audiometría y lo que hemos ido viendo juntos estos días, los resultados deberían ser otros, así que vamos a hacer unas comprobaciones ahora mismo para que usted vea la diferencia.",
+    "haz": "Logoaudiometría en campo libre con y sin audífonos",
+    "claves": "oigo igual diferencia compensa no noto nada mismo sirve"
+   },
+   {
+    "id": "economicas-8",
+    "dice": "No quiero pedir ayuda para comprarlos",
+    "responde": "Entiendo que prefiera solucionarlo de manera independiente, pero sería una decisión muy inteligente involucrar a sus seres queridos: seguro que estarán encantados de ayudarle. Piense que pedir continuamente que le repitan las cosas cansa a usted y a quienes le rodean. Si le parece, le detallo las condiciones de la mejor opción para usted y agendamos una cita con su familia.",
+    "haz": "Condiciones por escrito y cita con la familia",
+    "claves": "ayuda pedir familia independiente pagar"
+   }
+  ]
+ },
+ {
+  "id": "estetica-seguridad-social",
+  "nombre": "Estética, seguridad y social",
+  "icono": "💖",
+  "color": "#D6336C",
+  "tint": "#FCE8EF",
+  "argumenta": "necesidad-consecuencias + propuesta + demostrar",
+  "items": [
+   {
+    "id": "estetica-seguridad-social-1",
+    "dice": "Me da vergüenza",
+    "responde": "Entiendo su sensación ante algo nuevo. Hoy existen modelos prácticamente invisibles y recargables, que se usan casi como el móvil. Llevar algo en los oídos es muy común: en el tren o en el bus más de la mitad de la gente va con cascos o auriculares. Es como las gafas, que además de necesarias son modernas. ¿Probamos formatos y los ve?",
+    "haz": "Probar formatos y mirarse al espejo",
+    "claves": "verguenza se nota se ve verguenza"
+   },
+   {
+    "id": "estetica-seguridad-social-2",
+    "dice": "Es que eso es de mayores, no soy tan mayor",
+    "responde": "Al contrario: oír bien y estar activo es señal de juventud. La pérdida auditiva no tiene edad, pero pedir que repitan las cosas o dejar de disfrutar de la vida social sí nos vuelve más reservados. Hoy son tan modernos como un móvil: con inteligencia artificial, música y ajustes a distancia. ¿Probamos las prestaciones?",
+    "haz": "Demostrar conectividad y app",
+    "claves": "mayores mayor viejo edad joven abuelo"
+   },
+   {
+    "id": "estetica-seguridad-social-3",
+    "dice": "Mi familia dice que no los necesito",
+    "responde": "Como hemos visto, la audiometría y la prueba de entendimiento muestran lo contrario. A veces nuestro entorno no es consciente de lo que nos pasa, porque intentamos que no se note, pero usted lo vive cada día. Si quiere, agendamos una cita con sus familiares, les enseñamos los resultados y los comparamos con una audición correcta.",
+    "haz": "Campo libre con y sin audífonos con la familia",
+    "claves": "familia dice no necesito marido mujer hijos"
+   },
+   {
+    "id": "estetica-seguridad-social-4",
+    "dice": "No creo que los necesite, no salgo de casa",
+    "responde": "Es normal pensarlo: seguramente lo que nota es que necesita un poco más de volumen en la tele. Pero tratarlo cuanto antes es fundamental para prevenir el deterioro cognitivo y las caídas, y para cuidar su seguridad, su autoestima y la relación con su familia. Le aseguro que, en cuanto empiece a probarlos, notará cómo mejora su calidad de vida.",
+    "haz": "Prueba en cabina y en situación real",
+    "claves": "no necesito salgo casa tele volumen"
+   },
+   {
+    "id": "estetica-seguridad-social-5",
+    "dice": "Mis amigos dicen que no sirven para nada, mi madre nunca los usó",
+    "responde": "Le entiendo. Antiguamente los audífonos no tenían la tecnología de hoy. Ahora cuentan con inteligencia artificial y canceladores de ruido inteligentes que dan prioridad al habla, y puede escuchar música si su móvil es compatible. Le aseguro que hoy la audición es nítida, cómoda y segura. Vamos a comprobarlo ahora mismo con una prueba de validación en campo libre.",
+    "haz": "Vamos a comprobarlo con una prueba de validación (campo libre)",
+    "claves": "amigos no sirven madre padre cajon nunca uso"
+   },
+   {
+    "id": "estetica-seguridad-social-6",
+    "dice": "Mi madre sigue sin entender bien, NO LE FUNCIONAN",
+    "responde": "Entiendo su preocupación y vamos a revisarlo juntos. Además de la audición influyen otros factores, como la medicación o la velocidad con la que procesa lo que oye, que a veces va más lenta de lo habitual. Vamos a repasar su medicación y los resultados de su prueba de entendimiento, y con eso le demostramos en campo libre, con y sin audífonos, la mejora que podemos esperar.",
+    "haz": "1) Comprobar si toma medicación. 2) Revisar su resultado de logoaudiometría. 3) Con esos datos, demostrar en campo libre (con y sin audífonos) la mejora esperada y ajustar expectativas",
+    "claves": "madre no funcionan no entiende sigue"
+   },
+   {
+    "id": "estetica-seguridad-social-7",
+    "dice": "No sé si sabré utilizarlos, me agobia si los rompo",
+    "responde": "Es normal, es su primera vez; no se preocupe, estamos para acompañarle. Vamos a practicar aquí y verá con qué facilidad aprende a ponerlos, quitarlos y cargarlos. Además son muy resistentes: aguantan salpicaduras y caídas. ¡Vamos a practicar!",
+    "haz": "Practicar en consulta poner, quitar y cargar",
+    "claves": "utilizar utilizarlos usar usarlos manejar ponerlos romper rompo agobia saber sabre dificil"
+   },
+   {
+    "id": "estetica-seguridad-social-8",
+    "dice": "¿Y quién me asegura que voy a oír mejor?",
+    "responde": "Es la pregunta más importante. Fijemos juntos su objetivo (entender a su nieta, la tele, las comidas) y lo comprobamos con pruebas: su audiometría, pruebas en campo libre con y sin audífonos y las revisiones de adaptación. Así lo ve usted mismo. Vamos a por él juntos.",
+    "haz": "Fijar objetivo y realizar pruebas de campo libre (con y sin audífonos)",
+    "claves": "asegura garantia seguro funcionar mejorar"
+   },
+   {
+    "id": "estetica-seguridad-social-9",
+    "dice": "¿Y si se me pierden o se rompen?",
+    "responde": "Es una duda muy lógica. Le explico las garantías y los seguros que tiene (la 2ª pareja y Audio Tchin Tchin) y qué hacer exactamente en caso de pérdida o rotura. Además, vamos a comprobar ahora que están bien sujetos: bien ajustados, es muy difícil que se pierdan. Va tranquilo desde el primer día.",
+    "haz": "Explicar garantías y seguros (Audio Tchin Tchin, 2ª pareja) y comprobar que están bien sujetos",
+    "claves": "perder pierdo pierden romper rompen rotura seguro garantia caer"
+   }
+  ]
+ },
+ {
+  "id": "tecnicas-conectividad",
+  "nombre": "Técnicas o conectividad",
+  "icono": "📶",
+  "color": "#1C7ED6",
+  "tint": "#E7F2FC",
+  "argumenta": "necesidad + demostración-programación",
+  "items": [
+   {
+    "id": "tecnicas-conectividad-1",
+    "dice": "No se conectan a mi móvil",
+    "responde": "No se preocupe, lo solucionamos ahora mismo. Vamos a comprobar que su móvil es compatible con sus audífonos y, si no lo fuera, le ponemos una marca con conectividad universal, que se conecta con todos los móviles.",
+    "haz": "Si son Starkey: asegúrate de que el móvil tenga protocolo ASHA. Los WSA y BCT tienen conectividad universal y se conectan con todos los móviles: si es necesario, cambia a una de esas marcas",
+    "claves": "movil conectar conecta conectan bluetooth telefono android iphone starkey asha"
+   },
+   {
+    "id": "tecnicas-conectividad-2",
+    "dice": "Quiero los primeros y los 2º con la misma conectividad",
+    "responde": "Lo entiendo. La 2ª pareja está pensada para su seguridad, para que ante cualquier imprevisto tenga audífonos a su disposición. Son perfectamente funcionales, aunque quizá no iguales a los que ha elegido. ¿La buena noticia? Por menos de 50 € más en la financiación tendría las mismas prestaciones en las dos parejas: recargables, con la misma conectividad y las mismas funciones.",
+    "haz": "Ofrecer las mismas prestaciones (recargable, conectividad…) por menos de 50 € más en la financiación",
+    "claves": "segunda pareja misma conectividad iguales"
+   },
+   {
+    "id": "tecnicas-conectividad-3",
+    "dice": "He oído que no funcionan en ruido y mi entorno es ruidoso",
+    "responde": "Efectivamente, el ruido es lo que más cuesta a la hora de entender, a todos. Por eso hay gamas cuya gran ventaja es reducir el ruido y dar prioridad a la conversación, para que pueda seguir una charla en grupo. Con la tecnología de hoy no tendría problema en esa situación. Vamos a comprobarlo ahora con los ruidos de su día a día.",
+    "haz": "Poner en la TV ruidos cotidianos para simular situaciones de su día a día. Ajuste: bajar la MPO en frecuencias superiores a 4000 Hz y la ganancia por encima de 4000 Hz",
+    "claves": "ruido ruidoso bar restaurante funcionan"
+   },
+   {
+    "id": "tecnicas-conectividad-4",
+    "dice": "Quiero los primeros y los 2º con sistema CROS",
+    "responde": "Lo entiendo. La 2ª pareja está pensada para su seguridad, pero va en sistema convencional, no con CROS. ¿La buena noticia? Por menos de 50 € más en la financiación tendría también la 2ª pareja con sistema CROS y las mismas prestaciones: recargable, conectividad…",
+    "haz": "Ofrecer la 2ª pareja con CROS y las mismas prestaciones por menos de 50 € más en la financiación",
+    "claves": "cros segunda pareja iguales"
+   },
+   {
+    "id": "tecnicas-conectividad-5",
+    "dice": "Oigo con eco, ruido, metálico…",
+    "responde": "Le entiendo, y tiene solución: se arregla con programación. Cuénteme exactamente cuándo le pasa y lo ajustamos ahora.",
+    "haz": "Abre el Repositorio de Quejas Técnicas. En caso de duda, pide ayuda a un compañero",
+    "claves": "eco metalico ruido retumba voz problema suena"
+   }
+  ]
+ }
+];
+
+window.QUEJAS = [
+ {
+  "id": "calidad-sonora",
+  "nombre": "Calidad sonora",
+  "icono": "🎵",
+  "color": "#1971C2",
+  "tint": "#E7F1FB",
+  "desc": "Sensación auditiva del cliente al llevar el audífono: la calidad con la que percibe el sonido.",
+  "quejas": [
+   {
+    "id": "calidad-sonora-1",
+    "titulo": "ECO, RETUMBA, RESUENA",
+    "dice": "«Oigo mi voz, me retumba» · «Oigo como en una cueva» · «Noto como un tapón»",
+    "preguntas": [
+     "¿Oye como si estuviera en un lugar cerrado?",
+     "¿Oye más por dentro que por fuera?",
+     "¿Oye más su propia voz que la de los demás?",
+     "¿Oye su voz amplificada?"
+    ],
+    "causas": [
+     {
+      "causa": "Taponamiento del CAE / ventilación insuficiente",
+      "solucion": "Aumentar o desobturar la ventilación",
+      "riesgo": "Aparición de feedback"
+     },
+     {
+      "causa": "Cavidad residual disminuida",
+      "solucion": "Cortar el molde para ampliar la cavidad residual (redondear la punta permite ganar hasta 1 cm³)",
+      "riesgo": "Pérdida de sujeción de la prótesis en el CAE"
+     },
+     {
+      "causa": "Excesiva GAN en LF",
+      "solucion": "− sonidos fuertes y medios en 250 y 500 Hz · + GAN HF > 2500 Hz para atenuar la sensación de escuchar demasiado grave",
+      "riesgo": "− sonoridad por reducir GAN en LF · acoplo por aumentar agudos"
+     },
+     {
+      "causa": "Desequilibrio excesivo entre bandas",
+      "solucion": "+ CK del canal agudo para atenuar la sensación de los sonidos fuertes",
+      "riesgo": "Si se modifica CK: descompensación de compresión entre canales"
+     }
+    ]
+   },
+   {
+    "id": "calidad-sonora-2",
+    "titulo": "METÁLICO, AGUDO, CHILLÓN (ROBOT)",
+    "dice": "«Suena metálico, como un robot» · «Oigo siseos»",
+    "preguntas": [
+     "¿Oye el sonido muy metálico?",
+     "¿Percibe bien el final de las palabras?",
+     "¿El audífono sesea?"
+    ],
+    "causas": [
+     {
+      "causa": "Excesiva GAN en HF",
+      "solucion": "− GAN en HF (si se pierde inteligibilidad, deshacer y aumentar LF) · + relación de compresión en HF",
+      "riesgo": "− inteligibilidad y claridad"
+     },
+     {
+      "causa": "Exceso de ventilación",
+      "solucion": "− diámetro del venting",
+      "riesgo": "− sonoridad de sonidos suaves"
+     },
+     {
+      "causa": "Canal corto en cápsula o molde",
+      "solucion": "Alargar el canal del molde o cápsula",
+      "riesgo": "Producir oclusión"
+     }
+    ]
+   },
+   {
+    "id": "calidad-sonora-3",
+    "titulo": "NO OIGO CLARO, NÍTIDO, LIMPIO",
+    "dice": "«Oigo pero no claro» · «Distorsiona» · «Como si hablaran con la mano en la boca»",
+    "preguntas": [
+     "¿Percibe el sonido como si le hablaran con la mano en la boca?"
+    ],
+    "causas": [
+     {
+      "causa": "Escasa GAN en MF y HF / sobreamplificación en LF",
+      "solucion": "Bajar GAN en LF hasta 500 Hz",
+      "riesgo": "Pérdida de sonoridad · acoplo"
+     },
+     {
+      "causa": "Sobreamplificación en LF (audífono multicanal)",
+      "solucion": "Mover la frecuencia de cruce a la derecha: baja GAN en LF manteniendo HF (si hay más de un canal)",
+      "riesgo": "Superar la GAN requerida"
+     },
+     {
+      "causa": "Demasiada RC",
+      "solucion": "Disminuir RC en MF y HF",
+      "riesgo": ""
+     },
+     {
+      "causa": "Demasiada MPO",
+      "solucion": "Disminuir la MPO",
+      "riesgo": ""
+     },
+     {
+      "causa": "Canal demasiado largo",
+      "solucion": "Acortar la longitud del conducto del molde y/o audífono",
+      "riesgo": ""
+     },
+     {
+      "causa": "Venting insuficiente: tapado o sin ventilación",
+      "solucion": "Abrir, ampliar o desobturar la ventilación",
+      "riesgo": "Acoplo"
+     },
+     {
+      "causa": "Avería: distorsión o auricular tapado, ruido de MIC o MIC tapado",
+      "solucion": "Revisar, limpiar o reparar auricular y micrófono",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "calidad-sonora-4",
+    "titulo": "APAGADO, FALTA SONORIDAD",
+    "dice": "«Oigo igual con ellos que sin ellos» · «Oigo más sin él que con él»",
+    "preguntas": [
+     "¿Oye igual con los audífonos que sin ellos?"
+    ],
+    "causas": [
+     {
+      "causa": "GAN insuficiente en general",
+      "solucion": "+ GAN en todas las frecuencias",
+      "riesgo": "Superar la GAN requerida · acoplo"
+     },
+     {
+      "causa": "GAN insuficiente en LF",
+      "solucion": "+ GAN en LF",
+      "riesgo": "Sobreamplificación de LF"
+     },
+     {
+      "causa": "Ventilación excesiva",
+      "solucion": "− ventilación",
+      "riesgo": "Efecto oclusión"
+     },
+     {
+      "causa": "RC excesiva",
+      "solucion": "− RC",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "calidad-sonora-5",
+    "titulo": "ESTRIDENTE (AGUDO FUERTE MOLESTO)",
+    "dice": "«Me molesta el ruido de platos y cubiertos» · «Las voces de niños me chillan»",
+    "preguntas": [
+     "¿Oye los sonidos como si le gritara un niño?",
+     "¿Le molestan especialmente las voces chillonas o de niños?"
+    ],
+    "causas": [
+     {
+      "causa": "Excesiva GAN en HF a todos los niveles",
+      "solucion": "− GAN en HF para todos los niveles de entrada",
+      "riesgo": "− inteligibilidad y claridad"
+     },
+     {
+      "causa": "Excesiva GAN en HF en sonidos fuertes",
+      "solucion": "− GAN en HF para niveles altos · + GAN en LF para equilibrar · + RC en HF · − diámetro de venting",
+      "riesgo": "Oclusión"
+     },
+     {
+      "causa": "Avería: auricular estropeado (tras un golpe)",
+      "solucion": "Revisión técnica / reparación",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "calidad-sonora-6",
+    "titulo": "SONORIDAD RUIDOSA",
+    "dice": "«Todo me suena muy fuerte» · «Me molestan los ruidos, oigo alto»",
+    "preguntas": [
+     "¿Oye demasiado fuertes todos los sonidos?"
+    ],
+    "causas": [
+     {
+      "causa": "Excesiva amplificación de todos los sonidos",
+      "solucion": "− GAN en general",
+      "riesgo": "− inteligibilidad y claridad"
+     },
+     {
+      "causa": "Excesiva MPO",
+      "solucion": "− MPO",
+      "riesgo": "− sonoridad en todos los sonidos"
+     },
+     {
+      "causa": "Compresión insuficiente (TK y RC)",
+      "solucion": "+ RC en general",
+      "riesgo": ""
+     },
+     {
+      "causa": "Avería: transductores o circuito",
+      "solucion": "Revisión técnica / reparación",
+      "riesgo": ""
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "inteligibilidad",
+  "nombre": "Inteligibilidad",
+  "icono": "🗣️",
+  "color": "#0CA678",
+  "tint": "#E6F7F1",
+  "desc": "Compresión y captación de la palabra: diferencia entre ruido ambiente y voz.",
+  "quejas": [
+   {
+    "id": "inteligibilidad-1",
+    "titulo": "NO ENTIENDO EN AMBIENTE RUIDOSO",
+    "dice": "«En el restaurante no entiendo a la gente» · «Con ruido no me entero»",
+    "preguntas": [
+     "¿Le cuesta entender conversaciones cuando está rodeado de gente?",
+     "¿Qué le impide entender: el ruido ambiente o las conversaciones de alrededor?"
+    ],
+    "causas": [
+     {
+      "causa": "Excesiva amplificación en LF",
+      "solucion": "− LF · + GAN en MF y HF",
+      "riesgo": "− sonoridad · + riesgo de feedback por subir HF"
+     },
+     {
+      "causa": "Estrategia de MIC no adecuada",
+      "solucion": "Usar micrófonos direccionales (2º programa específico)",
+      "riesgo": "− sonoridad"
+     },
+     {
+      "causa": "Excesiva RC",
+      "solucion": "− RC",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "inteligibilidad-2",
+    "titulo": "NO ENTIENDO LA TV",
+    "dice": "«Oigo la tele pero no la entiendo»",
+    "preguntas": [
+     "¿Qué le pasa?",
+     "¿Me da un ejemplo?",
+     "¿En qué situaciones?",
+     "¿Desde cuándo?"
+    ],
+    "causas": [
+     {
+      "causa": "Amplificación insuficiente en MF",
+      "solucion": "+ GAN en MF",
+      "riesgo": "Exceder la GAN"
+     },
+     {
+      "causa": "Amplificación insuficiente en toda la banda",
+      "solucion": "+ GAN general",
+      "riesgo": "Cuidado con desajustar el resto de situaciones"
+     },
+     {
+      "causa": "Compresión excesiva en MF",
+      "solucion": "− RC en MF",
+      "riesgo": "+ riesgo de feedback"
+     }
+    ]
+   },
+   {
+    "id": "inteligibilidad-3",
+    "titulo": "NO ENTIENDO HABLANDO POR TELÉFONO",
+    "dice": "«No entiendo por teléfono» · «No oigo bien el teléfono»",
+    "preguntas": [
+     "En el resto de situaciones, ¿también le cuesta entender?"
+    ],
+    "causas": [
+     {
+      "causa": "Amplificación insuficiente en MF y HF",
+      "solucion": "+ GAN en MF y HF",
+      "riesgo": "+ riesgo de feedback por subir HF"
+     },
+     {
+      "causa": "Excesiva RC en MF y HF",
+      "solucion": "− RC en MF y HF",
+      "riesgo": ""
+     },
+     {
+      "causa": "Mala colocación del auricular del teléfono respecto al MIC",
+      "solucion": "Explicar la colocación del teléfono",
+      "riesgo": "No desajustar el resto: si hace falta, crear un 2º programa para teléfono"
+     }
+    ]
+   },
+   {
+    "id": "inteligibilidad-4",
+    "titulo": "NO ENTIENDO DE PERSONA A PERSONA SIN RUIDO",
+    "dice": "«En casa, tranquilo, tampoco entiendo bien»",
+    "preguntas": [
+     "¿Le cuesta entender a quien le habla en una habitación cerrada y sin ruido?"
+    ],
+    "causas": [
+     {
+      "causa": "GAN insuficiente en frecuencias conversacionales (MF)",
+      "solucion": "+ GAN en MF",
+      "riesgo": "Superar la GAN requerida · posible feedback"
+     },
+     {
+      "causa": "Excesiva compresión en frecuencias conversacionales (MF)",
+      "solucion": "− compresión en MF",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "inteligibilidad-5",
+    "titulo": "NO ENTIENDO EN AMBIENTES REVERBERANTES (ECO)",
+    "dice": "«No entiendo en misa» · «En la iglesia no me entero»",
+    "preguntas": [
+     "¿Le cuesta entender en la iglesia?"
+    ],
+    "causas": [
+     {
+      "causa": "Amplificación excesiva en LF",
+      "solucion": "− LF",
+      "riesgo": "− sonoridad"
+     },
+     {
+      "causa": "Amplificación insuficiente en MF",
+      "solucion": "+ GAN en MF y HF",
+      "riesgo": "Riesgo de feedback"
+     },
+     {
+      "causa": "Compresión excesiva en HF",
+      "solucion": "− RC en HF",
+      "riesgo": "Pérdida de sonoridad por la direccionalidad de los MIC"
+     },
+     {
+      "causa": "Insuficiente compresión en LF",
+      "solucion": "+ RC en LF",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "inteligibilidad-6",
+    "titulo": "ME MOLESTAN LAS VOCES DE MUJER",
+    "dice": "«Las voces de mujer me molestan»",
+    "preguntas": [
+     "¿Le resultan molestas las voces de mujer en particular?"
+    ],
+    "causas": [
+     {
+      "causa": "Amplificación excesiva en HF",
+      "solucion": "− GAN en HF",
+      "riesgo": "− inteligibilidad"
+     },
+     {
+      "causa": "Insuficiente compresión en HF",
+      "solucion": "+ RC en HF",
+      "riesgo": ""
+     },
+     {
+      "causa": "MPO excesiva",
+      "solucion": "− MPO",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "inteligibilidad-7",
+    "titulo": "NO ENTIENDO LAS VOCES DE HOMBRE (GRAVES)",
+    "dice": "«A los hombres no les entiendo»",
+    "preguntas": [
+     "¿Le cuesta entender únicamente las voces de hombre?"
+    ],
+    "causas": [
+     {
+      "causa": "Amplificación insuficiente en LF",
+      "solucion": "+ GAN en LF",
+      "riesgo": "+ sensación sonora"
+     },
+     {
+      "causa": "Compresión excesiva en LF",
+      "solucion": "− RC en LF",
+      "riesgo": ""
+     },
+     {
+      "causa": "Ventilación excesiva",
+      "solucion": "− diámetro de ventilación",
+      "riesgo": "+ efecto oclusión"
+     }
+    ]
+   },
+   {
+    "id": "inteligibilidad-8",
+    "titulo": "OIGO MÁS DE LEJOS QUE DE CERCA",
+    "dice": "«Oigo más de lejos que de cerca»",
+    "preguntas": [
+     "Cuando le hablan de lejos, ¿entiende mejor que cuando le hablan de cerca?"
+    ],
+    "causas": [
+     {
+      "causa": "GAN insuficiente en MF",
+      "solucion": "+ GAN en MF (nivel de entrada 65 dB)",
+      "riesgo": "+ sensación sonora (podría superar el nivel de inconfort)"
+     },
+     {
+      "causa": "RC excesiva",
+      "solucion": "− RC",
+      "riesgo": ""
+     },
+     {
+      "causa": "Sonidos suaves muy altos",
+      "solucion": "− sonidos suaves",
+      "riesgo": "Pérdida de entendimiento"
+     }
+    ]
+   },
+   {
+    "id": "inteligibilidad-9",
+    "titulo": "NO ENTIENDO CON OBSTÁCULOS",
+    "dice": "«En sitios cerrados entiendo peor»",
+    "preguntas": [
+     "En un espacio cerrado, ¿le cuesta entender más que en uno abierto?"
+    ],
+    "causas": [
+     {
+      "causa": "Señal disminuida por un obstáculo / GAN general insuficiente",
+      "solucion": "+ GAN general",
+      "riesgo": "Superar la GAN requerida · posible feedback"
+     },
+     {
+      "causa": "GAN insuficiente en sonidos suaves",
+      "solucion": "+ GAN en sonidos de entrada suaves",
+      "riesgo": "Posible feedback"
+     },
+     {
+      "causa": "RC excesiva",
+      "solucion": "− RC",
+      "riesgo": ""
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "intensidad-y-volumen",
+  "nombre": "Intensidad y volumen",
+  "icono": "🔊",
+  "color": "#E67700",
+  "tint": "#FFF3E0",
+  "desc": "Volumen: sensación de sonoridad con la que se percibe el sonido.",
+  "quejas": [
+   {
+    "id": "intensidad-y-volumen-1",
+    "titulo": "TODOS LOS SONIDOS SON MUY SUAVES",
+    "dice": "«Todo me llega de lejos» · «Lo oigo todo bajito»",
+    "preguntas": [
+     "¿Le parece que todos los sonidos vienen de lejos?",
+     "¿Le gustaría oírlos todos más fuertes?"
+    ],
+    "causas": [
+     {
+      "causa": "GAN insuficiente en todo el rango de frecuencias",
+      "solucion": "+ GAN en todas las frecuencias",
+      "riesgo": "Superar la GAN requerida · posible feedback"
+     },
+     {
+      "causa": "Cerumen o suciedad en el tubo o codo",
+      "solucion": "Cambiar filtro o codo · limpiar la salida del auricular y la entrada del MIC",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "intensidad-y-volumen-2",
+    "titulo": "TODOS LOS SONIDOS SON MUY FUERTES",
+    "dice": "«Me molestan los ruidos» · «Oigo bien pero me molesta todo»",
+    "preguntas": [
+     "¿Le parece que todos los sonidos son demasiado fuertes? Dígame un ejemplo."
+    ],
+    "causas": [
+     {
+      "causa": "GAN excesiva en todo el rango de frecuencias",
+      "solucion": "− GAN en todas las frecuencias",
+      "riesgo": "No aportar la ganancia requerida · − inteligibilidad"
+     },
+     {
+      "causa": "MPO excesiva",
+      "solucion": "− MPO",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "intensidad-y-volumen-3",
+    "titulo": "LOS SONIDOS SUAVES SON MUY FUERTES",
+    "dice": "«Oigo mis pasos, mi respiración, me oigo masticar, el roce de la ropa» · «Oigo un soplido, ruido de fondo, un bombeo»",
+    "preguntas": [
+     "¿Oye demasiado sonidos como la lavadora, la nevera o el aire acondicionado?"
+    ],
+    "causas": [
+     {
+      "causa": "GAN excesiva en sonidos suaves",
+      "solucion": "− GAN en sonidos de entrada suaves",
+      "riesgo": "Pérdida de sonidos ambientales"
+     },
+     {
+      "causa": "RC excesiva",
+      "solucion": "− RC · activar la expansión si el audífono la tiene",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "intensidad-y-volumen-4",
+    "titulo": "LOS SONIDOS FUERTES SON MUY FUERTES",
+    "dice": "«Me molesta el ruido de platos, cubiertos, portazos»",
+    "preguntas": [
+     "¿Le molestan los sonidos fuertes?"
+    ],
+    "causas": [
+     {
+      "causa": "GAN excesiva para sonidos fuertes en todo el rango",
+      "solucion": "− GAN para sonidos fuertes en todas las frecuencias",
+      "riesgo": "Falta de GAN en ambientes tranquilos"
+     },
+     {
+      "causa": "El control de MPO (PC o AGCO) no actúa o lo hace a niveles insuficientes",
+      "solucion": "− MPO (− PC o, en su defecto, − AGCO)",
+      "riesgo": "Que algunos ruidos no se perciban como tal y se pierda información"
+     },
+     {
+      "causa": "Ambiente excesivamente ruidoso o con niveles muy fuertes",
+      "solucion": "Valorar con el paciente el entorno",
+      "riesgo": ""
+     },
+     {
+      "causa": "Posible avería del potenciómetro (da GAN máxima)",
+      "solucion": "Revisión técnica",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "intensidad-y-volumen-5",
+    "titulo": "SE APAGA CON SONIDOS FUERTES",
+    "dice": "«Con un portazo se me apaga»",
+    "preguntas": [
+     "¿El audífono se apaga con sonidos como un portazo o un camión?"
+    ],
+    "causas": [
+     {
+      "causa": "RC excesiva",
+      "solucion": "− RC",
+      "riesgo": ""
+     },
+     {
+      "causa": "MPO o AGCO excesivamente bajos",
+      "solucion": "+ MPO",
+      "riesgo": "+ sensación sonora, pudiendo superar el nivel de algiacusia"
+     }
+    ]
+   },
+   {
+    "id": "intensidad-y-volumen-6",
+    "titulo": "EN SILENCIO EL AUDÍFONO SE APAGA",
+    "dice": "«En silencio se queda mudo» · «Se para»",
+    "preguntas": [
+     "Cuando está en silencio, ¿el audífono se le queda mudo?"
+    ],
+    "causas": [
+     {
+      "causa": "Usuario que pasa de analógico a digital: nota menos ruido de fondo y lo interpreta como que «se para»",
+      "solucion": "Desconectar la expansión · + sonidos suaves de entrada",
+      "riesgo": "Percepción excesiva de los sonidos suaves"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "percepcion-del-habla",
+  "nombre": "Percepción del habla",
+  "icono": "👂",
+  "color": "#AE3EC9",
+  "tint": "#F8EAFB",
+  "desc": "Calidad sonora e intensidad con la que se percibe la palabra.",
+  "quejas": [
+   {
+    "id": "percepcion-del-habla-1",
+    "titulo": "LA VOZ AJENA SE OYE SUAVE",
+    "dice": "«Los demás hablan muy bajo»",
+    "preguntas": [
+     "¿Le parece que los demás hablan demasiado bajo?"
+    ],
+    "causas": [
+     {
+      "causa": "Posible obstrucción del CAE (infección, cera…)",
+      "solucion": "Hacer otoscopia",
+      "riesgo": ""
+     },
+     {
+      "causa": "Obstrucción parcial por la prótesis (molde, venting, filtro…)",
+      "solucion": "Limpiar molde y/o tubo, venting y filtro",
+      "riesgo": "Oír menos claro y sensación general más intensa"
+     },
+     {
+      "causa": "Auricular parcialmente tapado al colocar la prótesis",
+      "solucion": "+ GAN en general",
+      "riesgo": "Sacrificar inteligibilidad por intensidad"
+     },
+     {
+      "causa": "Ajuste demasiado suave",
+      "solucion": "+ GAN solo en sonidos medios · + GAN en LF (sonoridad) · si tiene potenciómetro, activarlo y aumentar su recorrido",
+      "riesgo": "Sensación de oír demasiado todos los estímulos"
+     },
+     {
+      "causa": "RC muy alta (muy comprimido)",
+      "solucion": "− RC de 500 a 2000 Hz",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "percepcion-del-habla-2",
+    "titulo": "LA VOZ DE HOMBRE SE OYE FUERTE (LF)",
+    "dice": "«Las voces de hombre me retumban»",
+    "preguntas": [
+     "¿Le parece que oye demasiado fuertes las voces masculinas?"
+    ],
+    "causas": [
+     {
+      "causa": "Demasiada sonoridad en graves (250–1000 Hz)",
+      "solucion": "− GAN general en LF · − sonidos graves suaves",
+      "riesgo": "Reverberación"
+     },
+     {
+      "causa": "Venting no adecuado",
+      "solucion": "+ venting en pérdidas LF leves a moderadas · − venting en pérdidas LF severas",
+      "riesgo": "+ sensación de taponamiento · retroalimentación si hay demasiado venting"
+     },
+     {
+      "causa": "Poca RC en canales graves / expansión o control de sonidos suaves graves",
+      "solucion": "Revisar compresión y expansión en graves",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "percepcion-del-habla-3",
+    "titulo": "ME RESULTAN MOLESTAS LAS VOCES DE MUJER",
+    "dice": "«Las voces de mujer me molestan»",
+    "preguntas": [
+     "¿Le resultan molestas las voces de mujer en particular?"
+    ],
+    "causas": [
+     {
+      "causa": "Timbre agudo: amplificación excesiva en la banda aguda · ajuste muy agudo o con mucha pendiente",
+      "solucion": "Si la queja es repentina, comprobar que la sonoridad corresponde a lo programado (descartar avería). Usar ejemplos sonoros concretos para no confundir síntomas",
+      "riesgo": "Un exceso de atenuación puede causar pérdida de inteligibilidad"
+     }
+    ]
+   },
+   {
+    "id": "percepcion-del-habla-4",
+    "titulo": "LA VOZ DE MUJER LA OIGO BAJA",
+    "dice": "«A las mujeres las oigo bajito»",
+    "preguntas": [
+     "¿Cómo oye su propia voz?",
+     "¿En qué situaciones oye baja la voz de mujer?",
+     "¿Todas las voces de mujer las oye bajas?"
+    ],
+    "causas": [
+     {
+      "causa": "GAN insuficiente en HF",
+      "solucion": "+ GAN en HF",
+      "riesgo": "Sonoridad metálica (robot)"
+     },
+     {
+      "causa": "RC excesiva en HF",
+      "solucion": "− RC en HF",
+      "riesgo": "Superar el inconfort: verificar MPO"
+     },
+     {
+      "causa": "Salida acústica del molde",
+      "solucion": "Valorar molde con salida en trompeta",
+      "riesgo": "Aparición de feedback"
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "realimentacion",
+  "nombre": "Realimentación",
+  "icono": "📣",
+  "color": "#C8102E",
+  "tint": "#FDECEE",
+  "desc": "Pitido que produce el audífono sin causa aparente que lo provoque.",
+  "quejas": [
+   {
+    "id": "realimentacion-1",
+    "titulo": "ACOPLO CONTINUO",
+    "dice": "«Me pita siempre» · «Pita y si bajo el volumen no oigo» · «Se acopla con la mano»",
+    "preguntas": [
+     "¿El acoplo es constante?",
+     "¿Si presiona el audífono deja de pitar?"
+    ],
+    "causas": [
+     {
+      "causa": "Mal ajuste del molde o cápsula",
+      "solucion": "Comprobar ajuste y colocación · si hay mal sellado acústico, engrosar o rehacer la cápsula o molde",
+      "riesgo": ""
+     },
+     {
+      "causa": "Tapón de cera en el CAE",
+      "solucion": "Remitir al ORL para eliminar el tapón",
+      "riesgo": ""
+     },
+     {
+      "causa": "Venting demasiado grande",
+      "solucion": "Tapar el venting con un poco de espuma otoblock (filtra el feedback y deja pasar algo de aire)",
+      "riesgo": "Aumento de oclusión"
+     },
+     {
+      "causa": "GAN excesiva en HF",
+      "solucion": "− GAN en HF",
+      "riesgo": "− inteligibilidad y pérdida de sonoridad"
+     },
+     {
+      "causa": "Acoplo interno del audífono",
+      "solucion": "Comprobar funcionamiento · activar cancelador de feedback / modificar programación",
+      "riesgo": "Artefactos acústicos del cancelador (confunde sonidos externos con acoplo)"
+     }
+    ]
+   },
+   {
+    "id": "realimentacion-2",
+    "titulo": "ACOPLO AL HABLAR O MASTICAR",
+    "dice": "«Me pita al masticar» · «Pita al hablar»",
+    "preguntas": [
+     "¿Nota un pitido cuando mueve la mandíbula?"
+    ],
+    "causas": [
+     {
+      "causa": "Colocación",
+      "solucion": "Observar que el usuario se lo coloca correctamente",
+      "riesgo": ""
+     },
+     {
+      "causa": "Conducto",
+      "solucion": "Comprobar que el conducto está totalmente limpio",
+      "riesgo": ""
+     },
+     {
+      "causa": "Ajuste en el CAE",
+      "solucion": "Observar si ajusta bien. En usuarios expertos el cartílago puede haber cedido (también por cambios de peso)",
+      "riesgo": ""
+     },
+     {
+      "causa": "Venting",
+      "solucion": "Comprobar que el diámetro es adecuado a la pérdida; si es excesivo, reducir",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "realimentacion-3",
+    "titulo": "ACOPLO AL HABLAR POR TELÉFONO",
+    "dice": "«Se acopla con el teléfono»",
+    "preguntas": [
+     "¿El audífono pita de forma continua o intermitente al hablar por teléfono?"
+    ],
+    "causas": [
+     {
+      "causa": "No respeta la colocación del auricular del teléfono",
+      "solucion": "Observar y explicar: auricular enfocado al MIC del audífono y al menos a 5 cm",
+      "riesgo": ""
+     },
+     {
+      "causa": "Venting excesivo para la pérdida",
+      "solucion": "Reducir el diámetro del venting",
+      "riesgo": ""
+     },
+     {
+      "causa": "GAN excesiva, sobre todo en HF (pita al acercar la mano o el teléfono)",
+      "solucion": "Revisar y reducir GAN en HF",
+      "riesgo": ""
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "id": "otros-motivos",
+  "nombre": "Otros motivos",
+  "icono": "🔋",
+  "color": "#495057",
+  "tint": "#EEF0F2",
+  "desc": "Situaciones incómodas que no están en los otros apartados.",
+  "quejas": [
+   {
+    "id": "otros-motivos-1",
+    "titulo": "CONSUMO EXCESIVO DE PILA",
+    "dice": "«Gasta mucha pila»",
+    "preguntas": [
+     "¿Nota que la pila se agota a las pocas horas de llevarlo?"
+    ],
+    "causas": [
+     {
+      "causa": "Acoplo",
+      "solucion": "Engrosar la cápsula · cambiar el tubo o reparar la cápsula · limpiar MIC y auricular · reducir ventilación · usar control de feedback · disminuir ganancia en agudos",
+      "riesgo": ""
+     },
+     {
+      "causa": "Hilos cerca de la pila",
+      "solucion": "Apartar los hilos de la zona de la pila con pinzas de punta aislante",
+      "riesgo": "Descarga electrostática que puede dañar el circuito"
+     }
+    ]
+   },
+   {
+    "id": "otros-motivos-2",
+    "titulo": "SE PARA A LAS HORAS DE LLEVARLO",
+    "dice": "«Se me para a veces» · «Me supura el oído y se para»",
+    "preguntas": [
+     "¿Qué le pasa?",
+     "¿Me da un ejemplo?",
+     "¿En qué situaciones?",
+     "¿Desde cuándo?"
+    ],
+    "causas": [
+     {
+      "causa": "Humedad",
+      "solucion": "Comprobar que no lo usa en situaciones de humedad (deporte…). Si es imprescindible, recomendar absorbentes de humedad. Los retroauriculares resisten mejor la humedad que los intras",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "otros-motivos-3",
+    "titulo": "AL CABO DE UN TIEMPO OIGO MENOS (FATIGA AUDITIVA)",
+    "dice": "«Al rato oigo menos»",
+    "preguntas": [
+     "¿Le ocurre al cabo de un tiempo?",
+     "¿Le ocurre siempre que se lo coloca?"
+    ],
+    "causas": [
+     {
+      "causa": "Pérdida retrococlear",
+      "solucion": "Hacer Tone Decay Test para confirmar fatiga auditiva y explicar resultados y uso. Recomendar quitarse los audífonos y descansar cuando note que oye menos",
+      "riesgo": "Subir el volumen no es la solución: puede producir fatiga"
+     }
+    ]
+   },
+   {
+    "id": "otros-motivos-4",
+    "titulo": "SE PARA PROGRESIVAMENTE",
+    "dice": "«Va perdiendo fuerza hasta pararse»",
+    "preguntas": [
+     "¿El audífono va perdiendo intensidad hasta pararse del todo?"
+    ],
+    "causas": [
+     {
+      "causa": "Pérdida progresiva de amplificación",
+      "solucion": "+ GAN en todas las frecuencias o reducir compresión",
+      "riesgo": ""
+     }
+    ]
+   },
+   {
+    "id": "otros-motivos-5",
+    "titulo": "SE PARA DE GOLPE",
+    "dice": "«Se para sin tocarlo»",
+    "preguntas": [
+     "¿Se para sin motivo y sin manipularlo?",
+     "¿Deja de funcionar después de una situación concreta?"
+    ],
+    "causas": [
+     {
+      "causa": "Ajustes tan bajos que un leve cambio (compresión, gestión de ruido, otras ayudas al confort) baja la amplificación por debajo de 0 dB",
+      "solucion": "Localizar tras qué situación se queda mudo: ruidos muy fuertes, silencio, al poner la pila…",
+      "riesgo": ""
+     },
+     {
+      "causa": "Avería no fulminante (MIC o auricular que se tapona, consumo excesivo, contacto deformado)",
+      "solucion": "Poner los parámetros al máximo y comprobar la amplificación para descartar avería",
+      "riesgo": "Un ajuste muy suave puede dar una sensación que induce a engaño"
+     }
+    ]
+   }
+  ]
+ }
+];
+
+</script>
+  <script>
+/* Repositorio Audio · app sin dependencias (HTML + CSS + JS) */
+(function () {
+  "use strict";
+
+  const OBJ = window.OBJECIONES || [];
+  const QJ = window.QUEJAS || [];
+
+  const HABLA = [
+    { id: "audiologo", nombre: "Audiólogo en el gabinete", icono: "🩺", color: "#0B7285", tint: "#E3F4F7",
+      desc: "Cómo habla de audio el audiólogo: qué decir en cada momento de la visita.",
+      // Cada paso: { lugar, momento, dices, haz }
+      speech: [
+        { lugar: "🩺 En la tienda y el gabinete de audio", momento: "Abordaje: campaña de tapones",
+          dices: "Hola, soy la audióloga. Estamos en campaña de detección de tapones de cera: ¿me da 5 minutos y lo dejamos revisado?",
+          haz: "En el gabinete, hacer videotoscopia y explicarle el resultado." },
+        { lugar: "🩺 En la tienda y el gabinete de audio", momento: "Invitación a la revisión completa",
+          dices: "Aprovecho para invitarle a una revisión completa. Como con los ojos, el dentista y demás, es algo que debemos hacer cada año. ¿Cuándo le viene bien?",
+          haz: "Si no puede en ese momento, agéndale la cita y entrégale la tarjeta de revisión con su nombre." }
+      ] },
+    { id: "equipo-optico", nombre: "Óptico en el gabinete · entregas de gafas", icono: "🤝", color: "#5F3DC4", tint: "#EEEAFB",
+      desc: "Cómo habla de audio el óptico en el gabinete de óptica y el equipo en las entregas de gafas.",
+      speech: [
+        { lugar: "👓 Óptico en el gabinete de óptica", momento: "Al terminar la graduación",
+          dices: "Ya hemos terminado. Antes de pasar fuera, como estamos en campaña para detectar tapones de cera, pasará con el equipo de audio y se lo miran en un momento." },
+        { lugar: "👓 Óptico en el gabinete de óptica", momento: "Pequeña prueba de audición",
+          dices: "Vamos a hacerle una pequeña prueba de audición, es muy rápido. Si algún sonido no lo oyera, lo miramos en un momento, porque podría ser un tapón de cera." },
+        { lugar: "📦 Equipo en el espacio de entregas de gafas", momento: "Entrega de las gafas",
+          dices: "Le entrego la garantía de las gafas y una tarjeta regalo de revisión auditiva para usted o sus familiares. Si quiere, le agendamos ya la cita: ¿le viene bien el lunes o el martes?" }
+      ] }
+  ];
+
+  const GUIA = [
+    ["✋ Antes de tocar la programación", [
+      "Reprograma solo cuando todo lo demás está bien: molde, audífonos elegidos, sin cera…",
+      "Ponte en el lugar del cliente: ¿tiene motivo? ¿Le hemos dado falsas expectativas?",
+      "Que tenga un problema no quiere decir que le vaya mal en las demás situaciones.",
+      "Antes de actuar, entiende bien la queja."]],
+    ["❓ Preguntas maestras para sacar la queja", [
+      "¿Qué le pasa?", "¿Me puede dar un ejemplo del problema?",
+      "¿En qué situaciones? ¿Qué está haciendo cuando lo nota?", "¿Y en otras situaciones lo escucha?", "¿Desde cuándo?"]],
+    ["🔁 Proceso", ["Preguntas › Causa › Solución › Riesgos"]],
+    ["🎚️ ¿A qué intensidad se refiere?", [
+      "Sonidos suaves: 45–50 dB", "Sonidos medios: 65–70 dB", "Sonidos fuertes: más de 90 dB", "¿La queja es de graves, medios o agudos?"]],
+    ["📏 A tener en cuenta", [
+      "Frecuencia principal de la voz: hombres 750 Hz · mujeres 1000 Hz · niños 1500 Hz.",
+      "Por encima de esa frecuencia: claridad de la palabra (agudos). Por debajo: sonoridad (graves).",
+      "Una persona habla a unos 70 dB, pero nos llega normalmente a 65 dB.",
+      "Ruido interno craneal (un coscorrón): unos 50 dB. Ruido corporal: unos 45 dB.",
+      "Teléfonos: frecuencia maestra 750 Hz. Altavoces: entre 2000 y 3200 Hz."]],
+    ["📖 Glosario", [
+      "CAE: conducto auditivo externo", "GAN: ganancia", "LF: graves · MF: medios · HF: agudos",
+      "RC: relación de compresión", "MIC: micrófono", "MPO: salida máxima del audífono", "+ aumentar · − disminuir"]]
+  ];
+
+  const LEYENDA = "+ aumentar · − disminuir · GAN ganancia · LF graves · MF medios · HF agudos · RC compresión · MPO salida máxima · CAE conducto auditivo · MIC micrófono";
+
+  const ICON = {
+    search: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+    star: '<svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>',
+    chev: '<svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg>'
+  };
+
+  /* ───────── utilidades ───────── */
+  const $ = (s, el = document) => el.querySelector(s);
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const norm = (s) => String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9ñ]+/g, " ").trim();
+  const STOP = new Set("que los las con por para una uno unos unas del mas muy pero como esta este eso esto son ser sus hay tan sin mis tus nos les todo toda algo cuando donde porque tengo tiene usted".split(" "));
+
+  function stems(q) {
+    return norm(q).split(" ").filter((w) => w.length >= 3 && !STOP.has(w))
+      .map((w) => (w.length >= 6 ? w.slice(0, 5) : w.length === 5 ? w.slice(0, 4) : w));
+  }
+
+  /* Búsqueda por parecido: la frase del paciente y las palabras clave pesan 3, el resto del texto 1. */
+  function rank(list, q, textP, textR, max = 3) {
+    const st = stems(q), nq = norm(q);
+    if (!st.length) return [];
+    const scored = list.map((x) => {
+      const P = " " + norm(textP(x)) + " ", R = " " + norm(textR(x)) + " ";
+      let s = 0;
+      st.forEach((w) => { if (P.includes(w)) s += 3; if (R.includes(w)) s += 1; });
+      if (nq.length > 4 && P.includes(nq)) s += 5;
+      return { x, s };
+    }).filter((r) => r.s > 0);
+    if (!scored.length) return [];
+    const top = Math.max(...scored.map((r) => r.s));
+    const min = Math.max(3, top * 0.35);
+    return scored.filter((r) => r.s >= min).sort((a, b) => b.s - a.s).slice(0, max).map((r) => r.x);
+  }
+
+  const ALL_OBJ = OBJ.flatMap((b) => b.items.map((it) => ({ ...it, libro: b })));
+  const ALL_QJ = QJ.flatMap((b) => b.quejas.map((q) => ({ ...q, libro: b })));
+
+
+  /* Términos técnicos: al pasar el cursor (o tocar en el móvil) se explica qué significan. */
+  const TERMS = {
+    CAE: ["Conducto auditivo externo", "El canal del oído, desde la oreja hasta el tímpano. Aquí se coloca el molde o la cápsula."],
+    GAN: ["Ganancia", "Cuánto amplifica el audífono el sonido, en dB. Más ganancia = se oye más fuerte."],
+    LF: ["Frecuencias graves (Low Frequencies)", "Aprox. 250–1000 Hz. Dan sonoridad y cuerpo a la voz; en exceso, el sonido retumba o suena «a lata»."],
+    MF: ["Frecuencias medias (Mid Frequencies)", "Aprox. 1000–2000 Hz. Son las frecuencias conversacionales: las más importantes para entender la palabra."],
+    HF: ["Frecuencias agudas (High Frequencies)", "Por encima de ~2000 Hz. Dan claridad a la palabra (consonantes); en exceso, el sonido es metálico o chillón."],
+    RC: ["Relación de compresión", "Cuánto reduce el audífono la diferencia entre sonidos suaves y fuertes. A más RC, sonido más «aplanado»."],
+    MIC: ["Micrófono", "El micrófono del audífono, por donde entra el sonido. Si se tapa o se ensucia, el audífono suena peor."],
+    MPO: ["Salida máxima (Maximum Power Output)", "El nivel máximo de sonido que puede entregar el audífono. Limita los sonidos fuertes para que no molesten."],
+    TK: ["Umbral de compresión (kneepoint)", "Nivel de entrada a partir del cual el audífono empieza a comprimir el sonido."],
+    AGCO: ["Control automático de ganancia por salida", "Limita la salida comprimiendo el sonido para no superar la MPO, sin distorsionar."],
+    PC: ["Recorte de picos (Peak Clipping)", "Limita la salida cortando los picos de la señal. Es más brusco que el AGCO."],
+    ORL: ["Otorrinolaringólogo", "Médico especialista en oído, nariz y garganta."]
+  };
+  const TERM_RE = new RegExp("\\b(" + Object.keys(TERMS).join("|") + ")\\b", "g");
+  const tx = (s) => esc(s).replace(TERM_RE, (m) => `<abbr class="term" tabindex="0" data-term="${m}">${m}</abbr>`);
+
+  /* ───────── favoritos (por persona, guardados en este dispositivo) ───────── */
+  const store = {
+    get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* sin almacenamiento */ } }
+  };
+  let favs = store.get("ra_favs2", {});   // { id: true } · favoritas de este dispositivo
+  let onlyMine = false;
+  const queries = {};
+  const isFav = (id) => !!favs[id];
+  function toggleFav(id) {
+    if (favs[id]) delete favs[id]; else favs[id] = true;
+    store.set("ra_favs2", favs);
+  }
+
+  /* ───────── piezas ───────── */
+  const remember = (steps, c) =>
+    `<div class="remember" style="--c:${c}"><b>RECUERDA</b>${steps.map((s, i) =>
+      `${i ? '<span class="arrow">›</span>' : ""}<span class="step">${s}</span>`).join("")}</div>`;
+
+  const REC_OBJ = ["👂 1. Escucha la objeción sin interrumpir", "🤝 2. Dile que le entiendes", "💡 3. Argumenta: necesidad y consecuencias", "🎯 4. Propón la solución y cierra con una fecha"];
+  const REC_QJ = ["👂 1. Escucha la queja y pide un ejemplo", "🤝 2. Dile que le entiendes y que tiene solución", "🔍 3. Revisa antes molde, cera, tubo y audífono", "🛠️ 4. Solo entonces, reprograma", "✅ 5. Comprueba con él y cita de revisión"];
+  const REC_HABLA = ["😊 Sonríe y llámale por su nombre", "👂 Escucha más de lo que hablas", "🗣️ Palabras sencillas, sin tecnicismos", "🎯 Termina siempre con el siguiente paso"];
+
+  function objCard(it, showBadge) {
+    const mine = isFav(it.id);
+    return `<article class="item" style="--ic:${it.libro.color}" id="${it.id}">
+      <div class="item-top"><div>${showBadge ? `<span class="badge">${it.libro.icono} ${esc(it.libro.nombre)}</span>` : ""}
+        <p class="say">${esc(it.dice)}</p></div>
+        <button class="star ${mine ? "on" : ""}" data-fav="${it.id}" type="button" aria-pressed="${mine}">${ICON.star}<span class="st-txt">${mine ? "Me funciona" : "¿Te funciona?"}</span></button></div>
+      <div class="item-body"><div class="lbl">💬 Tú respondes</div><p class="answer">${tx(it.responde)}</p>
+        <div class="todo">🎯 <strong>Haz esto:</strong> ${tx(it.haz)}</div>
+</div></article>`;
+  }
+
+  function qCard(q, showBadge) {
+    const c = q.libro.color, t = q.libro.tint;
+    return `<article class="item q" style="--ic:${c};--it:${t}" id="${q.id}">
+      <div class="q-head">${showBadge ? `${q.libro.icono} ${esc(q.libro.nombre)} · ` : ""}${tx(q.titulo)}</div>
+      <div class="q-dice">🗣️ El paciente dice: ${tx(q.dice)}</div>
+      <div class="q-preg"><div class="lbl">❓ Pregúntale</div><ul>${q.preguntas.map((p) => `<li>${tx(p)}</li>`).join("")}</ul></div>
+      <div class="q-wrap"><table class="causes"><thead><tr><th>🔍 Causa</th><th>🛠️ Solución</th><th>⚠️ Riesgo</th></tr></thead><tbody>
+      ${q.causas.map((x) => `<tr><td data-l="Causa">${tx(x.causa)}</td><td class="sol" data-l="Solución">${tx(x.solucion)}</td><td class="rie" data-l="Riesgo">${x.riesgo ? tx(x.riesgo) : "—"}</td></tr>`).join("")}
+      </tbody></table></div></article>`;
+  }
+
+  function searchBlock(kind, color, placeholder, examples) {
+    const q = queries[kind] || "";
+    return `<div class="search ${q ? "has" : ""}" style="--c:${color}">
+        <span class="sic">${ICON.search}</span>
+        <input id="q" type="text" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="${esc(placeholder)}" value="${esc(q)}" aria-label="Buscar">
+        <button class="clear" type="button" aria-label="Borrar">×</button></div>
+      <div class="hint">Ejemplos: ${examples}</div><div class="results" id="results"></div>`;
+  }
+
+  function wireSearch(kind, run) {
+    const input = $("#q"), box = $(".search");
+    const go = () => { queries[kind] = input.value; box.classList.toggle("has", !!input.value); run(input.value); };
+    input.addEventListener("input", go);
+    $(".clear").onclick = () => { input.value = ""; go(); input.focus(); };
+    run(input.value);
+  }
+
+  function tabs(list, base, current) {
+    return `<nav class="tabs" aria-label="Libros">${list.map((b) =>
+      `<a class="tab" style="--tc:${b.color}" href="#/${base}/${b.id}" ${b.id === current ? 'aria-current="page"' : ""}>${b.icono} ${esc(b.nombre)}</a>`).join("")}</nav>`;
+  }
+
+  function crumbs(parts) {
+    $("#crumbs").innerHTML = parts.map((p, i) =>
+      (i ? '<span class="sep">›</span>' : "") + (p[1] ? `<a href="${p[1]}">${esc(p[0])}</a>` : `<span>${esc(p[0])}</span>`)).join("");
+  }
+
+  /* ───────── pantallas ───────── */
+  function home() {
+    crumbs([]);
+    const card = (o) => `<section class="home-card" style="--c:${o.c};--t:${o.t}">
+      <a class="home-head" href="${o.href}"><span class="home-icon">${o.icon}</span><span><h2>${o.title}</h2><p>${o.sub}</p></span></a>
+      <ul class="home-list">${o.items.map((i) => `<li><a href="${i.href}"><span class="dot" style="background:${i.color}"></span>${i.icono} ${esc(i.nombre)}<span class="chev">${ICON.chev}</span></a></li>`).join("")}</ul>
+      <a class="home-cta" href="${o.href}">Entrar ›</a></section>`;
+    return `<div class="hero"><h1>¿Qué necesitas ahora?</h1><p>Elige un repositorio.</p></div>
+      <div class="home-grid">
+      ${card({ c: "#C8102E", t: "#FDECEE", icon: "💬", title: "Repositorio de objeciones", sub: "Cómo abordar una objeción",
+        href: `#/objeciones/${OBJ[0].id}`, items: OBJ.map((b) => ({ ...b, href: `#/objeciones/${b.id}` })) })}
+      ${card({ c: "#343A40", t: "#F1F3F5", icon: "🛠️", title: "Repositorio de quejas técnicas", sub: "Qué revisar y cómo ajustar cuando algo no suena bien",
+        href: `#/quejas/${QJ[0].id}`, items: QJ.map((b) => ({ ...b, href: `#/quejas/${b.id}` })).concat([{ nombre: "Guía rápida", icono: "📘", color: "#495057", href: "#/guia" }]) })}
+      ${card({ c: "#0B7285", t: "#E3F4F7", icon: "🎙️", title: "Habla de Audio", sub: "Cómo hablamos de audio cada figura del equipo",
+        href: `#/habla/${HABLA[0].id}`, items: HABLA.map((b) => ({ ...b, href: `#/habla/${b.id}` })) })}
+      </div>`;
+  }
+
+  function objBook(id) {
+    const b = OBJ.find((x) => x.id === id) || OBJ[0];
+    crumbs([["Inicio", "#/"], ["Objeciones", `#/objeciones/${OBJ[0].id}`], [b.nombre]]);
+    const html = `<div class="book-head" style="--c:${b.color}"><span class="ic">${b.icono}</span><div><h1>Objeciones · ${esc(b.nombre)}</h1>
+        <p>Argumenta con «${esc(b.argumenta)}»</p></div></div>
+      ${remember(REC_OBJ, b.color)}
+      ${tabs(OBJ, "objeciones", b.id)}
+      ${searchBlock("obj", b.color, "¿Qué te ha dicho el paciente?", "«es caro» · «se lo diré a mis hijos» · «me da vergüenza» · «no se conecta al móvil»")}
+      <div class="section-title"><h2>📋 Listado · ${b.items.length} objeciones</h2>
+        <label class="toggle"><input type="checkbox" id="mine" ${onlyMine ? "checked" : ""}> Solo mis ⭐</label></div>
+      <div class="list obj" id="list"></div>`;
+    return { html, after() {
+      const list = () => {
+        const items = b.items.map((it) => ({ ...it, libro: b })).filter((it) => !onlyMine || isFav(it.id));
+        $("#list").innerHTML = items.length ? items.map((it) => objCard(it, false)).join("")
+          : `<div class="empty">Aún no tienes ⭐ en este libro. Pulsa «¿Te funciona?» en las respuestas que te sirvan.</div>`;
+      };
+      const search = (q) => {
+        const r = rank(ALL_OBJ, q, (x) => x.dice + " " + x.claves, (x) => x.responde + " " + x.haz + " " + x.libro.nombre);
+        $("#results").innerHTML = !q.trim() ? "" : r.length
+          ? `<h3>✅ Lo más parecido (de todos los libros)</h3><div class="list obj">${r.map((it) => objCard(it, true)).join("")}</div>`
+          : `<div class="none">😕 No encuentro nada parecido. Prueba con otras palabras o mira el listado.</div>`;
+      };
+      $("#mine").onchange = (e) => { onlyMine = e.target.checked; list(); };
+      list(); wireSearch("obj", search);
+      document.getElementById("app").onclick = (e) => {
+        const btn = e.target.closest("[data-fav]"); if (!btn) return;
+        toggleFav(btn.dataset.fav); list(); search($("#q").value);
+      };
+    } };
+  }
+
+  function qBook(id) {
+    const b = QJ.find((x) => x.id === id) || QJ[0];
+    crumbs([["Inicio", "#/"], ["Quejas técnicas", `#/quejas/${QJ[0].id}`], [b.nombre]]);
+    const html = `<div class="book-head" style="--c:${b.color}"><span class="ic">${b.icono}</span><div><h1>Quejas · ${esc(b.nombre)}</h1>
+        <p>${esc(b.desc)}</p></div></div>
+      ${remember(REC_QJ, b.color)}
+      ${tabs(QJ.concat([{ id: "guia", nombre: "Guía rápida", icono: "📘", color: "#495057" }]).map((x) => x), "quejas", b.id).replace('href="#/quejas/guia"', 'href="#/guia"')}
+      ${searchBlock("qj", b.color, "¿De qué se queja el paciente?", "«me retumba la voz» · «suena metálico» · «pita al masticar» · «gasta mucha pila»")}
+      <p class="legend">${tx(LEYENDA)}</p>
+      <div class="section-title"><h2>📋 Listado · ${b.quejas.length} quejas</h2></div>
+      <div class="list">${b.quejas.map((q) => qCard({ ...q, libro: b }, false)).join("")}</div>`;
+    return { html, after() {
+      wireSearch("qj", (q) => {
+        const r = rank(ALL_QJ, q, (x) => x.titulo + " " + x.dice,
+          (x) => x.preguntas.join(" ") + " " + x.causas.map((c) => c.causa + " " + c.solucion).join(" ") + " " + x.libro.nombre);
+        $("#results").innerHTML = !q.trim() ? "" : r.length
+          ? `<h3>✅ Lo más parecido (de todos los libros)</h3><div class="list">${r.map((x) => qCard(x, true)).join("")}</div>`
+          : `<div class="none">😕 No encuentro nada parecido. Prueba con otras palabras o mira el listado.</div>`;
+      });
+    } };
+  }
+
+  function guia() {
+    crumbs([["Inicio", "#/"], ["Quejas técnicas", `#/quejas/${QJ[0].id}`], ["Guía rápida"]]);
+    return `<div class="book-head" style="--c:#495057"><span class="ic">📘</span><div><h1>Guía rápida antes de reprogramar</h1>
+      <p>Preguntas maestras, intensidades, frecuencias y glosario.</p></div></div>
+      ${tabs(QJ.concat([{ id: "guia", nombre: "Guía rápida", icono: "📘", color: "#495057" }]), "quejas", "guia").replace('href="#/quejas/guia"', 'href="#/guia"')}
+      <div style="margin-top:14px">${GUIA.map(([t, l]) => `<section class="panel"><h2>${t}</h2><ul>${l.map((x) => `<li>${tx(x)}</li>`).join("")}</ul></section>`).join("")}</div>`;
+  }
+
+  function speechList(b) {
+    const groups = [];
+    b.speech.forEach((s) => { let g = groups.find((x) => x.lugar === s.lugar); if (!g) groups.push(g = { lugar: s.lugar, items: [] }); g.items.push(s); });
+    let n = 0;
+    return groups.map((g) => `<h3 class="place" style="--c:${b.color}">${esc(g.lugar)}</h3><div class="list">${g.items.map((s) =>
+      `<article class="item speech" style="--ic:${b.color}"><div class="item-body">
+        <span class="badge">${++n} · ${esc(s.momento)}</span>
+        <p class="line">🗣️ «${tx(s.dices)}»</p>
+        ${s.haz ? `<div class="todo">🎯 <strong>Haz esto:</strong> ${tx(s.haz)}</div>` : ""}</div></article>`).join("")}</div>`).join("");
+  }
+
+  function habla(id) {
+    const b = HABLA.find((x) => x.id === id) || HABLA[0];
+    crumbs([["Inicio", "#/"], ["Habla de Audio", `#/habla/${HABLA[0].id}`], [b.nombre]]);
+    return `<div class="book-head" style="--c:${b.color}"><span class="ic">${b.icono}</span><div><h1>Habla de Audio · ${esc(b.nombre)}</h1>
+      <p>${esc(b.desc)}</p></div></div>
+      ${remember(REC_HABLA, b.color)}
+      ${tabs(HABLA, "habla", b.id)}
+      <div class="section-title"><h2>📋 Speech</h2></div>
+      ${b.speech.length ? speechList(b) : `<div class="empty">⏳ Aquí irá el speech en cuanto esté listo.</div>`}`;
+  }
+
+  /* ───────── router ───────── */
+  function route() {
+    const parts = (location.hash.replace(/^#\/?/, "") || "").split("/");
+    const app = $("#app");
+    app.onclick = null;
+    let view;
+    if (parts[0] === "objeciones") view = objBook(parts[1]);
+    else if (parts[0] === "quejas") view = qBook(parts[1]);
+    else if (parts[0] === "guia") view = guia();
+    else if (parts[0] === "habla") view = habla(parts[1]);
+    else view = home();
+    if (typeof view === "string") view = { html: view };
+    app.innerHTML = view.html;
+    if (view.after) view.after();
+    window.scrollTo(0, 0);
+  }
+
+
+  /* Pequeño modal con el significado del término */
+  const tip = document.createElement("div");
+  tip.className = "tip"; tip.setAttribute("role", "tooltip"); tip.hidden = true;
+  document.body.appendChild(tip);
+  let tipFor = null, shownAt = 0;
+  function showTip(el) {
+    const t = TERMS[el.dataset.term]; if (!t) return;
+    if (tipFor !== el) shownAt = Date.now();
+    tipFor = el;
+    tip.innerHTML = `<b>${esc(el.dataset.term)} · ${esc(t[0])}</b><span>${esc(t[1])}</span>`;
+    tip.hidden = false;
+    const r = el.getBoundingClientRect(), w = tip.offsetWidth, h = tip.offsetHeight;
+    let left = Math.min(Math.max(8, r.left + r.width / 2 - w / 2), window.innerWidth - w - 8);
+    let top = r.top - h - 8; let below = false;
+    if (top < 8) { top = r.bottom + 8; below = true; }
+    tip.style.left = left + "px"; tip.style.top = top + "px";
+    tip.classList.toggle("below", below);
+  }
+  function hideTip() { tip.hidden = true; tipFor = null; }
+  let lastTouch = 0;
+  document.addEventListener("touchstart", () => { lastTouch = Date.now(); }, { passive: true, capture: true });
+  const isTouch = () => Date.now() - lastTouch < 800;
+  document.addEventListener("mouseover", (e) => { if (isTouch()) return; const el = e.target.closest(".term"); if (el) showTip(el); });
+  document.addEventListener("mouseout", (e) => { if (isTouch()) return; if (e.target.closest(".term")) hideTip(); });
+  document.addEventListener("focusin", (e) => { const el = e.target.closest(".term"); if (el) showTip(el); });
+  document.addEventListener("focusout", (e) => { if (!isTouch() && e.target.closest(".term")) hideTip(); });
+  document.addEventListener("click", (e) => { const el = e.target.closest(".term"); if (el) { e.stopPropagation(); if (tipFor === el && Date.now() - shownAt > 400) hideTip(); else showTip(el); } else if (tipFor) hideTip(); }, true);
+  window.addEventListener("scroll", hideTip, { passive: true });
+
+  window.addEventListener("hashchange", () => { hideTip(); route(); });
+  route();
+})();
+
+</script>
+</body>
+</html>
