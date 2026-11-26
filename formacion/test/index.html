@@ -149,7 +149,7 @@ h2{margin:0;font-size:25px;letter-spacing:-.04em;line-height:1.05;font-weight:80
 <script>
 /* ====== Dónde se guardan las respuestas ======
    ENDPOINT: dirección que recibe cada envío (una fila por persona). Vacío = modo de prueba, no guarda. */
-var ENDPOINT = '';
+var ENDPOINT = 'https://aryvalery.app.n8n.cloud/webhook/abby-test-final';
 
 (function(){
   var $ = function(id){ return document.getElementById(id); };
@@ -219,7 +219,8 @@ var ENDPOINT = '';
       respMarca: ans.marca, respSegunda: ans.segunda === 'upgrade' ? 'Upgrade: igual a la primera' : 'Básica por 1 € más', intentos: intentos, satisfaccion: ans.sat, enviado: new Date().toISOString() };
     if (!ENDPOINT) { $('ok-txt').textContent = 'Modo de prueba: el registro aún no está conectado, así que esta respuesta no se ha guardado.'; go('s-ok'); return; }
     var btn = $('b-enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
-    fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify(data) }).then(function(){ go('s-ok'); })
+    var body = new URLSearchParams(); Object.keys(data).forEach(function(k){ body.append(k, data[k] == null ? '' : String(data[k])); });
+    fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', body: body }).then(function(){ go('s-ok'); })
       .catch(function(){ btn.disabled = false; btn.textContent = 'Enviar'; e.textContent = 'No se ha podido enviar. Comprueba la conexión y vuelve a pulsar Enviar.'; e.hidden = false; });
   });
 })();
