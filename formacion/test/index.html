@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--red:#dc2626;--ink:#14161a;--ink2:#4b5563;--line:#e5e7eb;--tint:#f6f6f6}
+:root{--red:#dc2626;--ink:#14161a;--ink2:#4b5563;--line:#e5e7eb;--tint:#f6f6f6;--ok:#15803d}
 *{box-sizing:border-box}
 html,body{height:100%;margin:0}
 body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#fff;-webkit-text-size-adjust:100%}
@@ -18,13 +18,16 @@ button{cursor:pointer}
 .brand{font-weight:800;letter-spacing:-.03em;font-size:17px;padding:16px 20px}
 .brand em{font-style:normal;color:var(--red)}
 .wrap{flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:8px 20px 28px;width:100%;max-width:520px;margin:0 auto}
-.frame{border:1.5px solid var(--red);padding:22px 18px;display:flex;flex-direction:column;gap:16px}
+.frame{border:1.5px solid var(--red);padding:22px 18px;display:flex;flex-direction:column;gap:16px;background:#fff}
 .label{margin:0;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
 h1{margin:0;font-size:clamp(34px,10vw,54px);line-height:.98;letter-spacing:-.05em;font-weight:800}
 h1 em,h2 em{font-style:normal;color:var(--red)}
-h2{margin:0;font-size:26px;letter-spacing:-.04em;line-height:1.05;font-weight:800}
-.lead{margin:0;font-size:16px;line-height:1.45;color:var(--ink)}
+h2{margin:0;font-size:25px;letter-spacing:-.04em;line-height:1.05;font-weight:800}
+.lead{margin:0;font-size:16px;line-height:1.45}
 .lead b{color:var(--red)}
+.todo{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px;font-size:15px;font-weight:600;line-height:1.3}
+.todo li{display:grid;grid-template-columns:26px 1fr;gap:8px;align-items:start}
+.todo b{display:flex;align-items:center;justify-content:center;width:26px;height:26px;background:var(--red);color:#fff;font-weight:800;font-size:13px}
 .field{display:flex;flex-direction:column;gap:6px}
 .field span{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
 .field input{border:1.5px solid var(--line);border-radius:0;padding:13px 12px;font-size:17px;font-weight:600;color:var(--ink);background:#fff;width:100%;min-height:50px}
@@ -32,31 +35,32 @@ h2{margin:0;font-size:26px;letter-spacing:-.04em;line-height:1.05;font-weight:80
 .go{border:0;border-radius:999px;background:var(--red);color:#fff;font-weight:800;font-size:17px;padding:15px 26px;min-height:52px}
 .go:disabled{background:#e5e7eb;color:#9ca3af;cursor:default}
 .ghost{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;font-weight:700;font-size:16px;padding:13px 22px;min-height:50px}
-.err{margin:0;color:var(--red);font-weight:700;font-size:14px}
+.err{margin:0;color:var(--red);font-weight:700;font-size:14px;line-height:1.35}
 /* Abby */
-#s-abby{height:100vh;height:100dvh;min-height:0}
+#s-abby{height:100vh;height:100dvh;min-height:0;position:relative}
 #abby{flex:1;min-height:0;width:100%;border:0;display:block}
-.bar{flex:none;display:flex;align-items:center;gap:12px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));border-top:1.5px solid var(--red);background:#fff}
-.bar .now{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
-.bar .now span{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
-.bar .now b{font-size:14px;font-weight:800;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bar .go{padding:12px 20px;font-size:15px;min-height:46px;white-space:nowrap}
-/* Resumen */
-.rows{margin:0;display:grid;grid-template-columns:auto 1fr;border:1.5px solid var(--line)}
-.rows dt,.rows dd{margin:0;padding:10px 12px;border-bottom:1px solid var(--line);font-size:15px}
-.rows dt{font-weight:700;color:var(--ink2);font-size:12px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center}
-.rows dd{font-weight:700;text-align:right}
-.rows dt:nth-last-child(2),.rows dd:last-child{border-bottom:0}
-.rows dd.no{color:var(--red)}
-.warn{margin:0;border:1.5px solid var(--red);background:#fef2f2;padding:12px;font-size:14px;line-height:1.4;font-weight:600}
-.stars{display:flex;gap:8px}
-.stars button{flex:1;min-height:50px;border:1.5px solid var(--line);background:#fff;font-weight:800;font-size:18px;color:var(--ink);border-radius:0}
-.stars button[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
-.q{margin:0;font-weight:700;font-size:15px}
+.bar{flex:none;display:flex;align-items:center;gap:8px;padding:9px 12px calc(9px + env(safe-area-inset-bottom));border-top:1.5px solid var(--red);background:#fff;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);padding:6px 10px;font-size:13px;font-weight:700;color:var(--ink2);white-space:nowrap}
+.chip i{font-style:normal;width:16px;height:16px;border-radius:50%;border:1.5px solid #9ca3af;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:#fff}
+.chip.on{border-color:var(--ok);color:var(--ok)}
+.chip.on i{background:var(--ok);border-color:var(--ok)}
+.bar .tip{flex:1;min-width:150px;margin:0;font-size:13px;font-weight:700;line-height:1.25;text-align:right}
+.bar .tip b{color:var(--red)}
+/* Modal */
+.veil{position:fixed;inset:0;background:rgba(20,22,26,.62);display:flex;align-items:flex-end;justify-content:center;z-index:10}
+.modal{width:100%;max-width:560px;max-height:100%;overflow:auto;border:1.5px solid var(--red);border-bottom:0;background:#fff;padding:20px 18px calc(18px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+@media (min-width:640px){.veil{align-items:center}.modal{border-bottom:1.5px solid var(--red)}}
+.q{margin:0;font-weight:800;font-size:16px;line-height:1.3;letter-spacing:-.01em}
+.q b{color:var(--red);margin-right:6px}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts.row{flex-direction:row}
+.opts button{flex:1;min-height:50px;border:1.5px solid var(--line);background:#fff;font-weight:700;font-size:15px;color:var(--ink);border-radius:0;padding:10px 12px;text-align:left;line-height:1.25}
+.opts.row button{text-align:center;font-weight:800;font-size:17px}
+.opts button[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
 .btns{display:flex;gap:10px;flex-wrap:wrap}
 .btns .go{flex:1}
+.miss{margin:0;padding:0 0 0 18px;font-size:15px;font-weight:700;line-height:1.5}
 .ok{width:64px;height:64px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800}
-.note{margin:0;font-size:13px;color:var(--ink2);line-height:1.4}
 </style>
 </head>
 <body>
@@ -69,6 +73,11 @@ h2{margin:0;font-size:26px;letter-spacing:-.04em;line-height:1.05;font-weight:80
       <p class="label">Test final</p>
       <h1>Ahora te toca <em>a ti.</em></h1>
       <p class="lead">Hazle un presupuesto a esa persona que sabes que lo necesita. Eso sí: debe ser <b>financiado con Infinity.</b></p>
+      <ol class="todo">
+        <li><b>1</b><span>Elige un audífono en gama Diamante y despliega la financiación Infinity.</span></li>
+        <li><b>2</b><span>Pulsa el icono de la impresora para sacar el presupuesto.</span></li>
+        <li><b>3</b><span>Responde dos preguntas y envía.</span></li>
+      </ol>
       <label class="field"><span>Nombre y apellidos</span><input id="nombre" name="nombre" autocomplete="name" required></label>
       <label class="field"><span>Centro</span><input id="centro" name="centro" autocomplete="organization" required></label>
       <label class="field"><span>Correo de la tienda (@afflelou.es)</span><input id="mail" name="mail" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="tienda@afflelou.es" required></label>
@@ -83,23 +92,38 @@ h2{margin:0;font-size:26px;letter-spacing:-.04em;line-height:1.05;font-weight:80
 <main class="screen" id="s-abby" hidden>
   <iframe id="abby" title="Simulador de Abby" data-src="/formacion/abby/index.html"></iframe>
   <div class="bar">
-    <div class="now"><span>Tu presupuesto</span><b id="now">Elige formato y gama</b></div>
-    <button class="go" type="button" id="b-revisar">Enviar →</button>
+    <span class="chip" id="c-gama"><i>✓</i>Diamante</span>
+    <span class="chip" id="c-inf"><i>✓</i>Infinity</span>
+    <p class="tip" id="tip">Elige gama <b>Diamante</b> y despliega <b>Infinity</b></p>
   </div>
-</main>
 
-<!-- 3 · Revisar y enviar -->
-<main class="screen" id="s-revisar" hidden>
-  <div class="brand">Abby<em>AUDIOLOGY</em></div>
-  <div class="wrap">
-    <div class="frame">
-      <p class="label">Revisa y envía</p>
-      <h2>Este es <em>tu presupuesto</em></h2>
-      <dl class="rows" id="rows"></dl>
-      <p class="warn" id="w-inf" hidden>Falta la financiación: vuelve a Abby y abre «Financiación flexible Infinity» para incluirla en el presupuesto.</p>
-      <p class="q" id="q-sat">¿Qué te ha parecido la formación? (1 = poco, 5 = mucho)</p>
-      <div class="stars" role="group" aria-labelledby="q-sat" id="stars">
-        <button type="button" aria-pressed="false">1</button><button type="button" aria-pressed="false">2</button><button type="button" aria-pressed="false">3</button><button type="button" aria-pressed="false">4</button><button type="button" aria-pressed="false">5</button>
+  <!-- Falta algo -->
+  <div class="veil" id="m-falta" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="t-falta">
+      <p class="label">Todavía no</p>
+      <h2 id="t-falta">A tu presupuesto <em>le falta algo</em></h2>
+      <ul class="miss" id="miss"></ul>
+      <button class="go" type="button" id="b-falta">Volver a Abby</button>
+    </div>
+  </div>
+
+  <!-- Preguntas -->
+  <div class="veil" id="m-test" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="t-test">
+      <p class="label">Presupuesto listo · <span id="resumen"></span></p>
+      <h2 id="t-test">Dos preguntas <em>y envías</em></h2>
+      <p class="q" id="q2"><b>2</b>¿Qué marca es este audífono?</p>
+      <div class="opts row" role="group" aria-labelledby="q2" data-k="marca">
+        <button type="button" aria-pressed="false" data-v="WSA">WSA</button><button type="button" aria-pressed="false" data-v="Starkey">Starkey</button><button type="button" aria-pressed="false" data-v="Phonak">Phonak</button>
+      </div>
+      <p class="q" id="q3"><b>3</b>¿Cómo es la 2ª pareja de este presupuesto?</p>
+      <div class="opts" role="group" aria-labelledby="q3" data-k="segunda">
+        <button type="button" aria-pressed="false" data-v="upgrade">Tiene upgrade: la 2ª pareja es igual a la primera</button>
+        <button type="button" aria-pressed="false" data-v="basica">La 2ª pareja es básica, por 1 € más</button>
+      </div>
+      <p class="q" id="q4">¿Qué te ha parecido la formación? (1 = poco, 5 = mucho)</p>
+      <div class="opts row" role="group" aria-labelledby="q4" data-k="sat">
+        <button type="button" aria-pressed="false" data-v="1">1</button><button type="button" aria-pressed="false" data-v="2">2</button><button type="button" aria-pressed="false" data-v="3">3</button><button type="button" aria-pressed="false" data-v="4">4</button><button type="button" aria-pressed="false" data-v="5">5</button>
       </div>
       <p class="err" id="e-env" role="alert" hidden></p>
       <div class="btns">
@@ -110,33 +134,27 @@ h2{margin:0;font-size:26px;letter-spacing:-.04em;line-height:1.05;font-weight:80
   </div>
 </main>
 
-<!-- 4 · Enviado -->
+<!-- 3 · Enviado -->
 <main class="screen" id="s-ok" hidden>
   <div class="brand">Abby<em>AUDIOLOGY</em></div>
   <div class="wrap">
     <div class="frame">
       <div class="ok" aria-hidden="true">✓</div>
       <h1>Enviado. <em>¡Gracias!</em></h1>
-      <p class="lead" id="ok-txt">Tu presupuesto ha quedado registrado.</p>
-      <p class="note" id="ok-note" hidden></p>
+      <p class="lead" id="ok-txt">Tu presupuesto y tus respuestas han quedado registrados.</p>
     </div>
   </div>
 </main>
 
 <script>
-/* ====== Conexión con Google Forms ======
-   action: URL del formulario terminada en /formResponse
-   entries: el código entry.XXXXXXX de cada pregunta del formulario */
-var FORM = {
-  action: '',
-  entries: { nombre:'', centro:'', mail:'', fecha:'', proveedor:'', formato:'', gama:'', modelo:'', precio:'', infinity:'', infinityImporte:'', infinityCuota36:'', nextYear:'', satisfaccion:'' }
-};
+/* ====== Dónde se guardan las respuestas ======
+   ENDPOINT: dirección que recibe cada envío (una fila por persona). Vacío = modo de prueba, no guarda. */
+var ENDPOINT = '';
 
 (function(){
   var $ = function(id){ return document.getElementById(id); };
-  var screens = ['s-datos','s-abby','s-revisar','s-ok'];
-  var abby = $('abby'), state = {}, sat = '', datos = {};
-  function go(id){ screens.forEach(function(s){ $(s).hidden = s !== id; }); window.scrollTo(0,0); }
+  var abby = $('abby'), state = {}, datos = {}, ans = {}, intentos = 0;
+  function go(id){ ['s-datos','s-abby','s-ok'].forEach(function(s){ $(s).hidden = s !== id; }); window.scrollTo(0,0); }
 
   var d = new Date(), pad = function(n){ return (n < 10 ? '0' : '') + n; };
   $('fecha').value = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
@@ -152,47 +170,57 @@ var FORM = {
     go('s-abby');
   });
 
-  function ask(){ try { abby.contentWindow.postMessage('abby-state?', '*'); } catch (err) {} }
+  function post(m){ try { abby.contentWindow.postMessage(m, '*'); } catch (err) {} }
+  function esDiamante(){ return /diamante/i.test(state.gama || ''); }
+  function pinta(){
+    var g = esDiamante(), i = !!state.infinity;
+    $('c-gama').className = 'chip' + (g ? ' on' : ''); $('c-inf').className = 'chip' + (i ? ' on' : '');
+    $('tip').innerHTML = g && i ? 'Ahora pulsa la <b>impresora</b> de Abby' : !g ? 'Elige gama <b>Diamante</b>' : 'Despliega <b>Financiación Infinity</b>';
+  }
   window.addEventListener('message', function(ev){
-    if (!ev.data || !ev.data.abbyState) return;
-    state = ev.data.abbyState;
-    var pm = (state.precio || '').match(/[0-9][0-9.,]*\s*€/); if (pm) state.precio = pm[0];
-    var parts = [state.gama, state.formato, state.precio].filter(Boolean);
-    $('now').textContent = parts.length ? parts.join(' · ') : 'Elige formato y gama';
+    if (ev.source !== abby.contentWindow || !ev.data || !ev.data.abbyState) return;
+    state = ev.data.abbyState; pinta();
+    if (ev.data.abbyPrint) alImprimir();
   });
-  setInterval(function(){ if (!$('s-abby').hidden) ask(); }, 700);
+  setInterval(function(){ if (!$('s-abby').hidden) post('abby-test-mode'); }, 700);
 
-  function row(k, v, bad){ return '<dt>' + k + '</dt><dd' + (bad ? ' class="no"' : '') + '>' + String(v || '—').replace(/[<>&]/g, '') + '</dd>'; }
-  $('b-revisar').addEventListener('click', function(){
-    ask();
-    setTimeout(function(){
-      $('rows').innerHTML = row('Nombre', datos.nombre) + row('Centro', datos.centro) + row('Correo', datos.mail) + row('Fecha', datos.fecha.split('-').reverse().join('/')) +
-        row('Proveedor', state.proveedor) + row('Formato', state.formato) + row('Gama', state.gama) + row('Modelo', state.modelo) + row('Precio', state.precio) +
-        row('Infinity', state.infinity ? ('Sí' + (state.infinityCuota36 ? ' · ' + state.infinityCuota36 + '/mes (36 m)' : '')) : 'No incluida', !state.infinity);
-      $('w-inf').hidden = !!state.infinity;
-      go('s-revisar');
-    }, 250);
-  });
-  $('b-volver').addEventListener('click', function(){ go('s-abby'); });
+  function alImprimir(){
+    var falta = [];
+    if (!state.formato) falta.push('Elige un audífono.');
+    if (!esDiamante()) falta.push('Elige la gama Diamante.');
+    if (!state.infinity) falta.push('Despliega «Financiación flexible Infinity».');
+    if (falta.length) { $('miss').innerHTML = falta.map(function(f){ return '<li>' + f + '</li>'; }).join(''); $('m-falta').hidden = false; $('b-falta').focus(); return; }
+    $('resumen').textContent = [state.gama, state.formato, state.precio].filter(Boolean).join(' · ');
+    $('e-env').hidden = true; $('m-test').hidden = false;
+  }
+  $('b-falta').addEventListener('click', function(){ $('m-falta').hidden = true; });
+  $('b-volver').addEventListener('click', function(){ $('m-test').hidden = true; });
 
-  Array.prototype.forEach.call($('stars').children, function(b){
-    b.addEventListener('click', function(){ sat = b.textContent; Array.prototype.forEach.call($('stars').children, function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); });
+  Array.prototype.forEach.call(document.querySelectorAll('.opts'), function(g){
+    Array.prototype.forEach.call(g.children, function(b){
+      b.addEventListener('click', function(){ ans[g.getAttribute('data-k')] = b.getAttribute('data-v'); Array.prototype.forEach.call(g.children, function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); });
+    });
   });
+
+  function marcaReal(){ var p = (state.proveedor || '').toLowerCase(); return /wsa/.test(p) ? 'WSA' : /starkey/.test(p) ? 'Starkey' : /phonak/.test(p) ? 'Phonak' : ''; }
+  function segundaReal(){ var s = (state.segundaPareja || '').toLowerCase(), g = (state.gama || '').toLowerCase(); if (!s) return ''; if (g && s.indexOf(g) === 0) return 'upgrade'; if (/^oro/.test(s)) return 'basica'; return 'otra'; }
 
   $('b-enviar').addEventListener('click', function(){
-    if (!sat) { $('e-env').textContent = 'Marca una valoración del 1 al 5 antes de enviar.'; $('e-env').hidden = false; return; }
-    $('e-env').hidden = true;
+    var e = $('e-env');
+    if (!ans.marca || !ans.segunda || !ans.sat) { e.textContent = 'Responde las tres preguntas antes de enviar.'; e.hidden = false; return; }
+    intentos++;
+    var mal = [];
+    if (ans.marca !== marcaReal()) mal.push('la pregunta 2 (marca)');
+    if (ans.segunda !== segundaReal()) mal.push('la pregunta 3 (2ª pareja)');
+    if (mal.length) { e.textContent = 'No coincide con tu presupuesto: revisa ' + mal.join(' y ') + '. Puedes volver a Abby, comprobarlo y enviar de nuevo.'; e.hidden = false; return; }
+    e.hidden = true;
     var data = { nombre: datos.nombre, centro: datos.centro, mail: datos.mail, fecha: datos.fecha, proveedor: state.proveedor, formato: state.formato, gama: state.gama, modelo: state.modelo, precio: state.precio,
-      infinity: state.infinity ? 'Sí' : 'No', infinityImporte: state.infinityImporte, infinityCuota36: state.infinityCuota36, nextYear: state.nextYear ? 'Sí' : 'No', satisfaccion: sat };
-    if (!FORM.action) {
-      $('ok-txt').textContent = 'Modo de prueba: el formulario aún no está conectado, así que esta respuesta no se ha guardado.';
-      go('s-ok'); return;
-    }
-    var fd = new FormData();
-    Object.keys(FORM.entries).forEach(function(k){ if (FORM.entries[k]) fd.append(FORM.entries[k], data[k] == null ? '' : data[k]); });
+      infinity: state.infinity ? 'Sí' : 'No', infinityImporte: state.infinityImporte, infinityCuota36: state.infinityCuota36, nextYear: state.nextYear ? 'Sí' : 'No', segundaPareja: state.segundaPareja,
+      respMarca: ans.marca, respSegunda: ans.segunda === 'upgrade' ? 'Upgrade: igual a la primera' : 'Básica por 1 € más', intentos: intentos, satisfaccion: ans.sat, enviado: new Date().toISOString() };
+    if (!ENDPOINT) { $('ok-txt').textContent = 'Modo de prueba: el registro aún no está conectado, así que esta respuesta no se ha guardado.'; go('s-ok'); return; }
     var btn = $('b-enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
-    fetch(FORM.action, { method: 'POST', mode: 'no-cors', body: fd }).then(function(){ go('s-ok'); })
-      .catch(function(){ btn.disabled = false; btn.textContent = 'Enviar'; $('e-env').textContent = 'No se ha podido enviar. Comprueba la conexión y vuelve a pulsar Enviar.'; $('e-env').hidden = false; });
+    fetch(ENDPOINT, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, body: JSON.stringify(data) }).then(function(){ go('s-ok'); })
+      .catch(function(){ btn.disabled = false; btn.textContent = 'Enviar'; e.textContent = 'No se ha podido enviar. Comprueba la conexión y vuelve a pulsar Enviar.'; e.hidden = false; });
   });
 })();
 </script>

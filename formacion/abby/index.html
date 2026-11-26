@@ -26674,16 +26674,28 @@ ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(
 /*PDF_VIEWER_END*/</script>
 <script>
 (function(){
+  var testMode=false;
   function t(e){return e?(e.innerText||'').replace(/\s+/g,' ').trim():'';}
   function fold(re){var h=Array.prototype.slice.call(document.querySelectorAll('.abby-fold-head,.card-header')).filter(function(e){return re.test(e.innerText||'');})[0];var c=h&&h.closest('.card');return c&&c.children.length>1?c:null;}
   function num(txt,re){var m=(txt||'').match(re);return m?m[1].replace(/\s+/g,' ').trim():'';}
+  function segunda(){
+    var d=Array.prototype.slice.call(document.querySelectorAll('#root div')).filter(function(e){return e.children.length===0&&/^\s*Segunda pareja de audífonos\s*$/.test(e.textContent||'');})[0];
+    var box=d&&d.parentElement;if(!box)return '';
+    var b=Array.prototype.slice.call(box.querySelectorAll('button')).filter(function(x){return /✓/.test(x.textContent||'');})[0];
+    return b?(b.childNodes[0].textContent||'').replace(/\s+/g,' ').trim():'';
+  }
   function state(){
     var fc=document.querySelector('.format-card.selected'),card=fc&&fc.closest('.card'),g=document.querySelector('.gama-card.selected');
     var inf=fold(/Infinity/i),ny=fold(/Next Year/i),it=inf?inf.innerText:'';
-    return {proveedor:t(card&&card.querySelector('.tab.active')),formato:t(fc&&fc.querySelector('.format-name')),gama:t(g&&g.querySelector('.gama-title')),modelo:t(g&&g.querySelector('.gama-modelo')),precio:t(g&&g.querySelector('.gama-price')),
-      infinity:!!inf,infinityImporte:num(it,/Importe total[^0-9]*([0-9.,]+\s*€)/),infinityCuota36:num(it,/Cuota 36m[^\n]*\n\s*([0-9.,]+\s*€)/),nextYear:!!ny};
+    return {proveedor:t(card&&card.querySelector('.tab.active')),formato:t(fc&&fc.querySelector('.format-name')),gama:t(g&&g.querySelector('.gama-title')),modelo:t(g&&g.querySelector('.gama-modelo')),precio:num(t(g&&g.querySelector('.gama-price')),/([0-9][0-9.,]*\s*€)/),
+      infinity:!!inf,infinityImporte:num(it,/Importe total[^0-9]*([0-9.,]+\s*€)/),infinityCuota36:num(it,/Cuota 36m[^\n]*\n\s*([0-9.,]+\s*€)/),nextYear:!!ny,segundaPareja:segunda()};
   }
-  window.addEventListener('message',function(ev){if(ev.data==='abby-state?'&&ev.source){var s;try{s=state();}catch(e){s={error:String(e)};}ev.source.postMessage({abbyState:s},'*');}});
+  function send(extra){if(!window.parent||window.parent===window)return;var s;try{s=state();}catch(e){s={error:String(e)};}var m={abbyState:s};if(extra)m.abbyPrint=true;window.parent.postMessage(m,'*');}
+  window.addEventListener('message',function(ev){if(ev.data==='abby-state?')send(false);if(ev.data==='abby-test-mode'){testMode=true;send(false);}});
+  document.addEventListener('click',function(ev){
+    if(!testMode)return;var b=ev.target&&ev.target.closest&&ev.target.closest('.print-btn');
+    if(b){ev.preventDefault();ev.stopImmediatePropagation();send(true);}
+  },true);
 })();
 </script>
 </body></html>
