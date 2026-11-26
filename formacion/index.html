@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abby es para todos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* Layout: sitio web editorial. Índice a la izquierda; cada módulo se abre a la derecha. Solo el simulador conserva el aspecto de la app. */
+:root{
+  color-scheme: light;
+  --paper:#ffffff; --tint:#f6f6f6; --ink:#14161a; --ink2:#374151; --mute:#6b7280; --line:#e5e7eb; --red:#dc2626; --red-soft:#fef2f2; --green:#15803d;
+  --serif:"Inter","Segoe UI",system-ui,-apple-system,Arial,sans-serif; --sans:"Inter","Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+  --t-xl:clamp(34px,min(5vw,9vh),76px); --t-lg:clamp(24px,min(3.4vw,6vh),54px); --t-md:clamp(15px,min(1.5vw,2.6vh),22px); --t-sm:clamp(12px,min(1.1vw,2vh),16px); --t-xs:11px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+h1,h2{margin:0;font-family:var(--sans);font-weight:800;letter-spacing:-.04em;line-height:1.04;text-wrap:balance}
+h1 em,h2 em{font-style:italic;color:var(--red)}
+h1{font-size:var(--t-xl)} h2{font-size:var(--t-lg)}
+
+/* ---------- Barra superior: el menú va plegado ---------- */
+.top{position:absolute;left:0;right:0;top:0;z-index:6;height:52px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 clamp(16px,2.4vw,34px);color:var(--ink);background:var(--paper);border-bottom:1px solid var(--red)}
+body.on-cover .top{color:#fff;background:transparent;border-bottom-color:transparent}
+.brandbtn{border:0;background:none;color:inherit;padding:0;font-size:clamp(16px,1.4vw,19px);font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.brandbtn em{font-style:normal;color:var(--red)}
+body.on-cover .brandbtn em{color:#fff}
+.tools{display:flex;align-items:center;gap:8px}
+.menubtn{border:1px solid currentColor;background:none;color:inherit;border-radius:999px;height:34px;padding:0 14px 0 12px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+.menubtn:hover,.icon:hover{color:var(--red)}
+body.on-cover .menubtn:hover, body.on-cover .icon:hover{color:#fff;opacity:.8}
+.icon{width:34px;height:34px;border-radius:50%;border:1px solid currentColor;background:none;color:inherit;display:grid;place-items:center;flex:none}
+.mods{list-style:none;margin:0;padding:8px;position:absolute;right:clamp(16px,2.4vw,34px);top:58px;min-width:300px;display:none;flex-direction:column;background:#fff;color:var(--ink);border:1.5px solid var(--red);border-radius:14px;box-shadow:0 24px 60px rgba(20,22,26,.22)}
+body.menu-open .mods{display:flex}
+.mod{width:100%;border:0;background:none;color:var(--ink);font-weight:700;font-size:15px;display:flex;gap:14px;align-items:center;padding:12px 14px;border-radius:9px;text-align:left}
+.mod .num{font-weight:800;color:var(--red);width:1.2em}
+.mod:hover{background:var(--tint)}
+.mod[aria-current="true"]{background:var(--red);color:#fff}
+.mod[aria-current="true"] .num{color:#fff}
+
+/* ---------- Página ---------- */
+.stage{position:relative;flex:1;min-height:0;min-width:0;display:flex;flex-direction:column;background:var(--paper)}
+.view{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;padding:calc(52px + 14px) 14px 14px}
+.inner{flex:1;width:100%;box-sizing:border-box;border:1.5px solid var(--red);display:flex;flex-direction:column;justify-content:center;gap:clamp(8px,2vh,24px);padding:clamp(10px,2.4vh,34px) max(clamp(18px,3.4vw,48px), calc((100% - 1200px) / 2))}
+.kicker{display:flex;justify-content:space-between;gap:12px;margin:0;font-size:var(--t-xs);font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);border-top:0;padding:0}
+.kicker span{color:var(--red)}
+.lead{font-size:var(--t-md);color:var(--ink2);margin:0;line-height:1.5}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2.6vw,44px);align-items:start}
+.stack{display:flex;flex-direction:column;gap:clamp(10px,1.7vh,18px)}
+.label{font-size:var(--t-xs);font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin:0}
+.go{border:0;border-radius:999px;padding:14px 26px;font-size:var(--t-sm);font-weight:700;letter-spacing:.02em;color:#fff;background:var(--red);align-self:flex-start;transition:background .2s}
+.go:hover{background:var(--ink)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.steps li{display:grid;grid-template-columns:44px 1fr;gap:6px;align-items:baseline;padding:clamp(9px,1.6vh,15px) 0;border-bottom:1px solid var(--line)}
+.steps li:first-child{border-top:1px solid var(--line)}
+.n{font-family:var(--serif);font-style:italic;font-size:clamp(22px,2.2vw,32px);color:var(--red);line-height:1}
+.steps b{display:block;font-size:var(--t-md);font-weight:700;line-height:1.2}
+.steps div span{color:var(--mute);font-size:var(--t-sm)}
+
+/* Portada: foto a sangre */
+.view.coverv{padding:0;position:relative;color:#fff;background:#111;overflow:hidden}
+.coverv>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.coverv .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,10,14,.62) 0%,rgba(8,10,14,.05) 26%,rgba(8,10,14,.1) 46%,rgba(8,10,14,.9) 100%)}
+.coverv .foot2{position:relative;margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;gap:clamp(16px,3vw,40px);padding:0 clamp(20px,4vw,56px) clamp(22px,5vh,48px)}
+.coverv .eyebrow{font-size:var(--t-xs);font-weight:700;letter-spacing:.3em;text-transform:uppercase;margin:0 0 14px}
+.coverv h1{font-size:clamp(48px,min(10.6vw,19vh),170px);line-height:.9;letter-spacing:-.03em}
+.coverv h1 em{color:#fff}
+.coverv .side2{display:flex;flex-direction:column;align-items:flex-end;gap:12px;padding-bottom:10px;white-space:nowrap;font-size:var(--t-sm)}
+.go.red{background:var(--red)}
+.go.red:hover{background:#fff;color:var(--ink)}
+.meta{display:flex;gap:clamp(14px,2.2vw,34px);flex-wrap:wrap;margin:0;padding-top:12px;border-top:1px solid var(--line);font-size:var(--t-sm);color:var(--mute)}
+.meta b{display:block;color:var(--ink);font-weight:700}
+
+/* Bienvenida */
+.prologue{align-items:center;text-align:center;gap:clamp(8px,2.2vh,24px)}
+.prologue .bot{height:clamp(38px,8vh,70px);width:auto;display:block}
+.prologue h2{font-size:clamp(34px,min(6vw,11vh),104px);line-height:1}
+.prologue .orn{width:56px;height:1.5px;background:var(--red);border:0;margin:0}
+.prologue .body{font-family:var(--sans);font-weight:400;font-size:clamp(15px,min(1.45vw,2.7vh),23px);line-height:1.6;color:var(--ink2);margin:0;max-width:40em;text-wrap:pretty}
+.prologue .body b{color:var(--ink);font-weight:600}
+.prologue .body em{font-style:normal;color:var(--red);font-weight:600}
+.prologue .list{font-size:clamp(10px,min(.9vw,1.7vh),13px);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);margin:0;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px}
+.prologue .list span+span::before{content:"·";color:var(--red);margin-right:14px}
+.prologue .ask{font-family:var(--serif);font-style:italic;font-size:clamp(22px,min(2.8vw,5vh),44px);line-height:1;margin:0}
+.prologue .go{align-self:center}
+.prologue .lede{font-family:var(--sans);font-weight:700;font-size:clamp(18px,min(2vw,3.6vh),32px);letter-spacing:-.02em;color:var(--ink);margin:0}
+.prologue .punch{color:var(--ink);font-weight:500}
+
+/* Simulador: doble página con la tablet real */
+.inner.simmag{display:grid;grid-template-columns:2.1fr 1fr;grid-template-rows:minmax(0,1fr);gap:clamp(14px,1.8vw,30px);padding:clamp(8px,1.2vh,14px) clamp(14px,1.8vw,30px) clamp(8px,1.2vh,14px) clamp(8px,1vw,14px)}
+.tabletcol{display:flex;flex-direction:column;gap:8px;min-height:0;min-width:0}
+.tablet{flex:1;min-height:0;background:#14161a;border-radius:14px;padding:3px;box-shadow:0 14px 36px rgba(20,22,26,.2)}
+.screen{width:100%;height:100%;border-radius:11px;overflow:hidden;background:#fff;position:relative}
+#abby{position:absolute;left:0;top:0;width:100%;height:100%;border:0;background:#fff;transform-origin:0 0}
+.tbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tbar .label{margin-right:auto}
+.mini{border:1px solid var(--line);background:#fff;color:var(--ink);font-weight:600;font-size:13px;padding:6px 14px;border-radius:999px}
+.mini:hover{border-color:var(--red);color:var(--red)}
+.mini[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.simstory{display:flex;flex-direction:column;justify-content:center;gap:clamp(8px,1.8vh,18px);min-height:0;min-width:0}
+.simstory img{width:100%;height:clamp(120px,38vh,420px);object-fit:cover;object-position:50% 30%;display:block}
+.pull.big{font-family:var(--sans);font-style:normal;font-weight:700;letter-spacing:-.02em;color:var(--ink);font-size:clamp(17px,min(1.65vw,3.1vh),28px);line-height:1.28}
+.pull.big::before,.pull.big::after{color:var(--red)}
+.answer{margin:0;font-size:clamp(14px,min(1.15vw,2.2vh),18px);color:var(--ink2);line-height:1.5;padding-top:clamp(8px,1.6vh,14px);border-top:1px solid var(--red)}
+.answer b{color:var(--red);font-weight:700}
+.guide{list-style:none;margin:0;padding:10px 0 0;border-top:1px solid var(--red);display:flex;flex-wrap:wrap;gap:4px 16px;font-size:clamp(11px,min(.9vw,1.7vh),13px);font-weight:600;color:var(--ink2)}
+.guide i{font-family:var(--serif);font-style:italic;color:var(--red);font-size:1.3em;margin-right:5px}
+body.sim-big .simstory{display:none}
+body.sim-big .inner.simmag{grid-template-columns:1fr}
+
+
+/* La situación, antes del simulador */
+.inner.caso{display:grid;grid-template-columns:1.55fr 1fr;grid-template-rows:minmax(0,1fr);gap:clamp(16px,2.6vw,44px);align-items:center;padding:clamp(8px,1.4vh,16px) clamp(14px,2.4vw,40px) clamp(8px,1.4vh,16px) clamp(8px,1vw,16px)}
+.caso>img{width:100%;height:100%;max-height:calc(100vh - 150px);object-fit:cover;object-position:50% 35%;display:block;min-height:0}
+.casotxt{display:flex;flex-direction:column;gap:clamp(10px,2.2vh,24px);min-width:0}
+.pull.huge2{font-size:clamp(19px,min(2.3vw,4.2vh),40px)!important;line-height:1.2!important}
+.casotxt .answer{border:0;padding:0;font-size:clamp(15px,min(1.4vw,2.6vh),22px);font-weight:700;color:var(--red)}
+.inner.simmag{grid-template-columns:1fr!important;padding:clamp(6px,1vh,12px) clamp(6px,.8vw,12px)!important}
+@media (max-width:980px){.inner.caso{grid-template-columns:1fr;grid-template-rows:auto}.caso>img{height:44vh}}
+/* Cuándo hablar de Audio */
+.spread{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.spread{gap:clamp(18px,3vw,44px)!important}
+.story{display:grid;grid-template-columns:minmax(140px,.82fr) 1fr;gap:clamp(14px,1.8vw,24px);align-items:start}
+.story>img{width:100%;height:clamp(180px,48vh,520px);object-fit:cover;display:block}
+.story .txt{display:flex;flex-direction:column;gap:clamp(8px,1.4vh,14px)}
+.story .numb{font-family:var(--serif);font-style:italic;font-size:clamp(34px,min(4.6vw,8vh),72px);line-height:.85;color:var(--red)}
+.story .where{font-size:var(--t-xs);font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin:0}
+.story .where span{display:block;color:var(--mute);font-weight:600;margin-top:3px}
+.pull{margin:0;font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(17px,min(1.95vw,3.5vh),30px);line-height:1.2;letter-spacing:-.01em;text-wrap:pretty}
+.pull::before{content:"\00AB"}.pull::after{content:"\00BB"}
+.pull.small{font-size:clamp(15px,min(1.6vw,2.9vh),24px);color:var(--ink2)}
+.ifno{margin:0;display:flex;align-items:center;gap:12px;font-size:10px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--red)}
+.ifno::after{content:"";flex:1;height:1px;background:var(--line)}
+
+
+/* Una sola letra en toda la plataforma: la del simulador */
+em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font-family:var(--sans)!important}
+.pull{font-weight:700!important;letter-spacing:-.02em;line-height:1.28!important;color:var(--ink)}
+.pull::before,.pull::after{color:var(--red)}
+.n,.numb,.huge,.ans i,.subtab i,.guide i{font-family:var(--sans)!important;font-style:normal!important;font-weight:800!important}
+.n{font-size:clamp(17px,1.5vw,22px)!important}
+.subtab i{font-size:1em!important}
+.huge{letter-spacing:-.06em}
+.ask{font-weight:800;letter-spacing:-.03em}
+.verdict{font-weight:800;letter-spacing:-.03em}
+.bigline{font-weight:700;letter-spacing:-.03em;line-height:1.15!important}
+.q p{font-weight:800;letter-spacing:-.03em}
+.qrbox b{font-weight:800!important}
+.coverv h1{font-size:clamp(46px,min(9.6vw,17vh),150px)!important;letter-spacing:-.05em!important;line-height:.95!important}
+.bye h1{letter-spacing:-.05em;line-height:.98!important}
+.prologue h2{letter-spacing:-.045em}
+/* Cuándo hablar de Audio: las dos escenas mandan */
+.inner.duo{justify-content:center;gap:clamp(8px,1.8vh,18px);padding:clamp(8px,1.6vh,18px) clamp(14px,2vw,34px)}
+.duo h2{font-size:clamp(22px,min(2.8vw,4.6vh),44px)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,32px);min-height:0}
+.scene{display:flex;flex-direction:column;gap:clamp(6px,1.2vh,12px);min-width:0}
+.scene img{width:100%;height:clamp(140px,43vh,640px);object-fit:cover;object-position:50% 40%;display:block}
+.scene .where{margin:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-weight:800;font-size:clamp(13px,min(1.1vw,2vh),17px);letter-spacing:-.01em}
+.scene .where b{color:var(--red);font-size:1.5em;letter-spacing:-.04em}
+.scene .where span{font-weight:600;color:var(--mute);font-size:.72em;letter-spacing:.14em;text-transform:uppercase}
+.scene .pull{font-size:clamp(16px,min(1.5vw,2.8vh),26px)}
+.ifno2{margin:0;font-size:clamp(13px,min(1.1vw,2vh),17px);line-height:1.4;color:var(--ink2);padding-top:clamp(6px,1vh,10px);border-top:1px solid var(--red)}
+.ifno2 b{color:var(--red)}
+.ctx{margin:0;font-size:clamp(13px,min(1.1vw,2vh),17px);line-height:1.4;color:var(--ink2)}
+@media (max-width: 980px){.pair{grid-template-columns:1fr}.mods{left:16px;right:16px;min-width:0}}
+/* Primeros auxilios */
+.subnav{display:flex;gap:clamp(14px,2vw,30px);flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.subtab{border:0;background:none;color:var(--mute);font-weight:600;font-size:var(--t-sm);padding:10px 0 12px;display:flex;gap:8px;align-items:baseline;border-bottom:2px solid transparent;margin-bottom:-1px}
+.subtab i{font-family:var(--serif);font-style:italic;font-size:1.25em;color:inherit}
+.subtab:hover{color:var(--ink)}
+.subtab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--red)}.subtab[aria-selected="true"] i{color:var(--red)}
+.fist{display:grid;place-items:center;gap:16px;text-align:center}
+.pulse{position:relative;width:clamp(120px,min(18vw,30vh),240px);aspect-ratio:1;border-radius:50%;border:0;background:var(--red);color:#fff;font-weight:700;font-size:var(--t-md);letter-spacing:.01em}
+.pulse::before,.pulse::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--red);opacity:0}
+.pulse.on::before{animation:ring 1s ease-out 3}.pulse.on::after{animation:ring 1s ease-out .35s 3}
+@keyframes ring{from{transform:scale(1);opacity:.8}to{transform:scale(1.7);opacity:0}}
+.verdict{font-family:var(--serif);font-style:italic;font-size:var(--t-lg);color:var(--green);min-height:1.1em;margin:0}
+.bigline{font-family:var(--serif);font-size:var(--t-lg);line-height:1.1;letter-spacing:-.02em;margin:0}
+.panel{border-top:2px solid var(--red);padding-top:14px;display:flex;flex-direction:column;gap:clamp(8px,1.5vh,14px)}
+.huge{font-family:var(--serif);font-size:clamp(54px,min(10vw,18vh),160px);line-height:.85;letter-spacing:-.04em;color:var(--red)}
+.pic{background:var(--tint);display:grid;place-items:center;padding:12px;border-radius:2px}
+.pic img{max-height:17vh;object-fit:contain;mix-blend-mode:multiply}
+.strong{font-size:var(--t-md);font-weight:700;margin:0;line-height:1.3}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{border:1px solid var(--line);background:#fff;color:var(--ink2);font-weight:600;font-size:var(--t-sm);padding:8px 18px;border-radius:999px}
+.tab:hover{border-color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--red);color:#fff;border-color:var(--red)}
+.pics{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start}
+.pics .wide{grid-column:1/-1}
+.branch{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(18px,3vw,48px);align-items:center}
+.q{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+.q img{width:clamp(70px,8vw,110px);mix-blend-mode:multiply}
+.q p{font-family:var(--serif);font-style:italic;font-size:var(--t-lg);line-height:1.05;margin:0;letter-spacing:-.02em}
+.ans{display:grid;grid-template-columns:70px 1fr;align-items:baseline;gap:12px;padding:clamp(14px,2.6vh,26px) 0;border-bottom:1px solid var(--line)}
+.ans:first-child{border-top:2px solid var(--red)}
+.ans i{font-family:var(--serif);font-style:italic;font-size:var(--t-lg);line-height:1}
+.ans b{font-size:clamp(18px,min(2.3vw,4vh),34px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.yes i{color:var(--green)} .no i{color:var(--red)}
+
+
+/* Primeros auxilios: el primer paso */
+.inner.auxin{justify-content:flex-start;gap:clamp(8px,1.6vh,18px);padding:clamp(6px,1.2vh,14px) clamp(14px,2vw,34px) clamp(8px,1.6vh,18px)}
+.auxin .sub{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
+.sub.first{align-items:center;gap:clamp(6px,1.5vh,16px);text-align:center}
+.firsthead{display:flex;flex-direction:column;gap:4px;align-items:center}
+.firsthead h2{font-size:clamp(22px,min(2.8vw,4.8vh),46px)}
+.hands{display:flex;align-items:center;justify-content:center;gap:clamp(10px,1.8vw,28px)}
+.hands figure{margin:0;display:flex;flex-direction:column;gap:clamp(4px,1vh,10px)}
+.hands img{height:clamp(120px,calc(45vh - 88px),460px);aspect-ratio:1.12;object-fit:cover;object-position:50% 70%;display:block}
+.hands figcaption{display:flex;align-items:baseline;gap:10px;font-weight:800;font-size:clamp(15px,min(1.4vw,2.6vh),22px);letter-spacing:-.03em}
+.hands figcaption b{color:var(--red);font-size:1.25em}
+.hands .arrow{width:clamp(24px,3vw,44px);height:auto;color:var(--red);flex:none;margin-bottom:clamp(20px,4vh,44px)}
+.verdicts{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.verdicts span{font-size:clamp(13px,min(1.2vw,2.2vh),19px);font-weight:700;padding:.5em 1.1em;border:1.5px solid #d1d5db;border-radius:999px}
+.verdicts .neg{background:var(--red);border-color:var(--red);color:#fff;font-weight:800}
+.formats{display:flex;align-items:flex-start;justify-content:center;gap:clamp(12px,1.8vw,28px)}
+.fmt{border:0;background:none;color:var(--ink);font-weight:800;font-size:clamp(14px,min(1.3vw,2.4vh),20px);letter-spacing:-.02em;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0}
+.fmt .box{display:block;width:clamp(110px,13vw,200px);height:clamp(46px,9.5vh,104px);background:var(--tint);padding:6px;box-sizing:border-box;border:1.5px solid transparent;transition:border-color .15s}
+.fmt img{display:block;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.fmt:hover{color:var(--red)}.fmt:hover .box{border-color:var(--red)}
+.subtab{font-weight:700}
+
+
+/* Primer paso: dos fotos grandes y el resultado al lado */
+.nosub .subnav{display:none}
+.auxin .sub.first{align-items:stretch;text-align:left;justify-content:center;gap:clamp(8px,1.6vh,16px)}
+.sub.first h2{font-size:clamp(22px,min(2.8vw,4.6vh),44px)}
+.trio{display:grid;grid-template-columns:1fr 1fr .62fr;gap:clamp(12px,1.6vw,26px);align-items:stretch;min-height:0}
+.trio figure{margin:0;display:flex;flex-direction:column;gap:clamp(5px,1vh,10px);min-width:0}
+.trio figure img{width:100%;height:clamp(150px,calc(100vh - 318px),680px);object-fit:cover;object-position:50% 55%;display:block}
+.trio figcaption{display:flex;align-items:baseline;gap:10px;font-weight:800;font-size:clamp(15px,min(1.5vw,2.8vh),24px);letter-spacing:-.03em}
+.trio figcaption b{color:var(--red);font-size:1.25em;letter-spacing:-.04em}
+.outcome{display:flex;flex-direction:column;gap:clamp(5px,1.2vh,14px);min-width:0;height:clamp(150px,calc(100vh - 318px),680px)}
+.oc{border:1.5px solid var(--line);padding:clamp(5px,1.5vh,18px) clamp(12px,1.2vw,20px);display:flex;flex-direction:column;gap:2px}
+.oc span{font-size:clamp(10px,min(.85vw,1.6vh),13px);font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.oc b{font-size:clamp(15px,min(1.7vw,2.9vh),28px);font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.oc.neg{background:var(--red);border-color:var(--red);color:#fff}
+.oc.neg span{color:#ffe1e1}
+.outcome .formats{flex:1;display:flex;flex-direction:column;gap:clamp(6px,1.1vh,10px);align-items:stretch;justify-content:flex-start;min-height:0}
+.outcome .fmt{flex:1;flex-direction:row;align-items:center;gap:14px;border:1.5px solid var(--line);padding:4px 14px 4px 4px;font-size:clamp(15px,min(1.6vw,2.9vh),26px);min-height:0}
+.outcome .fmt .box{width:clamp(70px,7.4vw,130px);height:100%;min-height:30px;max-height:110px;border:0;padding:4px}
+.outcome .fmt::after{content:"";margin-left:auto;width:.5em;height:.5em;border-right:3px solid var(--red);border-top:3px solid var(--red);transform:rotate(45deg)}
+.outcome .fmt:hover{border-color:var(--red)}
+@media (max-width:980px){.trio{grid-template-columns:1fr}.trio figure img{height:46vh}}
+/* Un solo Siguiente, en rojo */
+.nav.next{background:var(--red);color:#fff!important;border-radius:999px;padding:9px 22px;font-weight:800}
+.nav.next:hover{background:#b91c1c}
+.nav.next:disabled{background:#e5e7eb;color:#9ca3af!important;opacity:1}
+/* Caso A / caso B: foto protagonista + contenedor de texto */
+.auxin .sub.ab{--abh:clamp(150px,calc(100vh - 262px),760px);display:grid;grid-template-columns:repeat(2,minmax(0,calc(var(--abh)*1.3)));justify-content:center;align-content:center;gap:clamp(12px,1.4vw,24px)}
+.side{display:flex;flex-direction:column;gap:0;min-width:0}
+.side img{width:100%;height:var(--abh);object-fit:cover;object-position:50% 50%;display:block}
+.side .cap{display:flex;align-items:stretch;border:1.5px solid var(--red);border-top:0;background:#fff}
+.side .cap .k{flex:none;display:flex;align-items:center;justify-content:center;width:clamp(54px,5.4vw,96px);background:var(--red);color:#fff;font-weight:800;font-size:clamp(30px,min(4vw,7vh),68px);letter-spacing:-.04em;line-height:1}
+.side .cap>div{padding:clamp(7px,1.2vh,14px) clamp(12px,1.3vw,22px);display:flex;flex-direction:column;gap:2px;justify-content:center;min-width:0}
+.side .tag{margin:0;font-weight:800;font-size:clamp(11px,min(1vw,1.9vh),16px);letter-spacing:.14em;text-transform:uppercase;color:var(--red)}
+.side h2{margin:0;font-size:clamp(18px,min(2.2vw,3.9vh),38px);line-height:1.05}
+.side .fine{margin:0;font-size:clamp(12px,min(1.05vw,1.95vh),17px);color:var(--ink2);line-height:1.3}
+@media (max-width:980px){.auxin .sub.ab{grid-template-columns:1fr}.side img{height:auto;aspect-ratio:1.1}}
+/* ===== Revisión: fotos enteras (sin cortar cabezas ni manos) y protagonistas ===== */
+.coverv>img{object-position:50% 0}
+/* La situación: la foto entera */
+.inner.caso{grid-template-columns:2.2fr 1fr}
+.caso>img{height:auto;aspect-ratio:1400/788;align-self:center;object-position:50% 50%}
+/* Dónde y cuándo */
+.duo .pair{grid-template-columns:repeat(2,minmax(0,calc(var(--sh)*2.1)));justify-content:center;--sh:clamp(140px,min(calc(72vh - 215px),calc((100vw - 110px)/3.3)),660px);align-items:stretch}
+.scene{gap:0}
+.scene img{height:var(--sh);object-position:50% 28%}
+.scap{flex:1;display:flex;align-items:stretch;border:1.5px solid var(--red);border-top:0;background:#fff;min-width:0}
+.scap .k,.side .cap .k{flex:none;display:flex;align-items:center;justify-content:center;width:clamp(54px,5.4vw,96px);background:var(--red);color:#fff;font-weight:800;font-size:clamp(26px,min(3.4vw,6vh),58px);letter-spacing:-.04em;line-height:1}
+.scap>div{padding:clamp(7px,1.3vh,14px) clamp(12px,1.3vw,22px);display:flex;flex-direction:column;gap:clamp(3px,.7vh,8px);justify-content:center;min-width:0}
+.scap .where{font-size:clamp(11px,min(1vw,1.9vh),16px);letter-spacing:.12em;text-transform:uppercase;color:var(--red)}
+.scap .where span{color:var(--mute)}
+.scap .ifno2{border-top:1px solid var(--line)}
+/* ¿Suena?: fotos cuadradas completas */
+.trio{--th:clamp(150px,min(calc(100vh - 318px),calc((100vw - 420px)/2)),720px);grid-template-columns:auto auto minmax(0,1fr)}
+.trio figure img{width:var(--th);height:var(--th);object-position:50% 50%}
+.outcome{height:var(--th)}
+/* Caso A / B */
+.side .cap{flex:1}
+.auxin .sub.ab{--abh:clamp(150px,calc(100vh - 280px),760px)}
+/* RIC / BTE / INTRA: el audífono, protagonista */
+.auxin .sub.fx{display:grid;grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(14px,2vw,34px);align-items:stretch}
+.fhero{position:relative;margin:0;background:#f6f6f6;display:flex;align-items:center;justify-content:center;min-height:0;min-width:0;padding:clamp(10px,3vh,40px);box-sizing:border-box;overflow:hidden}
+.fhero.noblend{background:#f3f4f6}
+.fhero img{position:absolute;inset:0;margin:auto;box-sizing:border-box;padding:clamp(10px,3vh,40px);width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;display:block;min-height:0}
+.fhero.noblend img{mix-blend-mode:normal}
+.fbody{display:flex;flex-direction:column;gap:clamp(6px,1.4vh,14px);min-height:0;min-width:0}
+.fbody h2{font-size:clamp(22px,min(2.8vw,4.6vh),44px)}
+.fbody .steps{flex:1;min-height:0;gap:clamp(4px,.9vh,8px)}
+.fbody .steps li{flex:1;min-height:0;grid-template-columns:clamp(40px,3.6vw,64px) 1fr;gap:clamp(10px,1.2vw,18px);align-items:stretch;padding:0;border:1.5px solid var(--line)!important}
+.fbody .steps li .n{display:flex;align-items:center;justify-content:center;background:var(--red);color:#fff;font-weight:800;font-size:clamp(16px,min(1.8vw,3.2vh),30px)}
+.fbody .steps li>div{display:flex;flex-direction:column;justify-content:center;padding:clamp(3px,.6vh,8px) 10px clamp(3px,.6vh,8px) 0;min-width:0}
+.fbody .steps b{font-size:clamp(15px,min(1.5vw,2.7vh),25px);letter-spacing:-.02em}
+.fbody .steps div span{font-size:clamp(11px,min(1.05vw,1.9vh),16px);line-height:1.25}
+.fbody .pics{display:flex;gap:clamp(6px,.8vw,12px);height:clamp(60px,19vh,190px);flex:none}
+.fbody .pic{position:relative;flex:1;min-width:0;padding:clamp(6px,1.2vh,14px);background:#f6f6f6}
+.fbody .pic:nth-child(2){flex:2.6}
+.fbody .pic img{position:absolute;inset:0;box-sizing:border-box;padding:clamp(6px,1.2vh,14px);width:100%;height:100%;max-height:none;object-fit:contain}
+@media (max-width:980px){.duo .pair{grid-template-columns:1fr}.inner.caso{grid-template-columns:1fr}.auxin .sub.fx{grid-template-columns:1fr}.fhero{height:40vh}.trio{grid-template-columns:1fr}.trio figure img{width:100%;height:auto;aspect-ratio:1}.outcome{height:auto}}
+/* Despedida */
+.bye{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(18px,3.5vw,60px);align-items:end}
+.bye h1{font-size:clamp(40px,min(7vw,13vh),120px);line-height:.94}
+.qrbox{border:1px solid var(--line);padding:clamp(14px,1.8vw,22px);display:flex;flex-direction:column;gap:10px;align-items:flex-start;border-radius:2px}
+.qr{width:100%;max-width:min(280px,34vh);height:auto;display:block}
+.qrbox b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:var(--t-md)}
+.qrbox a{color:var(--red);font-weight:600;font-size:var(--t-sm);word-break:break-all}
+
+
+.lead.big{font-size:clamp(16px,min(1.7vw,3.1vh),27px);line-height:1.4;color:var(--ink);max-width:30em}
+.lead.big b{color:var(--red)}
+.qrph{width:min(280px,34vh);aspect-ratio:1;border:1.5px dashed var(--red);background:var(--tint);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;font-weight:700;font-size:var(--t-sm);color:var(--ink2);padding:12px;box-sizing:border-box}
+.qrph span{font-size:var(--t-xs);letter-spacing:.22em;text-transform:uppercase;color:var(--red)}
+/* Test final y cierre */
+.bye{grid-template-columns:1.15fr .85fr;align-items:center}
+.bye h1{font-size:clamp(40px,min(6.4vw,12vh),112px)}
+.qrbox{border:1.5px solid var(--red);padding:0;gap:0;align-items:stretch;justify-self:center;width:min(100%,clamp(180px,56vh,560px))}
+.qrbox .qrph,.qrbox .qr{width:100%;max-width:none;border:0;aspect-ratio:1}
+.qrbox>b{background:var(--red);color:#fff;text-align:center;padding:clamp(8px,1.4vh,14px);font-size:clamp(15px,min(1.5vw,2.7vh),24px)}
+.endv>img{object-position:50% 0}
+.endv .scrim{background:linear-gradient(180deg,rgba(8,10,14,.35) 0%,rgba(8,10,14,0) 20%,rgba(8,10,14,0) 58%,rgba(8,10,14,.82) 100%)}
+/* Pie */
+.foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px clamp(20px,4vw,64px);border-top:1px solid var(--line);background:#fff}
+.nav{border:0;background:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 0}
+.nav:hover{color:var(--red)}
+.nav.next{font-weight:800}
+.nav:disabled{opacity:.3;cursor:default;color:var(--ink)}
+.pos{font-size:12px;color:var(--mute);font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-align:center}
+
+@media (max-width: 980px){
+  body{overflow:auto}
+  .stage{min-height:92vh}
+  .cols,.bye,.branch,.spread,.inner.simmag{grid-template-columns:1fr}
+  .inner.simmag{grid-template-rows:auto}
+  .tablet{flex:none;height:78vh}
+  .have{grid-template-columns:1fr 1fr}
+  .coverv .foot2{flex-direction:column;align-items:flex-start}
+  .coverv .side2{align-items:flex-start}
+}
+@media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important} }
+</style>
+</head>
+<body>
+
+<main class="stage">
+  <header class="top">
+    <button class="brandbtn" type="button" data-view="home" aria-label="Ir a la portada">Abby<em>AUDIOLOGY</em></button>
+    <ol class="mods" id="mods">
+      <li><button class="mod" type="button" data-view="abby"><span class="num">1</span>¿Qué es Abby?</button></li>
+      <li><button class="mod" type="button" data-view="caso"><span class="num">2</span>Vamos al lío: Simulador</button></li>
+      <li><button class="mod" type="button" data-view="cuando"><span class="num">3</span>¿Cuándo hablar de Audio?</button></li>
+      <li><button class="mod" type="button" data-view="aux"><span class="num">4</span>Primeros auxilios</button></li>
+      <li><button class="mod" type="button" data-view="fin"><span class="num">5</span>Despedida y QR</button></li>
+    </ol>
+    <div class="tools">
+    <button class="menubtn" type="button" id="menu" aria-expanded="false" aria-controls="mods"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>Menú</button>
+    <button class="icon" type="button" id="full" aria-label="Pantalla completa">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9V4h5"></path><path d="M20 9V4h-5"></path><path d="M4 15v5h5"></path><path d="M20 15v5h-5"></path></svg>
+    </button>
+    </div>
+  </header>
+
+  <!-- PORTADA -->
+  <section class="view coverv" id="v-home" data-label="Portada">
+    <img src="/formacion/img/entrega.jpg" alt="Anna entrega a un cliente su compra y una tarjeta roja de revisión auditiva">
+    <div class="scrim"></div>
+    <div class="foot2">
+      <div>
+        <p class="eyebrow">Audio · Formación práctica · 30 min</p>
+        <h1>Abby es <em>para todos</em></h1>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1 QUÉ ES ABBY -->
+  <section class="view" id="v-abby" data-label="¿Qué es Abby?" hidden>
+    <div class="inner prologue">
+      <img class="bot" src="/formacion/img/robot.png" alt="Abby, el robot">
+      <h2>Hola, <em>soy Abby</em></h2>
+      <hr class="orn">
+      <p class="lede">Tu atajo al universo Audio.</p>
+      <p class="body">Aquí está todo lo que usamos en Audio, en un solo sitio y pensado para <b>todos</b>. Seas de óptica o de audio, conmigo entras fácil, a lo moderno y con ganas de más.</p>
+      <p class="body punch">Tú pon la curiosidad. <em>Del esfuerzo me encargo yo.</em></p>
+      <p class="ask">¿Quieres conocerme? <em>Vamos allá.</em></p>
+    </div>
+  </section>
+
+  <!-- 2a LA SITUACIÓN -->
+  <section class="view" id="v-caso" data-label="Vamos al lío: la situación" hidden>
+    <div class="inner caso">
+      <img src="/formacion/img/venta.jpg" alt="Anna enseña el simulador de Abby en una tablet a una clienta, sentadas en la tienda">
+      <div class="casotxt">
+        <p class="label">Vamos al lío · La situación</p>
+        <blockquote class="pull huge2">Mi madre sí que lo necesita. Cuéntame un poco: si quisiera unos buenos audífonos, ¿cuáles serían, qué tienen y cómo se pueden pagar?</blockquote>
+        <p class="answer">Respóndele con Abby.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2b SIMULADOR -->
+  <section class="view" id="v-sim" data-label="Vamos al lío: Simulador" hidden>
+    <div class="inner simmag">
+      <div class="tabletcol">
+        <div class="tablet"><div class="screen" id="screen"><iframe id="abby" title="Abby, simulador real" data-src="/formacion/abby/index.html"></iframe></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 CUÁNDO HABLAR DE AUDIO -->
+  <section class="view" id="v-cuando" data-label="¿Cuándo hablar de Audio?" hidden>
+    <div class="inner duo">
+      <h2>¿Dónde y cuándo <em>hablar de Audio?</em></h2>
+      <div class="pair">
+        <article class="scene">
+          <img src="/formacion/img/gabinete.jpg" alt="Anna hace un test de audición rápido a una clienta con auriculares en el gabinete de optometría">
+          <div class="scap"><b class="k">01</b><div>
+          <p class="where">En el gabinete de óptica<span>Junto al screening</span></p>
+          <blockquote class="pull">Como última prueba, como realizamos un examen integral, vamos a hacer un test de audición rápido para incluir en su historial.</blockquote>
+          </div></div>
+        </article>
+        <article class="scene">
+          <img src="/formacion/img/entrega.jpg" alt="Anna entrega a un cliente su compra y una tarjeta roja de revisión auditiva gratis">
+          <div class="scap"><b class="k">02</b><div>
+          <p class="where">En la entrega de la gafa<span>Con la tarjeta de Audio</span></p>
+          <p class="ctx">Junto a la garantía, la gafa de sol o las lentillas, entregamos una tarjeta de Audio y le decimos al cliente:</p>
+          <blockquote class="pull">Tiene de regalo una revisión auditiva. ¿Qué día le viene mejor?</blockquote>
+          <p class="ifno2"><b>Si dice que no:</b> «Fenomenal. Recuerde que, como la vista, es recomendable hacerlo cada año.»</p>
+          </div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 PRIMEROS AUXILIOS -->
+  <section class="view" id="v-aux" data-label="Primeros auxilios" hidden>
+    <div class="inner auxin">
+      <div class="subnav" role="tablist" aria-label="Primeros auxilios del audífono">
+        <button class="subtab" type="button" role="tab" aria-selected="true" data-sub="0">¿Suena?</button>
+        <button class="subtab" type="button" role="tab" aria-selected="false" data-sub="1">RIC</button>
+        <button class="subtab" type="button" role="tab" aria-selected="false" data-sub="2">BTE</button>
+        <button class="subtab" type="button" role="tab" aria-selected="false" data-sub="3">INTRA</button>
+        <button class="subtab" type="button" role="tab" aria-selected="false" data-sub="4">Caso A, caso B</button>
+      </div>
+
+      <div class="sub first" data-label="¿Suena el audífono?">
+        <h2>¿Suena <em>el audífono?</em></h2>
+        <div class="trio">
+          <figure><img src="/formacion/img/mano_abierta.jpg" alt="Un óptico muestra un audífono en la palma de la mano"><figcaption><b>01</b>Ponlo en la mano</figcaption></figure>
+          <figure><img src="/formacion/img/mano_puno.jpg" alt="El mismo óptico con el puño cerrado"><figcaption><b>02</b>Cierra el puño</figcaption></figure>
+          <div class="outcome">
+            <div class="oc"><span>Si pita</span><b>Funciona</b></div>
+            <div class="oc neg"><span>Si no suena ni pita</span><b>Comprobamos según el formato</b></div>
+            <div class="formats">
+              <button class="fmt" type="button" data-fmt="1"><span class="box"><img src="/formacion/img/ric.jpg" alt=""></span>RIC</button>
+              <button class="fmt" type="button" data-fmt="2"><span class="box"><img src="/formacion/img/bte.jpg" alt=""></span>BTE</button>
+              <button class="fmt" type="button" data-fmt="3"><span class="box"><img src="/formacion/img/intra.jpg" alt=""></span>INTRA</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub fx" data-label="RIC" hidden>
+        <figure class="fhero noblend"><img src="/formacion/img/ric.jpg" alt="Audífono RIC" style="max-width:680px;max-height:680px"></figure>
+        <div class="fbody">
+          <h2>RIC: <em>qué comprobar</em></h2>
+          <ol class="steps">
+            <li><span class="n">1</span><div><b>Pila o batería</b><span>Cambia la pila y cierra el portapilas. Recargable: 10 min de carga</span></div></li>
+            <li><span class="n">2</span><div><b>Quita la tulipa</b><span>¿Suena?</span></div></li>
+            <li><span class="n">3</span><div><b>Spray de aire comprimido</b><span>Fuera restos de cera</span></div></li>
+            <li><span class="n">4</span><div><b>Cambia el filtro</b><span>Si no hay en tienda: modelo y foto</span></div></li>
+            <li><span class="n">5</span><div><b>Cambia el auricular</b><span>Rojo, derecho; azul, izquierdo. Para probar, sirve cualquiera del stock</span></div></li>
+          </ol>
+          <div class="pics">
+            <div class="pic"><img src="/formacion/img/tulipa.png" alt="Tulipas"></div>
+            <div class="pic"><img src="/formacion/img/filtro_pasos.png" alt="Cuatro pasos del cambio de filtro"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub fx" data-label="BTE" hidden>
+        <figure class="fhero"><img src="/formacion/img/bte.jpg" alt="Audífono BTE" style="max-width:400px;max-height:660px"></figure>
+        <div class="fbody">
+          <h2>BTE: <em>qué comprobar</em></h2>
+          <ol class="steps">
+            <li><span class="n">1</span><div><b>Pila o batería</b><span>Cambia la pila y cierra el portapilas. Recargable: 10 min de carga</span></div></li>
+            <li><span class="n">2</span><div><b>Revisa los 2 orificios del molde</b><span>Que no estén obstruidos</span></div></li>
+            <li><span class="n">3</span><div><b>Separa el molde y aplica spray</b><span>Para que salga la cera acumulada</span></div></li>
+            <li><span class="n">4</span><div><b>Vuelve a unir audífono y molde/tubo</b><span>Y repite la prueba del puño</span></div></li>
+          </ol>
+          <div class="pics">
+            <div class="pic"><img src="/formacion/img/molde.png" alt="Molde y separación del tubo"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub fx" data-label="INTRA" hidden>
+        <figure class="fhero"><img src="/formacion/img/intra.jpg" alt="Audífono intra" style="max-width:900px;max-height:580px"></figure>
+        <div class="fbody">
+          <h2>INTRA: <em>qué comprobar</em></h2>
+          <ol class="steps">
+            <li><span class="n">1</span><div><b>Pila</b><span>Cámbiala, colócala bien y cierra el portapilas</span></div></li>
+            <li><span class="n">2</span><div><b>Cambia el filtro</b><span>Si no hay en tienda: modelo y foto</span></div></li>
+            <li><span class="n">3</span><div><b>Quix</b><span>Mismos filtros que los RIC Incognito</span></div></li>
+            <li><span class="n">4</span><div><b>Intras a medida</b><span>Filtros rojos y azules</span></div></li>
+          </ol>
+          <div class="pics">
+            <div class="pic"><img src="/formacion/img/filtro_kit.png" alt="Kit de filtros"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub ab" data-label="Caso A, caso B" hidden>
+        <article class="side">
+          <img src="/formacion/img/caso_a.jpg" alt="El óptico, en el mostrador, agenda en el ordenador la cita del cliente con el audiólogo">
+          <div class="cap"><b class="k">A</b><div><p class="tag">Si no suena</p><h2>Damos cita <em>con el audiólogo</em></h2><p class="fine">Si deja el audífono, le llamará el audiólogo. Si no lo deja, cítalo con él.</p></div></div>
+        </article>
+        <article class="side">
+          <img src="/formacion/img/caso_b.jpg" alt="El óptico y el cliente se dan la mano, sonrientes, en la tienda">
+          <div class="cap"><b class="k">B</b><div><p class="tag">Si pita</p><h2>Solucionamos <em>la incidencia</em></h2><p class="fine">Audífono resuelto en tienda y cliente contento.</p></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 DESPEDIDA Y QR -->
+  <section class="view" id="v-fin" data-label="Despedida y QR" hidden>
+    <div class="inner">
+      <div class="bye">
+        <div class="stack">
+          <p class="label">Test final</p>
+          <h1>Ahora te toca <em>a ti.</em></h1>
+          <p class="lead big">Escanea con tu móvil y hazle un presupuesto a esa persona que sabes que lo necesita. Eso sí: debe ser <b>financiado con Infinity.</b></p>
+          <p class="meta"><span><b>Ariannys Rojas</b>Responsable Téc. Audiología</span><span><b>arojas@afflelou.es</b>607 722 099</span></p>
+        </div>
+        <div class="qrbox">
+          <img class="qr" src="/formacion/img/qr.png" alt="Código QR que abre el test final con Abby">
+          <b>Escanea y rellena el test</b>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 GRACIAS -->
+  <section class="view coverv endv" id="v-gracias" data-label="Gracias" hidden>
+    <img src="/formacion/img/gracias.jpg" alt="El equipo y dos clientes saludan sonrientes alrededor de una tablet con Abby">
+    <div class="scrim"></div>
+    <div class="foot2">
+      <div>
+        <p class="eyebrow">Abby es para todos</p>
+        <h1>Gracias.</h1>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <button class="nav" type="button" id="prev">← Anterior</button>
+    <span class="pos" id="pos" aria-live="polite">Portada</span>
+    <button class="nav next" type="button" id="next">Siguiente →</button>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var views = { home: document.getElementById('v-home'), abby: document.getElementById('v-abby'), caso: document.getElementById('v-caso'), sim: document.getElementById('v-sim'), cuando: document.getElementById('v-cuando'), aux: document.getElementById('v-aux'), fin: document.getElementById('v-fin'), gracias: document.getElementById('v-gracias') };
+  var subs = Array.prototype.slice.call(views.aux.querySelectorAll('.sub'));
+  var subtabs = Array.prototype.slice.call(document.querySelectorAll('.subtab'));
+  var seq = [['home'],['abby'],['caso'],['sim'],['cuando'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
+  var cur = 0, userSlim = null;
+  var pos = document.getElementById('pos'), prev = document.getElementById('prev'), next = document.getElementById('next');
+  var abby = document.getElementById('abby'), abbyUrl = null;
+
+  function abbySrc(){
+    if (abbyUrl) return abbyUrl;
+    var data = document.getElementById('abby-data');
+    if (data && data.textContent.length > 1000) {
+      try {
+        var bin = atob(data.textContent.replace(/\s+/g,'')), n = bin.length, u = new Uint8Array(n);
+        for (var i = 0; i < n; i++) u[i] = bin.charCodeAt(i);
+        abbyUrl = URL.createObjectURL(new Blob([u], { type: 'text/html' }));
+      } catch (err) { abbyUrl = abby.getAttribute('data-src'); }
+    } else abbyUrl = abby.getAttribute('data-src');
+    return abbyUrl;
+  }
+  function loadAbby(force){ if (force || !abby.getAttribute('src')) abby.setAttribute('src', abbySrc()); }
+
+  function show(i){
+    i = Math.max(0, Math.min(seq.length - 1, i)); cur = i;
+    var v = seq[i][0], s = seq[i][1];
+    Object.keys(views).forEach(function(k){ views[k].hidden = k !== v; });
+    if (v === 'aux') {
+      subs.forEach(function(el, j){ el.hidden = j !== s; });
+      subtabs.forEach(function(t, j){ t.setAttribute('aria-selected', j === s ? 'true' : 'false'); });
+      views.aux.classList.add('nosub');
+    }
+    var key = v === 'sim' ? 'caso' : v === 'gracias' ? 'fin' : v; document.querySelectorAll('.mod').forEach(function(m){ m.setAttribute('aria-current', m.getAttribute('data-view') === key ? 'true' : 'false'); });
+    var label = views[v].getAttribute('data-label');
+    if (v === 'aux') label += ' › ' + subs[s].getAttribute('data-label');
+    pos.textContent = label;
+    prev.disabled = i === 0; next.disabled = i === seq.length - 1;
+    if (v === 'sim') { loadAbby(false); setTimeout(fitAbby, 0); }
+    document.body.classList.toggle('on-cover', v === 'home' || v === 'gracias');
+    views[v].scrollTop = 0;
+    document.body.classList.remove('menu-open');
+  }
+  function indexOf(v, s){ for (var i = 0; i < seq.length; i++) if (seq[i][0] === v && (s === undefined || seq[i][1] === s)) return i; return 0; }
+
+  document.querySelectorAll('[data-view]').forEach(function(b){ b.addEventListener('click', function(){ userSlim = null; show(indexOf(b.getAttribute('data-view'))); }); });
+  subtabs.forEach(function(t){ t.addEventListener('click', function(){ show(indexOf('aux', +t.getAttribute('data-sub'))); }); });
+  prev.addEventListener('click', function(){ show(cur - 1); });
+  next.addEventListener('click', function(){ show(cur + 1); });
+  document.addEventListener('keydown', function(e){
+    var t = e.target.tagName;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') { e.preventDefault(); show(cur + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(cur - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); show(0); }
+    else if (e.key === ' ' && t !== 'BUTTON' && t !== 'INPUT') { e.preventDefault(); show(cur + 1); }
+  });
+  document.getElementById('full').addEventListener('click', function(){
+    try { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen().catch(function(){}); } catch (err) {}
+  });
+
+  /* Simulador */
+  (document.getElementById('reload') || document.createElement('button')).addEventListener('click', function(){ abby.removeAttribute('src'); setTimeout(function(){ loadAbby(true); }, 50); document.querySelectorAll('#coach .chip').forEach(function(c){ c.setAttribute('aria-pressed','false'); }); });
+  document.querySelectorAll('#coach .chip').forEach(function(c){ c.addEventListener('click', function(){ c.setAttribute('aria-pressed', c.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); }); });
+  setTimeout(function(){ loadAbby(false); }, 1500);
+
+  /* Prueba del puño */
+  var fist = document.getElementById('fist'), verdict = document.getElementById('verdict');
+  (fist || document.createElement('button')).addEventListener('click', function(){
+    fist.classList.remove('on'); void fist.offsetWidth; fist.classList.add('on');
+    verdict.textContent = '¡Pita! Funciona';
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return;
+      var ctx = new AC(), o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = 'sine'; o.frequency.value = 2600; g.gain.value = 0.04;
+      o.connect(g); g.connect(ctx.destination); o.start(); o.stop(ctx.currentTime + 0.9);
+      o.onended = function(){ try { ctx.close(); } catch (e) {} };
+    } catch (err) {}
+  });
+
+  /* Pestañas por audífono */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  tabs.forEach(function(t){ t.addEventListener('click', function(){ tabs.forEach(function(x){ var on = x === t; x.setAttribute('aria-selected', on ? 'true' : 'false'); document.getElementById(x.getAttribute('aria-controls')).hidden = !on; }); }); });
+
+  /* La tablet enseña Abby a tamaño de escritorio, reducida para que quepa */
+  var screenEl = document.getElementById('screen'), grow = document.getElementById('grow'), BASE = 1180;
+  function fitAbby(){
+    var w = screenEl.clientWidth, h = screenEl.clientHeight; if (!w || !h) return;
+    var k = Math.min(1, w / BASE);
+    abby.style.width = (w / k) + 'px'; abby.style.height = (h / k) + 'px'; abby.style.transform = 'scale(' + k + ')';
+  }
+  (grow || document.createElement('button')).addEventListener('click', function(){
+    var on = !document.body.classList.contains('sim-big');
+    document.body.classList.toggle('sim-big', on); grow.setAttribute('aria-pressed', on ? 'true' : 'false');
+    grow.textContent = on ? 'Volver a la revista' : 'Ampliar la tablet'; fitAbby();
+  });
+  window.addEventListener('resize', fitAbby);
+  try { new ResizeObserver(fitAbby).observe(screenEl); } catch (err) {}
+
+  /* Menú plegado */
+  var menuBtn = document.getElementById('menu');
+  function setMenu(on){ document.body.classList.toggle('menu-open', on); menuBtn.setAttribute('aria-expanded', on ? 'true' : 'false'); }
+  menuBtn.addEventListener('click', function(e){ e.stopPropagation(); setMenu(!document.body.classList.contains('menu-open')); });
+  document.addEventListener('click', function(e){ if (!e.target.closest || !e.target.closest('#mods')) setMenu(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setMenu(false); });
+  window.addEventListener('blur', function(){ setMenu(false); });
+
+  /* Formatos del primer paso */
+  document.querySelectorAll('.fmt').forEach(function(f){ f.addEventListener('click', function(){ show(indexOf('aux', +f.getAttribute('data-fmt'))); }); });
+
+  show(0);
+})();
+</script>
+</body>
+</html>

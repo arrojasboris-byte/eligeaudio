@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ahora te toca a ti · Abby</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--red:#dc2626;--ink:#14161a;--ink2:#4b5563;--line:#e5e7eb;--tint:#f6f6f6}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#fff;-webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
+button,input{font:inherit}
+button{cursor:pointer}
+.screen{min-height:100%;min-height:100dvh;display:flex;flex-direction:column}
+.brand{font-weight:800;letter-spacing:-.03em;font-size:17px;padding:16px 20px}
+.brand em{font-style:normal;color:var(--red)}
+.wrap{flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:8px 20px 28px;width:100%;max-width:520px;margin:0 auto}
+.frame{border:1.5px solid var(--red);padding:22px 18px;display:flex;flex-direction:column;gap:16px}
+.label{margin:0;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+h1{margin:0;font-size:clamp(34px,10vw,54px);line-height:.98;letter-spacing:-.05em;font-weight:800}
+h1 em,h2 em{font-style:normal;color:var(--red)}
+h2{margin:0;font-size:26px;letter-spacing:-.04em;line-height:1.05;font-weight:800}
+.lead{margin:0;font-size:16px;line-height:1.45;color:var(--ink)}
+.lead b{color:var(--red)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field span{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.field input{border:1.5px solid var(--line);border-radius:0;padding:13px 12px;font-size:17px;font-weight:600;color:var(--ink);background:#fff;width:100%;min-height:50px}
+.field input:focus{outline:2px solid var(--red);outline-offset:1px;border-color:var(--red)}
+.go{border:0;border-radius:999px;background:var(--red);color:#fff;font-weight:800;font-size:17px;padding:15px 26px;min-height:52px}
+.go:disabled{background:#e5e7eb;color:#9ca3af;cursor:default}
+.ghost{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;font-weight:700;font-size:16px;padding:13px 22px;min-height:50px}
+.err{margin:0;color:var(--red);font-weight:700;font-size:14px}
+/* Abby */
+#s-abby{height:100vh;height:100dvh;min-height:0}
+#abby{flex:1;min-height:0;width:100%;border:0;display:block}
+.bar{flex:none;display:flex;align-items:center;gap:12px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));border-top:1.5px solid var(--red);background:#fff}
+.bar .now{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.bar .now span{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+.bar .now b{font-size:14px;font-weight:800;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .go{padding:12px 20px;font-size:15px;min-height:46px;white-space:nowrap}
+/* Resumen */
+.rows{margin:0;display:grid;grid-template-columns:auto 1fr;border:1.5px solid var(--line)}
+.rows dt,.rows dd{margin:0;padding:10px 12px;border-bottom:1px solid var(--line);font-size:15px}
+.rows dt{font-weight:700;color:var(--ink2);font-size:12px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center}
+.rows dd{font-weight:700;text-align:right}
+.rows dt:nth-last-child(2),.rows dd:last-child{border-bottom:0}
+.rows dd.no{color:var(--red)}
+.warn{margin:0;border:1.5px solid var(--red);background:#fef2f2;padding:12px;font-size:14px;line-height:1.4;font-weight:600}
+.stars{display:flex;gap:8px}
+.stars button{flex:1;min-height:50px;border:1.5px solid var(--line);background:#fff;font-weight:800;font-size:18px;color:var(--ink);border-radius:0}
+.stars button[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+.q{margin:0;font-weight:700;font-size:15px}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.btns .go{flex:1}
+.ok{width:64px;height:64px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:800}
+.note{margin:0;font-size:13px;color:var(--ink2);line-height:1.4}
+</style>
+</head>
+<body>
+
+<!-- 1 · Datos -->
+<main class="screen" id="s-datos">
+  <div class="brand">Abby<em>AUDIOLOGY</em></div>
+  <div class="wrap">
+    <form class="frame" id="f-datos" novalidate>
+      <p class="label">Test final</p>
+      <h1>Ahora te toca <em>a ti.</em></h1>
+      <p class="lead">Hazle un presupuesto a esa persona que sabes que lo necesita. Eso sí: debe ser <b>financiado con Infinity.</b></p>
+      <label class="field"><span>Nombre y apellidos</span><input id="nombre" name="nombre" autocomplete="name" required></label>
+      <label class="field"><span>Centro</span><input id="centro" name="centro" autocomplete="organization" required></label>
+      <label class="field"><span>Fecha</span><input id="fecha" name="fecha" type="date" required></label>
+      <p class="err" id="e-datos" role="alert" hidden>Escribe tu nombre y tu centro para empezar.</p>
+      <button class="go" type="submit">Empezar el presupuesto →</button>
+    </form>
+  </div>
+</main>
+
+<!-- 2 · Abby -->
+<main class="screen" id="s-abby" hidden>
+  <iframe id="abby" title="Simulador de Abby" data-src="/formacion/abby/index.html"></iframe>
+  <div class="bar">
+    <div class="now"><span>Tu presupuesto</span><b id="now">Elige formato y gama</b></div>
+    <button class="go" type="button" id="b-revisar">Enviar →</button>
+  </div>
+</main>
+
+<!-- 3 · Revisar y enviar -->
+<main class="screen" id="s-revisar" hidden>
+  <div class="brand">Abby<em>AUDIOLOGY</em></div>
+  <div class="wrap">
+    <div class="frame">
+      <p class="label">Revisa y envía</p>
+      <h2>Este es <em>tu presupuesto</em></h2>
+      <dl class="rows" id="rows"></dl>
+      <p class="warn" id="w-inf" hidden>Falta la financiación: vuelve a Abby y abre «Financiación flexible Infinity» para incluirla en el presupuesto.</p>
+      <p class="q" id="q-sat">¿Qué te ha parecido la formación? (1 = poco, 5 = mucho)</p>
+      <div class="stars" role="group" aria-labelledby="q-sat" id="stars">
+        <button type="button" aria-pressed="false">1</button><button type="button" aria-pressed="false">2</button><button type="button" aria-pressed="false">3</button><button type="button" aria-pressed="false">4</button><button type="button" aria-pressed="false">5</button>
+      </div>
+      <p class="err" id="e-env" role="alert" hidden></p>
+      <div class="btns">
+        <button class="ghost" type="button" id="b-volver">← Volver a Abby</button>
+        <button class="go" type="button" id="b-enviar">Enviar</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- 4 · Enviado -->
+<main class="screen" id="s-ok" hidden>
+  <div class="brand">Abby<em>AUDIOLOGY</em></div>
+  <div class="wrap">
+    <div class="frame">
+      <div class="ok" aria-hidden="true">✓</div>
+      <h1>Enviado. <em>¡Gracias!</em></h1>
+      <p class="lead" id="ok-txt">Tu presupuesto ha quedado registrado.</p>
+      <p class="note" id="ok-note" hidden></p>
+    </div>
+  </div>
+</main>
+
+<script>
+/* ====== Conexión con Google Forms ======
+   action: URL del formulario terminada en /formResponse
+   entries: el código entry.XXXXXXX de cada pregunta del formulario */
+var FORM = {
+  action: '',
+  entries: { nombre:'', centro:'', fecha:'', proveedor:'', formato:'', gama:'', modelo:'', precio:'', infinity:'', infinityImporte:'', infinityCuota36:'', nextYear:'', satisfaccion:'' }
+};
+
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var screens = ['s-datos','s-abby','s-revisar','s-ok'];
+  var abby = $('abby'), state = {}, sat = '', datos = {};
+  function go(id){ screens.forEach(function(s){ $(s).hidden = s !== id; }); window.scrollTo(0,0); }
+
+  var d = new Date(), pad = function(n){ return (n < 10 ? '0' : '') + n; };
+  $('fecha').value = d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate());
+
+  $('f-datos').addEventListener('submit', function(e){
+    e.preventDefault();
+    datos = { nombre: $('nombre').value.trim(), centro: $('centro').value.trim(), fecha: $('fecha').value };
+    if (!datos.nombre || !datos.centro || !datos.fecha) { $('e-datos').hidden = false; (!datos.nombre ? $('nombre') : $('centro')).focus(); return; }
+    $('e-datos').hidden = true;
+    if (!abby.getAttribute('src')) abby.setAttribute('src', abby.getAttribute('data-src'));
+    go('s-abby');
+  });
+
+  function ask(){ try { abby.contentWindow.postMessage('abby-state?', '*'); } catch (err) {} }
+  window.addEventListener('message', function(ev){
+    if (!ev.data || !ev.data.abbyState) return;
+    state = ev.data.abbyState;
+    var pm = (state.precio || '').match(/[0-9][0-9.,]*\s*€/); if (pm) state.precio = pm[0];
+    var parts = [state.gama, state.formato, state.precio].filter(Boolean);
+    $('now').textContent = parts.length ? parts.join(' · ') : 'Elige formato y gama';
+  });
+  setInterval(function(){ if (!$('s-abby').hidden) ask(); }, 700);
+
+  function row(k, v, bad){ return '<dt>' + k + '</dt><dd' + (bad ? ' class="no"' : '') + '>' + String(v || '—').replace(/[<>&]/g, '') + '</dd>'; }
+  $('b-revisar').addEventListener('click', function(){
+    ask();
+    setTimeout(function(){
+      $('rows').innerHTML = row('Nombre', datos.nombre) + row('Centro', datos.centro) + row('Fecha', datos.fecha.split('-').reverse().join('/')) +
+        row('Proveedor', state.proveedor) + row('Formato', state.formato) + row('Gama', state.gama) + row('Modelo', state.modelo) + row('Precio', state.precio) +
+        row('Infinity', state.infinity ? ('Sí' + (state.infinityCuota36 ? ' · ' + state.infinityCuota36 + '/mes (36 m)' : '')) : 'No incluida', !state.infinity);
+      $('w-inf').hidden = !!state.infinity;
+      go('s-revisar');
+    }, 250);
+  });
+  $('b-volver').addEventListener('click', function(){ go('s-abby'); });
+
+  Array.prototype.forEach.call($('stars').children, function(b){
+    b.addEventListener('click', function(){ sat = b.textContent; Array.prototype.forEach.call($('stars').children, function(x){ x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); });
+  });
+
+  $('b-enviar').addEventListener('click', function(){
+    if (!sat) { $('e-env').textContent = 'Marca una valoración del 1 al 5 antes de enviar.'; $('e-env').hidden = false; return; }
+    $('e-env').hidden = true;
+    var data = { nombre: datos.nombre, centro: datos.centro, fecha: datos.fecha, proveedor: state.proveedor, formato: state.formato, gama: state.gama, modelo: state.modelo, precio: state.precio,
+      infinity: state.infinity ? 'Sí' : 'No', infinityImporte: state.infinityImporte, infinityCuota36: state.infinityCuota36, nextYear: state.nextYear ? 'Sí' : 'No', satisfaccion: sat };
+    if (!FORM.action) {
+      $('ok-txt').textContent = 'Modo de prueba: el formulario aún no está conectado, así que esta respuesta no se ha guardado.';
+      go('s-ok'); return;
+    }
+    var fd = new FormData();
+    Object.keys(FORM.entries).forEach(function(k){ if (FORM.entries[k]) fd.append(FORM.entries[k], data[k] == null ? '' : data[k]); });
+    var btn = $('b-enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+    fetch(FORM.action, { method: 'POST', mode: 'no-cors', body: fd }).then(function(){ go('s-ok'); })
+      .catch(function(){ btn.disabled = false; btn.textContent = 'Enviar'; $('e-env').textContent = 'No se ha podido enviar. Comprueba la conexión y vuelve a pulsar Enviar.'; $('e-env').hidden = false; });
+  });
+})();
+</script>
+</body>
+</html>
