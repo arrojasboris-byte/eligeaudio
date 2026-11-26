@@ -71,8 +71,9 @@ h2{margin:0;font-size:26px;letter-spacing:-.04em;line-height:1.05;font-weight:80
       <p class="lead">Hazle un presupuesto a esa persona que sabes que lo necesita. Eso sí: debe ser <b>financiado con Infinity.</b></p>
       <label class="field"><span>Nombre y apellidos</span><input id="nombre" name="nombre" autocomplete="name" required></label>
       <label class="field"><span>Centro</span><input id="centro" name="centro" autocomplete="organization" required></label>
+      <label class="field"><span>Correo de la tienda (@afflelou.es)</span><input id="mail" name="mail" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="tienda@afflelou.es" required></label>
       <label class="field"><span>Fecha</span><input id="fecha" name="fecha" type="date" required></label>
-      <p class="err" id="e-datos" role="alert" hidden>Escribe tu nombre y tu centro para empezar.</p>
+      <p class="err" id="e-datos" role="alert" hidden></p>
       <button class="go" type="submit">Empezar el presupuesto →</button>
     </form>
   </div>
@@ -128,7 +129,7 @@ h2{margin:0;font-size:26px;letter-spacing:-.04em;line-height:1.05;font-weight:80
    entries: el código entry.XXXXXXX de cada pregunta del formulario */
 var FORM = {
   action: '',
-  entries: { nombre:'', centro:'', fecha:'', proveedor:'', formato:'', gama:'', modelo:'', precio:'', infinity:'', infinityImporte:'', infinityCuota36:'', nextYear:'', satisfaccion:'' }
+  entries: { nombre:'', centro:'', mail:'', fecha:'', proveedor:'', formato:'', gama:'', modelo:'', precio:'', infinity:'', infinityImporte:'', infinityCuota36:'', nextYear:'', satisfaccion:'' }
 };
 
 (function(){
@@ -142,8 +143,10 @@ var FORM = {
 
   $('f-datos').addEventListener('submit', function(e){
     e.preventDefault();
-    datos = { nombre: $('nombre').value.trim(), centro: $('centro').value.trim(), fecha: $('fecha').value };
-    if (!datos.nombre || !datos.centro || !datos.fecha) { $('e-datos').hidden = false; (!datos.nombre ? $('nombre') : $('centro')).focus(); return; }
+    datos = { nombre: $('nombre').value.trim(), centro: $('centro').value.trim(), mail: $('mail').value.trim().toLowerCase(), fecha: $('fecha').value };
+    var bad = !datos.nombre ? ['nombre', 'Escribe tu nombre y apellidos.'] : !datos.centro ? ['centro', 'Escribe tu centro.'] :
+      !/^[a-z0-9._%+-]+@afflelou\.es$/.test(datos.mail) ? ['mail', 'Escribe el correo de la tienda. Tiene que terminar en @afflelou.es.'] : !datos.fecha ? ['fecha', 'Indica la fecha.'] : null;
+    if (bad) { $('e-datos').textContent = bad[1]; $('e-datos').hidden = false; $(bad[0]).focus(); return; }
     $('e-datos').hidden = true;
     if (!abby.getAttribute('src')) abby.setAttribute('src', abby.getAttribute('data-src'));
     go('s-abby');
@@ -163,7 +166,7 @@ var FORM = {
   $('b-revisar').addEventListener('click', function(){
     ask();
     setTimeout(function(){
-      $('rows').innerHTML = row('Nombre', datos.nombre) + row('Centro', datos.centro) + row('Fecha', datos.fecha.split('-').reverse().join('/')) +
+      $('rows').innerHTML = row('Nombre', datos.nombre) + row('Centro', datos.centro) + row('Correo', datos.mail) + row('Fecha', datos.fecha.split('-').reverse().join('/')) +
         row('Proveedor', state.proveedor) + row('Formato', state.formato) + row('Gama', state.gama) + row('Modelo', state.modelo) + row('Precio', state.precio) +
         row('Infinity', state.infinity ? ('Sí' + (state.infinityCuota36 ? ' · ' + state.infinityCuota36 + '/mes (36 m)' : '')) : 'No incluida', !state.infinity);
       $('w-inf').hidden = !!state.infinity;
@@ -179,7 +182,7 @@ var FORM = {
   $('b-enviar').addEventListener('click', function(){
     if (!sat) { $('e-env').textContent = 'Marca una valoración del 1 al 5 antes de enviar.'; $('e-env').hidden = false; return; }
     $('e-env').hidden = true;
-    var data = { nombre: datos.nombre, centro: datos.centro, fecha: datos.fecha, proveedor: state.proveedor, formato: state.formato, gama: state.gama, modelo: state.modelo, precio: state.precio,
+    var data = { nombre: datos.nombre, centro: datos.centro, mail: datos.mail, fecha: datos.fecha, proveedor: state.proveedor, formato: state.formato, gama: state.gama, modelo: state.modelo, precio: state.precio,
       infinity: state.infinity ? 'Sí' : 'No', infinityImporte: state.infinityImporte, infinityCuota36: state.infinityCuota36, nextYear: state.nextYear ? 'Sí' : 'No', satisfaccion: sat };
     if (!FORM.action) {
       $('ok-txt').textContent = 'Modo de prueba: el formulario aún no está conectado, así que esta respuesta no se ha guardado.';
