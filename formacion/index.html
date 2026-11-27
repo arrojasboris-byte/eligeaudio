@@ -407,6 +407,17 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 .chain em{font-style:normal;color:var(--red)}
 @media (max-width:760px){.chain{grid-template-columns:1fr;gap:14px;--d:52px}.chain::before{left:25px;right:auto;top:26px;bottom:26px;width:4px;height:auto}.chain li{flex-direction:row;text-align:left;gap:14px;padding:0}.chain span{flex-direction:row;gap:.3em;flex-wrap:wrap}}
 .meta.one b{display:inline}
+/* Los 5 básicos con foto */
+.inner.five.photo{display:grid;grid-template-columns:1.75fr 1fr;grid-template-rows:minmax(0,1fr);align-items:center;gap:clamp(16px,2.6vw,48px);padding:clamp(8px,1.4vh,16px) clamp(14px,2.4vw,40px) clamp(8px,1.4vh,16px) clamp(8px,1vw,16px)}
+.five.photo>img{width:100%;height:auto;aspect-ratio:1400/788;max-height:calc(100vh - 150px);object-fit:cover;display:block;align-self:center;min-height:0}
+.fivetxt{display:flex;flex-direction:column;gap:clamp(6px,1.6vh,18px);min-width:0}
+.five.photo h2{font-size:clamp(34px,min(5vw,9.5vh),88px)}
+.five.photo .chain{grid-template-columns:1fr;gap:clamp(8px,2.2vh,24px);margin-top:clamp(4px,1.4vh,14px);--d:clamp(38px,min(4.2vw,8vh),72px)}
+.five.photo .chain::before{left:calc(var(--d)/2 - 2px);right:auto;top:calc(var(--d)/2);bottom:calc(var(--d)/2);width:4px;height:auto}
+.five.photo .chain li{flex-direction:row;align-items:center;text-align:left;gap:clamp(12px,1.4vw,22px);padding:0}
+.five.photo .chain b{flex:none;box-shadow:none}
+.five.photo .chain span{flex-direction:row;flex-wrap:wrap;column-gap:.28em}
+@media (max-width:980px){.inner.five.photo{grid-template-columns:1fr}}
 /* Pie */
 .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px clamp(20px,4vw,64px);border-top:1px solid var(--line);background:#fff}
 .nav{border:0;background:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 0}
@@ -522,7 +533,9 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 
   <!-- LOS 5 BÁSICOS -->
   <section class="view" id="v-basicos" data-label="Vamos al lío: los 5 básicos" hidden>
-    <div class="inner five">
+    <div class="inner five photo">
+      <img src="/formacion/img/venta.jpg" alt="Anna enseña el simulador de Abby en una tablet a una clienta, sentadas en la tienda">
+      <div class="fivetxt">
       <p class="label">Con Abby, siempre en este orden</p>
       <h2>Los 5 <em>básicos</em></h2>
       <ol class="chain">
@@ -532,6 +545,7 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
         <li><b>4</b><span>Upgrade <em>o básico</em></span></li>
         <li><b>5</b><span>Imprimo <em>el presupuesto</em></span></li>
       </ol>
+      </div>
     </div>
   </section>
 
