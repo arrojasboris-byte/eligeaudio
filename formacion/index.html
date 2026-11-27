@@ -346,6 +346,16 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 .bio .txt{font-size:clamp(15px,min(1.6vw,3vh),27px);font-weight:600;line-height:1.3;color:var(--ink)}
 @media (max-width:980px){.cast{flex-direction:column}.who{min-height:64px}.who.on{min-height:46vh}}
 @media (prefers-reduced-motion:reduce){.who{transition:none}}
+/* Dónde y cuándo: una escena por pantalla */
+.scene.solo{--sw:min(calc(100vw - 110px),calc((100vh - 250px)*1.777*1.5));width:var(--sw);max-width:100%;margin:0 auto;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);align-items:stretch;gap:0}
+.scene.solo img{width:100%;height:auto;aspect-ratio:1500/844;object-position:50% 50%}
+.scene.solo .scap{flex-direction:column;border:1.5px solid var(--red);border-left:0}
+.scene.solo .scap .k{width:auto;justify-content:flex-start;padding:clamp(8px,1.6vh,18px) clamp(14px,1.6vw,26px);font-size:clamp(30px,min(4.4vw,8vh),78px)}
+.scene.solo .scap>div{flex:1;padding:clamp(10px,2vh,24px) clamp(14px,1.6vw,26px);gap:clamp(6px,1.4vh,16px)}
+.scene.solo .where{font-size:clamp(11px,min(1.05vw,2vh),17px);display:flex;flex-direction:column;gap:3px;align-items:flex-start}
+.scene.solo .pull{font-size:clamp(17px,min(1.9vw,3.5vh),32px);line-height:1.2}
+.scene.solo .ctx,.scene.solo .ifno2{font-size:clamp(13px,min(1.15vw,2.1vh),19px)}
+@media (max-width:980px){.scene.solo{grid-template-columns:1fr;width:100%}.scene.solo .scap{border-left:1.5px solid var(--red);border-top:0}}
 /* Pie */
 .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px clamp(20px,4vw,64px);border-top:1px solid var(--line);background:#fff}
 .nav{border:0;background:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 0}
@@ -460,27 +470,31 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
   </section>
 
   <!-- 3 CUÁNDO HABLAR DE AUDIO -->
-  <section class="view" id="v-cuando" data-label="¿Cuándo hablar de Audio?" hidden>
+  <section class="view" id="v-cuando" data-label="¿Cuándo hablar de Audio? › En la entrega" hidden>
     <div class="inner duo">
       <h2>¿Dónde y cuándo <em>hablar de Audio?</em></h2>
-      <div class="pair">
-        <article class="scene">
-          <img src="/formacion/img/gabinete.jpg" alt="Anna hace un test de audición rápido a una clienta con auriculares en el gabinete de optometría">
-          <div class="scap"><b class="k">01</b><div>
-          <p class="where">En el gabinete de óptica<span>Junto al screening</span></p>
-          <blockquote class="pull">Como última prueba, como realizamos un examen integral, vamos a hacer un test de audición rápido para incluir en su historial.</blockquote>
-          </div></div>
-        </article>
-        <article class="scene">
-          <img src="/formacion/img/entrega.jpg" alt="Anna entrega a un cliente su compra y una tarjeta roja de revisión auditiva gratis">
-          <div class="scap"><b class="k">02</b><div>
-          <p class="where">En la entrega de la gafa<span>Con la tarjeta de Audio</span></p>
-          <p class="ctx">Junto a la garantía, la gafa de sol o las lentillas, entregamos una tarjeta de Audio y le decimos al cliente:</p>
-          <blockquote class="pull">Tiene de regalo una revisión auditiva. ¿Qué día le viene mejor?</blockquote>
-          <p class="ifno2"><b>Si dice que no:</b> «Fenomenal. Recuerde que, como la vista, es recomendable hacerlo cada año.»</p>
-          </div></div>
-        </article>
-      </div>
+      <article class="scene solo">
+        <img src="/formacion/img/entrega.jpg" alt="Anna entrega a un cliente su compra y una tarjeta roja de revisión auditiva gratis">
+        <div class="scap"><b class="k">01</b><div>
+        <p class="where">En la entrega de la gafa<span>Con la tarjeta de Audio</span></p>
+        <p class="ctx">Junto a la garantía, la gafa de sol o las lentillas, entregamos una tarjeta de Audio y le decimos al cliente:</p>
+        <blockquote class="pull">Tiene de regalo una revisión auditiva. ¿Qué día le viene mejor?</blockquote>
+        <p class="ifno2"><b>Si dice que no:</b> «Fenomenal. Recuerde que, como la vista, es recomendable hacerlo cada año.»</p>
+        </div></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="view" id="v-cuando2" data-label="¿Cuándo hablar de Audio? › En el gabinete" hidden>
+    <div class="inner duo">
+      <h2>¿Dónde y cuándo <em>hablar de Audio?</em></h2>
+      <article class="scene solo">
+        <img src="/formacion/img/gabinete.jpg" alt="Anna hace un test de audición rápido a una clienta con auriculares en el gabinete de optometría">
+        <div class="scap"><b class="k">02</b><div>
+        <p class="where">En el gabinete de óptica<span>Junto al screening</span></p>
+        <blockquote class="pull">Como última prueba, como realizamos un examen integral, vamos a hacer un test de audición rápido para incluir en su historial.</blockquote>
+        </div></div>
+      </article>
     </div>
   </section>
 
@@ -614,10 +628,10 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 
 <script>
 (function(){
-  var views = { home: document.getElementById('v-home'), cast: document.getElementById('v-cast'), caso: document.getElementById('v-caso'), sim: document.getElementById('v-sim'), cuando: document.getElementById('v-cuando'), aux: document.getElementById('v-aux'), fin: document.getElementById('v-fin'), gracias: document.getElementById('v-gracias') };
+  var views = { home: document.getElementById('v-home'), cast: document.getElementById('v-cast'), caso: document.getElementById('v-caso'), sim: document.getElementById('v-sim'), cuando: document.getElementById('v-cuando'), cuando2: document.getElementById('v-cuando2'), aux: document.getElementById('v-aux'), fin: document.getElementById('v-fin'), gracias: document.getElementById('v-gracias') };
   var subs = Array.prototype.slice.call(views.aux.querySelectorAll('.sub'));
   var subtabs = Array.prototype.slice.call(document.querySelectorAll('.subtab'));
-  var seq = [['home'],['cast'],['cuando'],['caso'],['sim'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
+  var seq = [['home'],['cast'],['cuando'],['cuando2'],['caso'],['sim'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
   var cur = 0, userSlim = null;
   var pos = document.getElementById('pos'), prev = document.getElementById('prev'), next = document.getElementById('next');
   var abby = document.getElementById('abby'), abbyUrl = null;
@@ -645,7 +659,7 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
       subtabs.forEach(function(t, j){ t.setAttribute('aria-selected', j === s ? 'true' : 'false'); });
       views.aux.classList.add('nosub');
     }
-    var key = v === 'sim' ? 'caso' : v === 'gracias' ? 'fin' : v; document.querySelectorAll('.mod').forEach(function(m){ m.setAttribute('aria-current', m.getAttribute('data-view') === key ? 'true' : 'false'); });
+    var key = v === 'sim' ? 'caso' : v === 'gracias' ? 'fin' : v === 'cuando2' ? 'cuando' : v; document.querySelectorAll('.mod').forEach(function(m){ m.setAttribute('aria-current', m.getAttribute('data-view') === key ? 'true' : 'false'); });
     var label = views[v].getAttribute('data-label');
     if (v === 'aux') label += ' › ' + subs[s].getAttribute('data-label');
     pos.textContent = label;
