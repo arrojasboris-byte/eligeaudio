@@ -356,6 +356,22 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 .scene.solo .pull{font-size:clamp(17px,min(1.9vw,3.5vh),32px);line-height:1.2}
 .scene.solo .ctx,.scene.solo .ifno2{font-size:clamp(13px,min(1.15vw,2.1vh),19px)}
 @media (max-width:980px){.scene.solo{grid-template-columns:1fr;width:100%}.scene.solo .scap{border-left:1.5px solid var(--red);border-top:0}}
+/* Dónde y cuándo: foto a toda la página, como la portada */
+.inner.fullin{padding:0;position:relative;overflow:hidden;gap:0}
+.scene.full{position:absolute;inset:0;display:block}
+.scene.full img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 0}
+.scene.full.right img{object-position:50% 45%}
+.scene.full .scap{position:absolute;left:clamp(10px,1.6vw,28px);bottom:clamp(10px,2.4vh,28px);width:min(35%,600px);flex:none;border:1.5px solid var(--red);background:#fff;box-shadow:0 14px 40px rgba(0,0,0,.28)}
+
+.scene.full .scap .k{width:clamp(56px,5.6vw,104px);font-size:clamp(28px,min(3.8vw,7vh),66px)}
+.scene.full .scap>div{padding:clamp(10px,2vh,22px) clamp(14px,1.5vw,24px);gap:clamp(5px,1.1vh,12px)}
+.scene.full .ttl{margin:0;font-weight:800;letter-spacing:-.03em;font-size:clamp(15px,min(1.5vw,2.8vh),25px);line-height:1.1}
+.scene.full .ttl em{font-style:normal;color:var(--red)}
+.scene.full .where{font-size:clamp(11px,min(1vw,1.9vh),15px)}
+.scene.full .pull{font-size:clamp(17px,min(1.75vw,3.3vh),30px);line-height:1.2}
+.scene.full .ctx,.scene.full .ifno2{font-size:clamp(12px,min(1.05vw,2vh),17px)}
+@media (max-height:700px){.scene.full .ctx{display:none}.scene.full .scap>div{padding-top:8px;padding-bottom:8px}}
+@media (max-width:980px){.inner.fullin{min-height:80vh}.scene.full .scap{width:auto;right:10px;left:10px}}
 /* Pie */
 .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px clamp(20px,4vw,64px);border-top:1px solid var(--line);background:#fff}
 .nav{border:0;background:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 0}
@@ -471,11 +487,11 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 
   <!-- 3 CUÁNDO HABLAR DE AUDIO -->
   <section class="view" id="v-cuando" data-label="¿Cuándo hablar de Audio? › En la entrega" hidden>
-    <div class="inner duo">
-      <h2>¿Dónde y cuándo <em>hablar de Audio?</em></h2>
-      <article class="scene solo">
+    <div class="inner fullin">
+      <article class="scene full">
         <img src="/formacion/img/entrega.jpg" alt="Anna entrega a un cliente su compra y una tarjeta roja de revisión auditiva gratis">
         <div class="scap"><b class="k">01</b><div>
+        <p class="ttl">¿Dónde y cuándo <em>hablar de Audio?</em></p>
         <p class="where">En la entrega de la gafa<span>Con la tarjeta de Audio</span></p>
         <p class="ctx">Junto a la garantía, la gafa de sol o las lentillas, entregamos una tarjeta de Audio y le decimos al cliente:</p>
         <blockquote class="pull">Tiene de regalo una revisión auditiva. ¿Qué día le viene mejor?</blockquote>
@@ -486,11 +502,11 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
   </section>
 
   <section class="view" id="v-cuando2" data-label="¿Cuándo hablar de Audio? › En el gabinete" hidden>
-    <div class="inner duo">
-      <h2>¿Dónde y cuándo <em>hablar de Audio?</em></h2>
-      <article class="scene solo">
+    <div class="inner fullin">
+      <article class="scene full right">
         <img src="/formacion/img/gabinete.jpg" alt="Anna hace un test de audición rápido a una clienta con auriculares en el gabinete de optometría">
         <div class="scap"><b class="k">02</b><div>
+        <p class="ttl">¿Dónde y cuándo <em>hablar de Audio?</em></p>
         <p class="where">En el gabinete de óptica<span>Junto al screening</span></p>
         <blockquote class="pull">Como última prueba, como realizamos un examen integral, vamos a hacer un test de audición rápido para incluir en su historial.</blockquote>
         </div></div>
