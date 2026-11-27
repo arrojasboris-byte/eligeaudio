@@ -373,7 +373,7 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
   <header class="top">
     <button class="brandbtn" type="button" data-view="home" aria-label="Ir a la portada">Abby<em>AUDIOLOGY</em></button>
     <ol class="mods" id="mods">
-      <li><button class="mod" type="button" data-view="abby"><span class="num">1</span>¿Qué es Abby?</button></li>
+      <li><button class="mod" type="button" data-view="cast"><span class="num">1</span>Los protagonistas</button></li>
       <li><button class="mod" type="button" data-view="caso"><span class="num">2</span>Vamos al lío: Simulador</button></li>
       <li><button class="mod" type="button" data-view="cuando"><span class="num">3</span>¿Cuándo hablar de Audio?</button></li>
       <li><button class="mod" type="button" data-view="aux"><span class="num">4</span>Primeros auxilios</button></li>
@@ -435,19 +435,6 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
           <span class="bio"><span class="rol">Vecino</span><b>Luis</b><span class="txt">Vecino y cliente de Audio.</span></span>
         </button>
       </div>
-    </div>
-  </section>
-
-  <!-- 1 QUÉ ES ABBY -->
-  <section class="view" id="v-abby" data-label="¿Qué es Abby?" hidden>
-    <div class="inner prologue">
-      <img class="bot" src="/formacion/img/robot.png" alt="Abby, el robot">
-      <h2>Hola, <em>soy Abby</em></h2>
-      <hr class="orn">
-      <p class="lede">Tu atajo al universo Audio.</p>
-      <p class="body">Aquí está todo lo que usamos en Audio, en un solo sitio y pensado para <b>todos</b>. Seas de óptica o de audio, conmigo entras fácil, a lo moderno y con ganas de más.</p>
-      <p class="body punch">Tú pon la curiosidad. <em>Del esfuerzo me encargo yo.</em></p>
-      <p class="ask">¿Quieres conocerme? <em>Vamos allá.</em></p>
     </div>
   </section>
 
@@ -595,7 +582,7 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
         <div class="stack">
           <p class="label">Test final</p>
           <h1>Ahora te toca <em>a ti.</em></h1>
-          <p class="lead big">Escanea con tu móvil y hazle un presupuesto a esa persona que sabes que lo necesita. Eso sí: debe ser <b>financiado con Infinity.</b></p>
+          <p class="lead big">Escanea con tu móvil el QR y demuestra lo que has aprendido. Luego accede a Abby de tu tienda y hazle un presupuesto a esa persona que sabes que lo necesita. <b>No olvides practicar.</b></p>
           <p class="meta"><span><b>Ariannys Rojas</b>Responsable Téc. Audiología</span><span><b>arojas@afflelou.es</b>607 722 099</span></p>
         </div>
         <div class="qrbox">
@@ -627,10 +614,10 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 
 <script>
 (function(){
-  var views = { home: document.getElementById('v-home'), cast: document.getElementById('v-cast'), abby: document.getElementById('v-abby'), caso: document.getElementById('v-caso'), sim: document.getElementById('v-sim'), cuando: document.getElementById('v-cuando'), aux: document.getElementById('v-aux'), fin: document.getElementById('v-fin'), gracias: document.getElementById('v-gracias') };
+  var views = { home: document.getElementById('v-home'), cast: document.getElementById('v-cast'), caso: document.getElementById('v-caso'), sim: document.getElementById('v-sim'), cuando: document.getElementById('v-cuando'), aux: document.getElementById('v-aux'), fin: document.getElementById('v-fin'), gracias: document.getElementById('v-gracias') };
   var subs = Array.prototype.slice.call(views.aux.querySelectorAll('.sub'));
   var subtabs = Array.prototype.slice.call(document.querySelectorAll('.subtab'));
-  var seq = [['home'],['cast'],['abby'],['caso'],['sim'],['cuando'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
+  var seq = [['home'],['cast'],['caso'],['sim'],['cuando'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
   var cur = 0, userSlim = null;
   var pos = document.getElementById('pos'), prev = document.getElementById('prev'), next = document.getElementById('next');
   var abby = document.getElementById('abby'), abbyUrl = null;
