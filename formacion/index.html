@@ -495,6 +495,11 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 .kc h3{color:var(--ac)}
 .kc .calc{background:#fff;color:var(--ink)}
 .kc .calc b{color:var(--ac)}
+/* Gracias: la foto entera, con su rótulo */
+.endv>img.bg{object-fit:cover;object-position:50% 50%;filter:blur(28px) brightness(.85)}
+.endv>img.main{object-fit:contain;object-position:50% 50%}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:980px) and (orientation:portrait){.endv>img.main{object-position:50% 50%}}
 /* Pie */
 .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px clamp(20px,4vw,64px);border-top:1px solid var(--line);background:#fff}
 .nav{border:0;background:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 0}
@@ -800,14 +805,9 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 
   <!-- 6 GRACIAS -->
   <section class="view coverv endv" id="v-gracias" data-label="Gracias" hidden>
-    <img src="/formacion/img/gracias.jpg" alt="El equipo y dos clientes saludan sonrientes alrededor de una tablet con Abby">
-    <div class="scrim"></div>
-    <div class="foot2">
-      <div>
-        <p class="eyebrow">Abby es para todos</p>
-        <h1>Gracias.</h1>
-      </div>
-    </div>
+    <img class="bg" src="/formacion/img/gracias.jpg" alt="" aria-hidden="true">
+    <img class="main" src="/formacion/img/gracias.jpg" alt="Mamen, Sergio, Anna, Pablo y Luis sonríen alrededor de una tablet con Abby; sobre la foto, el rótulo «Gracias.»">
+    <h1 class="sr">Gracias.</h1>
   </section>
 
   <footer class="foot">
