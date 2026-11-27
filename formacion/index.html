@@ -395,6 +395,17 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
   .scene.full:not(.right) .pull{grid-column:2;grid-row:1/span 2}
   .scene.full:not(.right) .ifno2{grid-column:2;grid-row:3;border-top:0;padding-top:0}
 }
+/* Los 5 básicos */
+.inner.five{justify-content:center;align-items:stretch;gap:clamp(10px,3vh,34px);padding:clamp(12px,3vh,40px) clamp(18px,4vw,80px)}
+.five h2{font-size:clamp(44px,min(8vw,15vh),140px);font-weight:800;letter-spacing:-.05em;line-height:.92;margin:0}
+.chain{list-style:none;margin:clamp(8px,3vh,36px) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative}
+.chain::before{content:"";position:absolute;left:10%;right:10%;top:calc(var(--d)/2 - 2px);height:4px;background:var(--red)}
+.chain{--d:clamp(52px,min(7vw,13vh),118px)}
+.chain li{position:relative;display:flex;flex-direction:column;align-items:center;gap:clamp(8px,2vh,22px);text-align:center;padding:0 6px;min-width:0}
+.chain b{width:var(--d);height:var(--d);border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:calc(var(--d)*.5);letter-spacing:-.04em;box-shadow:0 0 0 clamp(5px,.8vw,12px) #fff}
+.chain span{font-size:var(--f-lead);font-weight:800;letter-spacing:-.03em;line-height:1.12;display:flex;flex-direction:column}
+.chain em{font-style:normal;color:var(--red)}
+@media (max-width:760px){.chain{grid-template-columns:1fr;gap:14px;--d:52px}.chain::before{left:25px;right:auto;top:26px;bottom:26px;width:4px;height:auto}.chain li{flex-direction:row;text-align:left;gap:14px;padding:0}.chain span{flex-direction:row;gap:.3em;flex-wrap:wrap}}
 /* Pie */
 .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px clamp(20px,4vw,64px);border-top:1px solid var(--line);background:#fff}
 .nav{border:0;background:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 0}
@@ -505,6 +516,21 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
       <div class="tabletcol">
         <div class="tablet"><div class="screen" id="screen"><iframe id="abby" title="Abby, simulador real" data-src="/formacion/abby/index.html"></iframe></div></div>
       </div>
+    </div>
+  </section>
+
+  <!-- LOS 5 BÁSICOS -->
+  <section class="view" id="v-basicos" data-label="Vamos al lío: los 5 básicos" hidden>
+    <div class="inner five">
+      <p class="label">Con Abby, siempre en este orden</p>
+      <h2>Los 5 <em>básicos</em></h2>
+      <ol class="chain">
+        <li><b>1</b><span>Escojo <em>audífonos</em></span></li>
+        <li><b>2</b><span>Características <em>y gamas</em></span></li>
+        <li><b>3</b><span>Forma <em>de pago</em></span></li>
+        <li><b>4</b><span>Upgrade <em>o básico</em></span></li>
+        <li><b>5</b><span>Imprimo <em>el presupuesto</em></span></li>
+      </ol>
     </div>
   </section>
 
@@ -667,10 +693,10 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 
 <script>
 (function(){
-  var views = { home: document.getElementById('v-home'), cast: document.getElementById('v-cast'), caso: document.getElementById('v-caso'), sim: document.getElementById('v-sim'), cuando: document.getElementById('v-cuando'), cuando2: document.getElementById('v-cuando2'), aux: document.getElementById('v-aux'), fin: document.getElementById('v-fin'), gracias: document.getElementById('v-gracias') };
+  var views = { home: document.getElementById('v-home'), cast: document.getElementById('v-cast'), caso: document.getElementById('v-caso'), sim: document.getElementById('v-sim'), basicos: document.getElementById('v-basicos'), cuando: document.getElementById('v-cuando'), cuando2: document.getElementById('v-cuando2'), aux: document.getElementById('v-aux'), fin: document.getElementById('v-fin'), gracias: document.getElementById('v-gracias') };
   var subs = Array.prototype.slice.call(views.aux.querySelectorAll('.sub'));
   var subtabs = Array.prototype.slice.call(document.querySelectorAll('.subtab'));
-  var seq = [['home'],['cast'],['cuando'],['cuando2'],['caso'],['sim'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
+  var seq = [['home'],['cast'],['cuando'],['cuando2'],['caso'],['sim'],['basicos'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
   var cur = 0, userSlim = null;
   var pos = document.getElementById('pos'), prev = document.getElementById('prev'), next = document.getElementById('next');
   var abby = document.getElementById('abby'), abbyUrl = null;
@@ -698,7 +724,7 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
       subtabs.forEach(function(t, j){ t.setAttribute('aria-selected', j === s ? 'true' : 'false'); });
       views.aux.classList.add('nosub');
     }
-    var key = v === 'sim' ? 'caso' : v === 'gracias' ? 'fin' : v === 'cuando2' ? 'cuando' : v; document.querySelectorAll('.mod').forEach(function(m){ m.setAttribute('aria-current', m.getAttribute('data-view') === key ? 'true' : 'false'); });
+    var key = (v === 'sim' || v === 'basicos') ? 'caso' : v === 'gracias' ? 'fin' : v === 'cuando2' ? 'cuando' : v; document.querySelectorAll('.mod').forEach(function(m){ m.setAttribute('aria-current', m.getAttribute('data-view') === key ? 'true' : 'false'); });
     var label = views[v].getAttribute('data-label');
     if (v === 'aux') label += ' › ' + subs[s].getAttribute('data-label');
     pos.textContent = label;
