@@ -374,8 +374,8 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
     <button class="brandbtn" type="button" data-view="home" aria-label="Ir a la portada">Abby<em>AUDIOLOGY</em></button>
     <ol class="mods" id="mods">
       <li><button class="mod" type="button" data-view="cast"><span class="num">1</span>Los protagonistas</button></li>
-      <li><button class="mod" type="button" data-view="caso"><span class="num">2</span>Vamos al lío: Simulador</button></li>
-      <li><button class="mod" type="button" data-view="cuando"><span class="num">3</span>¿Cuándo hablar de Audio?</button></li>
+      <li><button class="mod" type="button" data-view="cuando"><span class="num">2</span>¿Cuándo hablar de Audio?</button></li>
+      <li><button class="mod" type="button" data-view="caso"><span class="num">3</span>Vamos al lío: Simulador</button></li>
       <li><button class="mod" type="button" data-view="aux"><span class="num">4</span>Primeros auxilios</button></li>
       <li><button class="mod" type="button" data-view="fin"><span class="num">5</span>Despedida y QR</button></li>
     </ol>
@@ -617,7 +617,7 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
   var views = { home: document.getElementById('v-home'), cast: document.getElementById('v-cast'), caso: document.getElementById('v-caso'), sim: document.getElementById('v-sim'), cuando: document.getElementById('v-cuando'), aux: document.getElementById('v-aux'), fin: document.getElementById('v-fin'), gracias: document.getElementById('v-gracias') };
   var subs = Array.prototype.slice.call(views.aux.querySelectorAll('.sub'));
   var subtabs = Array.prototype.slice.call(document.querySelectorAll('.subtab'));
-  var seq = [['home'],['cast'],['caso'],['sim'],['cuando'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
+  var seq = [['home'],['cast'],['cuando'],['caso'],['sim'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
   var cur = 0, userSlim = null;
   var pos = document.getElementById('pos'), prev = document.getElementById('prev'), next = document.getElementById('next');
   var abby = document.getElementById('abby'), abbyUrl = null;
