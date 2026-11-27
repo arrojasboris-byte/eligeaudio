@@ -472,6 +472,22 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 }
 .nav{white-space:nowrap}
 @media (max-width:560px){.foot{padding:8px 12px;gap:8px}.pos{font-size:10px;letter-spacing:.06em;min-width:0}.nav.next{padding:9px 16px}}
+/* Conceptos clave */
+.inner.keys{justify-content:flex-start;gap:clamp(8px,1.6vh,16px);padding:clamp(8px,1.6vh,18px) clamp(14px,2vw,34px)}
+.keys h2{font-size:var(--f-title);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin:0}
+.kgrid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(8px,1vw,16px)}
+.kc{display:flex;flex-direction:column;gap:clamp(6px,1.5vh,16px);padding:clamp(14px,3vh,36px) clamp(14px,1.6vw,28px);color:#fff;min-width:0}
+.kc.c1{background:#dc2626}.kc.c2{background:#1e3fae}.kc.c3{background:#14161a}.kc.c4{background:#0f766e}
+.kc svg{width:clamp(44px,min(6vw,11vh),104px);height:auto;aspect-ratio:1;fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:clamp(2px,2vh,22px)}
+.kc h3{margin:0;font-size:clamp(22px,min(2.6vw,4.8vh),44px);font-weight:800;letter-spacing:-.04em;line-height:1}
+.kc p{margin:0;font-size:clamp(13px,min(1.2vw,2.3vh),20px);font-weight:400;line-height:1.4}
+.kc p.lead1{font-size:var(--f-item);font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.kc p b{font-weight:800}
+.kc .calc{margin-top:auto;align-self:flex-start;background:#fff;color:#14161a;font-weight:700;font-size:var(--f-item);letter-spacing:-.02em;padding:.35em .7em}
+.kc .calc b{color:var(--red);font-weight:800}
+@media (max-width:980px) and (orientation:portrait){.kgrid{grid-template-columns:1fr 1fr}.kc svg{margin-bottom:0}}
+@media (max-width:560px) and (orientation:portrait){.kgrid{grid-template-columns:1fr}.kc{padding:16px}.kc svg{width:40px}}
+@media (max-height:480px) and (orientation:landscape){.kc{padding:10px 12px;gap:4px}.kc svg{width:30px;margin:0}.kc h3{font-size:20px}.kc p{font-size:12px}.kc p.lead1{font-size:14px}}
 /* Pie */
 .foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px clamp(20px,4vw,64px);border-top:1px solid var(--line);background:#fff}
 .nav{border:0;background:none;color:var(--ink);font-weight:600;font-size:14px;padding:6px 0}
@@ -599,6 +615,40 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
         <li><b>4</b><span>Upgrade <em>o básico</em></span></li>
         <li><b>5</b><span>Imprimo <em>el presupuesto</em></span></li>
       </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCEPTOS CLAVE -->
+  <section class="view" id="v-conceptos" data-label="Vamos al lío: conceptos clave" hidden>
+    <div class="inner keys">
+      <h2>Conceptos <em>clave</em></h2>
+      <div class="kgrid">
+        <article class="kc c1">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M17 22c0-7 5-12 12-12s12 5 12 12c0 5-3 7-5 10s-2 6-4 9-7 4-10 1"/><path d="M23 23c0-4 3-6 6-6s6 2 6 6c0 3-3 4-4 6"/></svg>
+          <h3>Formatos</h3>
+          <p class="lead1"><b>RIC y BTE:</b> son formatos de audífonos que van detrás de la oreja.</p>
+          <p><b>Intras:</b> van completamente dentro de la oreja.</p>
+        </article>
+        <article class="kc c2">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 24c-3-4-6-7-10-7a7 7 0 0 0 0 14c4 0 7-3 10-7s6-7 10-7a7 7 0 0 1 0 14c-4 0-7-3-10-7z"/></svg>
+          <h3>Infinity</h3>
+          <p class="lead1">Financiación flexible de 42 meses.</p>
+          <p>En el mes 36, el cliente elige si renueva o sigue pagando sus audífonos. Si renueva, el centro asume el resto de las cuotas.</p>
+        </article>
+        <article class="kc c3">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 28l12-12 12 12"/><path d="M12 38l12-12 12 12"/></svg>
+          <h3>Upgrade</h3>
+          <p class="lead1">Es la 2.ª pareja en gama mejorada.</p>
+          <p>Siempre será la diferencia entre la gama deseada y la básica.</p>
+          <span class="calc">3995 − 1991 = <b>2004 €</b></span>
+        </article>
+        <article class="kc c4">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="15" y="6" width="18" height="36" rx="4"/><path d="M22 36h4"/><path d="M38 17c3 4 3 10 0 14"/><path d="M10 17c-3 4-3 10 0 14"/></svg>
+          <h3>Conectividad</h3>
+          <p class="lead1">Los audífonos pueden conectarse al móvil.</p>
+          <p>Así se oyen directamente la música, las llamadas o la tele.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -762,10 +812,10 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
 
 <script>
 (function(){
-  var views = { home: document.getElementById('v-home'), cast: document.getElementById('v-cast'), caso: document.getElementById('v-caso'), sim: document.getElementById('v-sim'), basicos: document.getElementById('v-basicos'), cuando: document.getElementById('v-cuando'), cuando2: document.getElementById('v-cuando2'), aux: document.getElementById('v-aux'), fin: document.getElementById('v-fin'), gracias: document.getElementById('v-gracias') };
+  var views = { home: document.getElementById('v-home'), cast: document.getElementById('v-cast'), caso: document.getElementById('v-caso'), sim: document.getElementById('v-sim'), basicos: document.getElementById('v-basicos'), conceptos: document.getElementById('v-conceptos'), cuando: document.getElementById('v-cuando'), cuando2: document.getElementById('v-cuando2'), aux: document.getElementById('v-aux'), fin: document.getElementById('v-fin'), gracias: document.getElementById('v-gracias') };
   var subs = Array.prototype.slice.call(views.aux.querySelectorAll('.sub'));
   var subtabs = Array.prototype.slice.call(document.querySelectorAll('.subtab'));
-  var seq = [['home'],['cast'],['cuando'],['cuando2'],['caso'],['sim'],['basicos'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
+  var seq = [['home'],['cast'],['cuando'],['cuando2'],['caso'],['sim'],['basicos'],['conceptos'],['aux',0],['aux',1],['aux',2],['aux',3],['aux',4],['fin'],['gracias']];
   var cur = 0, userSlim = null;
   var pos = document.getElementById('pos'), prev = document.getElementById('prev'), next = document.getElementById('next');
   var abby = document.getElementById('abby'), abbyUrl = null;
@@ -793,7 +843,7 @@ em,i,.pull,.ask,.verdict,.bigline,.q p,.qrbox b{font-style:normal!important;font
       subtabs.forEach(function(t, j){ t.setAttribute('aria-selected', j === s ? 'true' : 'false'); });
       views.aux.classList.add('nosub');
     }
-    var key = (v === 'sim' || v === 'basicos') ? 'caso' : v === 'gracias' ? 'fin' : v === 'cuando2' ? 'cuando' : v; document.querySelectorAll('.mod').forEach(function(m){ m.setAttribute('aria-current', m.getAttribute('data-view') === key ? 'true' : 'false'); });
+    var key = (v === 'sim' || v === 'basicos' || v === 'conceptos') ? 'caso' : v === 'gracias' ? 'fin' : v === 'cuando2' ? 'cuando' : v; document.querySelectorAll('.mod').forEach(function(m){ m.setAttribute('aria-current', m.getAttribute('data-view') === key ? 'true' : 'false'); });
     var label = views[v].getAttribute('data-label');
     if (v === 'aux') label += ' › ' + subs[s].getAttribute('data-label');
     pos.textContent = label;
